@@ -51,7 +51,13 @@
 
     - VCR? - we needed more than static responses
 
+    - (maybe more of these)
+
 - solution: first version of mimic
+
+  - hard-coded mock of identity, load balancers, and compute
+
+  - fairly rackspace specific
 
   - fast
 
@@ -83,8 +89,26 @@
 
 (Glyph)
 
+- issues with first version
+
+  - hard-coded approach
+
 - plugins
 
 - time passing
 
   - servers take a long time to build
+
+
+
+-----
+
+5 minutes at a time
+
+Lekha: brief "what is autoscale", existing testing, real-service backend
+Glyph: generally, what's good about fakes? cf. stop mocking start testing
+Lekha: first version of mimic, some of the solutions
+Glyph: enhancements: plugin system, per-instance state
+Lekha: mimic as a repository of known error conditions
+Glyph: future enhancements: control of time, error injection
+Lekha: call to action: why and how the openstack community should help
