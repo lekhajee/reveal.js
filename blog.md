@@ -14,9 +14,9 @@
 
 #### More about the Auto Scale test suite
 
- Functional tests are used to validate the API contracts and behavior of Auto Scale. An example of a positive functional test is, to verify that the [create scaling group](http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_createGroup_v1.0__tenantId__groups_autoscale-groups.html) API call returns the expected response and that a scaling group is successfully created. An example of a negative functional test is, to verify that, create scaling group results in a response code 400, when the minimum servers specification(minEntities) for the group is set to greater than the maximum servers allowed(maxEntities).
+ Functional tests are used to validate the API contracts and behavior of Auto Scale. An example of a positive functional test is, to verify that the [create scaling group](http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_createGroup_v1.0__tenantId__groups_autoscale-groups.html) API call returns the expected response and that a scaling group is successfully created. An example of a negative functional test is, to verify that, create scaling group results in a response code 400, when the request is malformed.
 
- System Integration tests are used to validate the integration between Auto Scale and its dependent systems. An example of a positive System Integration tests is, to verify that when a user creates a scaling group and scales up by two servers, the servers are created successfully and assigned to the desired load balancers. An example of a negative System Integration test, is to verify the behavior of Auto Scale when a server being created goes into an error state.
+ System Integration tests are used to validate the integration between Auto Scale and its dependent systems. An example of a positive System Integration test is, to verify that when a user creates a scaling group and scales up by two servers, the servers are created successfully and assigned to the desired load balancers. An example of a negative System Integration test, is to verify the behavior of Auto Scale when a server being created goes into an error state.
 
 Automating the positive and negative functional tests was simple and straight forward. However, the positive system integration tests were slow and flaky because of the time it took to provision an instance, or, due to network issues. Also, there was no way to automate the negative system integration tests, as it was impossible to simulate the dependent systems' error conditions. Hence, such negative tests began to look like this,
 
@@ -45,7 +45,7 @@ We now have Mimic integrated within our development environment as well as in ou
 
 #### Why is this different from other mock services?
 
-Also, unlike other mock frameworks, using Mimic does not involve including many extra lines of code that crowd the tests. Tests just need to pass in the `metadata`, only in case of a negative scenario, and mimic will process and return the expected response. This makes test code easy to read and understand. Also, changes in upstream system's behaviors, do not alter the tests. 
+Mimic isn't a generic mocking system where the tests have to provide their own scripted responses, as Mimic knows about how the services it mimics are supposed to behave. Tests just need to pass in the `metadata`, only in case of a negative scenario, and Mimic will process and return the expected response. This makes Mimic a repository of known responses including error conditions. Hence, using Mimic does not involve including many extra lines of code that crowd the tests. And changes in upstream system's behaviors, do not alter the tests. This makes test code robust and easy to read. 
 
 #### Onwards!
 
