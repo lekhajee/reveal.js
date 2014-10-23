@@ -73,14 +73,14 @@ tested. This is just not something that could be reproduced.
 Well, the test coverage was improving as I continued to add tests, oblivious of
 the time it was taking run the entire test suite! Now, we had started using
 these tests as a gate in out merge pipeline. But the tests were running for so
-long and were sometimes flaky. Nobody dared to run them locally! Not even me,
+long and were sometimes flaky. Nobody dared to run these tests locally! Not even me,
 when I was adding more tests! Also, our peers from the compute and load
 balancers teams, whose resources we were using up for our "Auto-scale" testing,
 were _not_ happy! So much, so that, we were pretty glad, we were in a remote
 office!
 
-This had to change! we needed mocks! to help us from the slow and flaky
-testing! So we started considering the existing ones.
+This had to change! we needed something! to save us from the slow and flaky
+testing! 
 
 # Glyph
 
@@ -89,7 +89,8 @@ testing! So we started considering the existing ones.
 When you're testing against a real service, you have to deal with the whole
 spectrum of real failures which might come back from that service.  This is of
 course important for validating a product, ensuring that it works as expected
-in a realistic deployment environment.
+in a realistic deployment environment, even if your colleagues on the compute 
+and load balancer teams get mad at you.
 
 But when you write code to interact with a service, you need to handle a wide
 variety of error cases.
@@ -142,7 +143,7 @@ important and full code coverage is important.  So when we write code like this:
 The problem with the traditional definition of a mock is that each mock is
 defined just for the specific test that it's mocking.
 
-Let's take a specific example from nova.
+Let's take a specific example from OpenStack Compute.
 
 In June of this year, OpenStack Compute
 [introduced a bug](https://github.com/openstack/nova/commit/1a6d32b9690b4bff709dc83bcf4c2d3a65fd7c3e)
@@ -154,72 +155,97 @@ making it impossible to revoke a certificate.
 The bug here is that `chdir` does not actually return a value.  Because these
 tests construct their own mocks for `chdir`, we properly cover all the code,
 but the code is not integrated with a system that is verified in any way
-against what the real system (in this case, Python's) does.
+against what the real system (in this case, Python's chdir) does.
 
 In this *specific* case, we might have simply tested against a real directory
 structure in the file system, because relative to the value of testing against
 a real implementation, creating a directory is not a terribly expensive
 operation.
 
-If you're testing a service that works against an OpenStack cloud,
-you might misread the documentation.  You might mock your endpoints' error
-conditions incorrectly.  It takes time and experimentation to discover exactly
-how a piece of software, or your particular deployment of that software,
-actually works in real life.
+However, an OpenStack cloud is a significantly more complex system than `chdir`.
+If you are developing an application that depends on OpenStack, creating a real 
+cloud to test against is far too expensive and slow as Autoscale's experience shows.
+Creating a one-off mock for every test is fast to get started with and fast to run, 
+but is error prone and rapidily becomes a significant maintainance burden of its own 
+right. Autoscale needed something that was quick to deploy, and lightweight to run 
+like a mock, but realistic and usable in an integration scenario like a __real__ system.
 
-One solution to this is to just always use a "more realistic" implementation of
-your API.
-
+This is were Mimic comes in.
 
 # Lekha: first version of mimic, some of the solutions
 
-Mimic was built as a mock framework for Identity, Compute and Rackspace Load
-balancers, the services autoscale depends upon. That is Mimic implements
-endpoints such as authentication, CRUD for servers, load balancers and nodes on
-load balancers. It does not return static responses irrespective of the
-requests. It processes the requests, populates a response template and holds
-the state of the object being created. Hence, resources appear to be
-provisioned immediately.. or not. Let me explain, Mimic not only allows for
-happy path - positive testing, but also allows for the corner cases, such as
-maybe a server going into an error state, or building indefinitely or the
-service going down when trying to create a server.
+Mimic was built as a stand-in service for Identity, Compute and Rackspace Load
+balancers, the services that autoscale depends upon. That is, Mimic initially
+implemented subsets for the endpoints for authentication, servers and load
+balancers.
 
-Mimic knows to do this using the metadata provided during the creation of the
-object. It processes the metadata, and sets the state of the object
-respectively. For example, setting a `metadata` of say `"server_building": 30`,
-will make the server stay in building state for 30 seconds. Similarly, servers
-can be made to go into error state on creation or even return an error 500 or
-any response code and body during creation.
 
-This makes writing tests easier, as these tests can be run against the real
-services or against mimic, with no extra lines of code to reference the
-mock. Now, when the behavior of the upstream system changes, you only need to
-make a change in one place - Mimic - instead of once in every test that might
-be mocking different behavior of the upstream system.
+The essence of Mimic is pretending. When you ask it to create a server, it
+pretends to create one or.. not. This is not like faking ot stubbing, when
+Mimic pretends to build a server, it remembers the information about that
+server and will tell you about it in the subsequent requests. Let me explain,
+Mimic not only allows for happy path - positive testing, but also allows for
+the corner cases, such as maybe a server going into an error state, or
+building indefinitely or the service going down when trying to create a
+server.
 
-Mimic does not use any database to hold the state of the objects, it uses in
-memory data structures. Mimic has minimal software dependencies - almost
-entirely pure Python - and no service dependencies.  It is entirely
-self-contained.
+Mimic was originally created to speed things up. So, it was very important
+that it be fast both to respond to requests and to have developers setup. So
+it was built using in-memory data structures. Mimic has minimal software
+dependencies - almost entirely pure Python. No service dependencies and no
+configuration. It is entirely self- contained.
+
+Here is a quick demo,
 
 (Demo here?  "Look how easy it is to run Mimic....")
 
-This was the first implementation of Mimic, we configured the autoscale cloud
-cafe tests to run against mimic. This was easy as we just had to change the
-Identity endpoint in the config files of autoscale and cloud cafe to Mimic's
-identity endpoint. Mimic returned the service catalog, that contained endpoints
-of the services it implemented i.e. Compute and Rackspace Load balancers.
+As you can see here, it is only a 3 step process to get mimic started, and be
+able to hit the APIs it implements.
+The steps are pip install mimic, run mimic and hit the endpoint! that's it.
 
-Not only was this very easy to set up, but also reduced the test time exponentially. Earlier the functional tests would take 15 minutes, and now they ran in 30 seconds. The system integration tests would take 3 hours or more, cause if one of the servers in the test remained building longer than usual, then thats how much longer the tests ran. This went down to less than 3 minutes to complete!
+Glyph: But Lekha what about all the error injection stuff I just mentioned.
+Does Mimic do that? 
 
-Our dev vm are configured to run tests against Mimic, so developers get immediate feedback on the code being written and they can work offline without having to worry about up times of the upstream systems.
+Well, Glyph am as pleased as I am suprised that you ask that.
+
+
+Mimic does simulate errors using the metadata provided during the creation of
+the server. It processes the metadata, and sets the state of the server
+respectively. For example, setting a `metadata` of say `"server_building":
+30`, will make the server stay in building state for 30 seconds. Similarly,
+servers can be made to go into error state on creation.
+
+
+Autoscale's purpose is to get the user the right number of servers, even if a
+number of attempts to create one failed. We chose to use `metadata` for error
+injection so that requests with injected errors could also be run against real
+services. For Autoscale, the expected end result is the same number of servers
+created, irrespective of the number of failures. But this behavior may also be
+useful to many other applications because retrying is a common pattern for
+handling errors.
+
+A well written OpenStack client will use the service catalog to look up urls
+for its service endpoints. Such a client will only need two pieces of
+configuration to begin communicating with the cloud, i.e. credentials and the
+identity endpoint. A client written this way will only need to change the
+Identity endpoint to be that of Mimic. 
+
+This reduced the test time exponentially. Earlier the functional tests would
+take 15 minutes, and now they ran in 30 seconds. The system integration tests
+would take 3 hours or more, cause if one of the servers in the test remained
+building longer than usual, then thats how much longer the tests ran. This
+went down to less than 3 minutes to complete!
+
+Our dev vm are configured to run tests against Mimic, so developers get
+immediate feedback on the code being written and they can work offline without
+having to worry about up times of the upstream systems.
 
 However, the first implementation of mimic had some flaws, it was fairly
-Rackspace specific. It implemented only the services required by autoscale, and
-they were all implemented as the core. It ran each service on a different port,
-making it not scalable. It allowed for testing error scenarios, but only using
-the metadata. This was not useful for all cases, especially for a UI system
-like horizon that did not even allow for the metadata to be input.
+Rackspace specific. It implemented only the services required by autoscale,
+and they were all implemented as the core. It ran each service on a different
+port, making it not scalable. It allowed for testing error scenarios, but only
+using the metadata. This was not useful for all cases, especially for a UI
+system like horizon that did not even allow for the metadata to be input.
 
 
 # Lekha: mimic as a repository of known error conditions #
@@ -259,3 +285,13 @@ to understand how an OpenStack API behaves.
 
 Mimic can be the tool which enables a OpenStack developer to get quick feedback on the code he/she is writing and not have to go through the gate multiple times to understand that.. maybe I should have handled that one error, that the upstream system decides to throw my way every now and then.
 
+
+
+
+
+
+
+# deadcode
+when the behavior of the upstream system changes, you only
+need to make a change in one place - Mimic - instead of once in every test
+that might be mocking different behavior of the upstream system.
