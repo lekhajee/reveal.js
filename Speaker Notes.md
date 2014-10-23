@@ -10,44 +10,43 @@ Lekha: mimic as a repository of known error conditions
 Glyph: future enhancements: control of time, error injection
 Lekha: call to action: why and how the openstack community should help
 
-# Lekha: brief "what is autoscale", existing testing, real-service backend (650 words below) #
+# Lekha
+
+## Introduction ##
 
 Introduction: Hi, I am Lekha Jeevan, a software developer in Test in Rackspace
 and (glyph)
 
-## Brief on what the talk is, how it benefits us, how it will benefit OS and what they should do ##
+## What are we here to talk about? ##
 
 Today we are going to talk about Mimic - an opensource framework that allows
 for testing against for OpenStack and Rackspace APIs, how it is making testing
 for products in Rackspace a cake walk and how it could potentially do the same
-for OpenStack. Your contributions, will help us get there.
+for your OpenStack-backed applications. Your contributions, will help us get
+there.
 
-### what is autoscale ###
+## What Is Autoscale? ##
 
-We are going to be taking a trip down memory lane, to 2013, when the Rackspace
-Autoscale product was initiated. It was a very exciting time for us, we were a
-bunch of developers, going to build this product from scratch. We had many
-design meetings. and then, some more. Eventually, we knew how we were going to
-build this. Here is a gist. There is a scaling group - it has some
-specifications such as minimums number of servers on the group, maximum number
-of servers that the group can have. It has associated policies, which a user
-can use to define, when to scale and by how much. Simple!
+Rackspace Autoscale is a system which automates the process of getting the
+right amount of compute capacity for an application, by creating (scaling up)
+and deleting (scaling down) servers and associating them with load balancers.
 
-### what are its dependencies ###
+In order to perform this task, Autoscale speaks to three back-end APIs:
+Rackspace Identity for authentication and impersonation, Rackspace Cloud
+Servers for provisioning and deleting servers, and Rackspace Cloud Load
+Balancers for adding and removing servers to load balancers as they are created
+and deleted.
 
-Ok, now to do this, we needed to be able to authenticate users to provision
-servers of their behalf and assign them to load balancers(if any) - well, thats
-easy. We were going to use Identity for Impersonation, Compute to scale up or
-scale down and assign them to Load balancers using the Rackspace load balancer
-API. Awesome, this is going to be so easy! Hmm, maybe it is or maybe it
-isn't. Lets see.
+Rackspace Identity is API-compatible with OpenStack Identity v2, Rackspace
+Cloud Servers is powered by and API-compatible with OpenStack Compute, although
+Rackspace Cloud Load Balancers is a custom API.
 
 ### as a QE ###
 
 The development started, and I was the QE in the group, and I started writing
 automated tests, in parallel to the development work. So, as autoscale was
 interacting with so many other systems, testing it dint mean just testing
-autoscale, but that if any of these systems it depended on dint behave as
+autoscale, but that if any of these systems it depended on didn't behave as
 expected, autoscale did not crumble. But was consistent and able to handle
 them.
 
@@ -85,6 +84,93 @@ testing! So we started considering the existing ones.
 
 # Glyph
 
+## what's good about fakes? ##
+
+When you're testing against a real service, you have to deal with the whole
+spectrum of real failures which might come back from that service.  This is of
+course important for validating a product, ensuring that it works as expected
+in a realistic deployment environment.
+
+But when you write code to interact with a service, you need to handle a wide
+variety of error cases.
+
+Your positive-path code - the code that submits a request and gets the response
+that it expects - is going to get lots of testing in the real world.  Most
+interactions with services are successful, and the operators of those services
+always strive to make ever more of those interactions successful.  So most
+likely, the positive-path code is going to get exercised all the time and you
+will have plenty of opportunities to flush out bugs.
+
+Your negative-path code, on the other hand, will only get invoked in production
+when there's a real error.  If everything is going as planned, this should be
+infrequent.
+
+It's really important to get negative-path code right.  If everything is going
+well, it's probably okay if your code has a couple of bugs.  You might be able
+to manually work around them.
+
+But if things are starting to fail with some regularity in your cloud, that is
+exactly the time you want to make sure *your* system is behaving correctly:
+accurately reporting the errors, measuring the statistics, and allowing you to
+stay on top of incident management for your service.
+
+When you test against a real service, you are probably testing against a
+staging instance.  And, if your staging instance is typical, it probably
+doesn't have as much hardware, or as many concurrent users, as your production
+environment.  Every additional piece of harware or concurrent user is another
+opportunity for failure, so that means your staging environment is probably
+even less likely to fail.
+
+I've been in the software industry for long enough now to remember where this
+part of the talk would be the hardest part - the part where we try to sell the
+idea that code coverage and automated testing is really important.  Luckily we
+have moved on from the bad old days of the 90s, when most teams didn't have
+build automation, and if they wanted it they might not even be able to afford
+it.
+
+Luckily today we are all somewhat more enlightened, and we know that testing is
+important and full code coverage is important.  So when we write code like this:
+
+(slide: try/except with code)
+
+... we know that we need to write tests for this part:
+
+(highlight 'except' part)
+
+... by writing a mock for it.
+
+The problem with the traditional definition of a mock is that each mock is
+defined just for the specific test that it's mocking.
+
+Let's take a specific example from nova.
+
+In June of this year, OpenStack Compute
+[introduced a bug](https://github.com/openstack/nova/commit/1a6d32b9690b4bff709dc83bcf4c2d3a65fd7c3e)
+making it impossible to revoke a certificate.
+
+(This is not a criticism of Nova itself;
+[the bug was later fixed](https://github.com/openstack/nova/commit/96b39341d5a6ea91d825d979e2381b9949b26e27).)
+
+The bug here is that `chdir` does not actually return a value.  Because these
+tests construct their own mocks for `chdir`, we properly cover all the code,
+but the code is not integrated with a system that is verified in any way
+against what the real system (in this case, Python's) does.
+
+In this *specific* case, we might have simply tested against a real directory
+structure in the file system, because relative to the value of testing against
+a real implementation, creating a directory is not a terribly expensive
+operation.
+
+If you're testing a service that works against an OpenStack cloud,
+you might misread the documentation.  You might mock your endpoints' error
+conditions incorrectly.  It takes time and experimentation to discover exactly
+how a piece of software, or your particular deployment of that software,
+actually works in real life.
+
+One solution to this is to just always use a "more realistic" implementation of
+your API.
+
+
 # Lekha: first version of mimic, some of the solutions
 
 Mimic was built as a mock framework for Identity, Compute and Rackspace Load
@@ -100,19 +186,23 @@ service going down when trying to create a server.
 
 Mimic knows to do this using the metadata provided during the creation of the
 object. It processes the metadata, and sets the state of the object
-respectively. For example, setting a `metadata` of say `server_building: 30`,
-will make the server stay in building state for 30 seconds, similarly servers
+respectively. For example, setting a `metadata` of say `"server_building": 30`,
+will make the server stay in building state for 30 seconds. Similarly, servers
 can be made to go into error state on creation or even return an error 500 or
 any response code and body during creation.
 
 This makes writing tests easier, as these tests can be run against the real
-services or against mimic, with no extra lines of code, to reference the
-mock. Even when the behavior of the upstream system changes, there will be no
-change to the test, but only to mimic, once!
+services or against mimic, with no extra lines of code to reference the
+mock. Now, when the behavior of the upstream system changes, you only need to
+make a change in one place - Mimic - instead of once in every test that might
+be mocking different behavior of the upstream system.
 
 Mimic does not use any database to hold the state of the objects, it uses in
-memory data structures. Mimic has minimal software dependencies and no service
-dependencies.
+memory data structures. Mimic has minimal software dependencies - almost
+entirely pure Python - and no service dependencies.  It is entirely
+self-contained.
+
+(Demo here?  "Look how easy it is to run Mimic....")
 
 This was the first implementation of Mimic, we configured the autoscale cloud
 cafe tests to run against mimic. This was easy as we just had to change the
