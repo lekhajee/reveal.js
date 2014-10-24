@@ -80,7 +80,7 @@ were _not_ happy! So much, so that, we were pretty glad, we were in a remote
 office!
 
 This had to change! we needed something! to save us from the slow and flaky
-testing! 
+testing!
 
 # Glyph
 
@@ -89,7 +89,7 @@ testing!
 When you're testing against a real service, you have to deal with the whole
 spectrum of real failures which might come back from that service.  This is of
 course important for validating a product, ensuring that it works as expected
-in a realistic deployment environment, even if your colleagues on the compute 
+in a realistic deployment environment, even if your colleagues on the compute
 and load balancer teams get mad at you.
 
 But when you write code to interact with a service, you need to handle a wide
@@ -162,32 +162,39 @@ structure in the file system, because relative to the value of testing against
 a real implementation, creating a directory is not a terribly expensive
 operation.
 
-However, an OpenStack cloud is a significantly more complex system than `chdir`.
-If you are developing an application that depends on OpenStack, creating a real 
-cloud to test against is far too expensive and slow as Autoscale's experience shows.
-Creating a one-off mock for every test is fast to get started with and fast to run, 
-but is error prone and rapidily becomes a significant maintainance burden of its own 
-right. Autoscale needed something that was quick to deploy, and lightweight to run 
-like a mock, but realistic and usable in an integration scenario like a __real__ system.
+However, an OpenStack cloud is a significantly more complex system than
+`chdir`.  If you are developing an application that depends on OpenStack,
+creating a real cloud to test against is far too expensive and slow as
+Autoscale's experience shows.  Creating a one-off mock for every test is fast
+to get started with and fast to run, but is error prone and rapidily becomes a
+significant maintainance burden of its own right. Autoscale needed something
+that was quick to deploy, and lightweight to run like a mock, but realistic and
+usable in an integration scenario like a __real__ system.
 
 This is were Mimic comes in.
 
 # Lekha: first version of mimic, some of the solutions
 
 Mimic was built as a stand-in service for Identity, Compute and Rackspace Load
-balancers, the services that autoscale depends upon. That is, Mimic initially
-implemented subsets for the endpoints for authentication, servers and load
-balancers.
+balancers, the services that autoscale depends upon. Mimic initially
+implemented only the subset of each of these endpoints needed by Autoscale.
 
+The essence of Mimic is pretending.  The first thing that you must do to
+interact with it is to pretend to authenticate.
 
-The essence of Mimic is pretending. When you ask it to create a server, it
-pretends to create one or.. not. This is not like faking ot stubbing, when
-Mimic pretends to build a server, it remembers the information about that
-server and will tell you about it in the subsequent requests. Let me explain,
-Mimic not only allows for happy path - positive testing, but also allows for
-the corner cases, such as maybe a server going into an error state, or
-building indefinitely or the service going down when trying to create a
-server.
+Although Mimic does not validate credentials - all authentications will
+succeed - as with the real Identity endpoint, Mimic's identity endpoint has a
+service catalog which includes URLs for all the services it provides.  A well
+behaved OpenStack client will use the service catalog to look up URLs for its
+service endpoints. Such a client will only need two pieces of configuration to
+begin communicating with the cloud, i.e. credentials and the identity
+endpoint. A client written this way will only need to change the Identity
+endpoint to be that of Mimic.
+
+When you ask Mimic to create a server, it pretends to create one. This is not
+like stubbing with static responses: when Mimic pretends to build a server, it
+remembers the information about that server and will tell you about it in the
+subsequent requests.
 
 Mimic was originally created to speed things up. So, it was very important
 that it be fast both to respond to requests and to have developers setup. So
@@ -197,24 +204,44 @@ configuration. It is entirely self- contained.
 
 Here is a quick demo,
 
-(Demo here?  "Look how easy it is to run Mimic....")
+(Demo here: "Look how easy it is to run Mimic...." bootstrap.mp4)
 
 As you can see here, it is only a 3 step process to get mimic started, and be
-able to hit the APIs it implements.
-The steps are pip install mimic, run mimic and hit the endpoint! that's it.
+able to hit the APIs it implements.  The steps are pip install mimic, run mimic
+and hit the endpoint! That's it.  As we mentioned, the way you hit the endpoint
+is to simply change your client's Identity URL to Mimic's and run your code as
+before.
 
-Glyph: But Lekha what about all the error injection stuff I just mentioned.
-Does Mimic do that? 
+(Demo here: nova python client pretending to create a server, list servers,
+delete server, against mimic.)
 
-Well, Glyph am as pleased as I am suprised that you ask that.
+Here is an example of how we could use Mimic against the OpenStack nova python
+client.  We're including the Mimic identity endpoint as the `AUTH_URL`.
 
+We did this with Autoscale, and pointed its tests at a Mimic instance.  This
+reduced the test time exponentially. Before Mimic, the functional tests would
+take 15 minutes, and now they run in 30 seconds. The system integration tests
+would take 3 *hours* or more, cause if one of the servers in the test remained
+in the "building" state for fifteen minutes longer than usual, then the tests
+ran fifteen minutes slower.  That 3 *hours* (or more) went down to be less than
+3 *minutes* (consistently) to complete!
 
-Mimic does simulate errors using the metadata provided during the creation of
-the server. It processes the metadata, and sets the state of the server
-respectively. For example, setting a `metadata` of say `"server_building":
-30`, will make the server stay in building state for 30 seconds. Similarly,
-servers can be made to go into error state on creation.
+Our dev VMs are configured to run tests against Mimic, so developers get
+immediate feedback on the code being written and they can work offline without
+having to worry about uptimes of the upstream systems.
 
+Glyph: But Lekha, what about all the error injection stuff I mentioned before?
+Does Mimic do that?  How did this set-up test Autoscale's error conditions?
+
+Well Glyph, I am as pleased as I am suprised that you ask that.  Mimic does
+simulate errors.
+
+Earlier, when I said Mimic pretends to create a server, that wasn't entirely
+true - sometimes Mimic pretends to *not* create a server.  It uses the metadata
+provided during the creation of the server. It inspects the metadata, and sets
+the state of the server respectively. For example, setting a `metadata` of say
+`"server_building": 30`, will make the server stay in building state for 30
+seconds. Similarly, servers can be made to go into error state on creation.
 
 Autoscale's purpose is to get the user the right number of servers, even if a
 number of attempts to create one failed. We chose to use `metadata` for error
@@ -224,29 +251,74 @@ created, irrespective of the number of failures. But this behavior may also be
 useful to many other applications because retrying is a common pattern for
 handling errors.
 
-A well written OpenStack client will use the service catalog to look up urls
-for its service endpoints. Such a client will only need two pieces of
-configuration to begin communicating with the cloud, i.e. credentials and the
-identity endpoint. A client written this way will only need to change the
-Identity endpoint to be that of Mimic. 
-
-This reduced the test time exponentially. Earlier the functional tests would
-take 15 minutes, and now they ran in 30 seconds. The system integration tests
-would take 3 hours or more, cause if one of the servers in the test remained
-building longer than usual, then thats how much longer the tests ran. This
-went down to less than 3 minutes to complete!
-
-Our dev vm are configured to run tests against Mimic, so developers get
-immediate feedback on the code being written and they can work offline without
-having to worry about up times of the upstream systems.
-
 However, the first implementation of mimic had some flaws, it was fairly
-Rackspace specific. It implemented only the services required by autoscale,
-and they were all implemented as the core. It ran each service on a different
-port, making it not scalable. It allowed for testing error scenarios, but only
-using the metadata. This was not useful for all cases, especially for a UI
-system like horizon that did not even allow for the metadata to be input.
+Rackspace specific. It implemented only the services required by autoscale, and
+they were all implemented as the core. It ran each service on a different port,
+meaning that for N endpoints you would need not just N port numbers, but N
+*consecutive* port numbers. It allowed for testing error scenarios, but only
+using the metadata. This was not useful for all cases, for example, for a
+control panel that does not not allow every UI action to contain metadata.
 
+(TODO: ask someone if Horizon matches this description?)
+
+Mimic also did not implement multiple regions.  It used global variables for
+storing all state, which meant that it was hard to add additional endpoints
+with different state in the same running mimic instance.
+
+# Glyph
+
+This is the point at which I joined the project.
+
+Mimic had an ambitious vision: to be a one-stop mock for all OpenStack and
+Rackspace services that needed fast integration testing.  However, its
+architecture at the time severely limited the ability of other teams to use it
+or contribute to it.  As Lekha mentioned, it was specific not only to Rackspace
+but to Autoscale.
+
+On balance, Mimic was also extremely simple.  It followed the You Aren't Gonna
+Need It principle of extreme programming very well, and implemented just the
+bare minimum to satisfy its requirements, so there wasn't a whole lot of
+terrible code to throw out or much unnecessary complexity to eliminate.
+
+There is, however, a corrolary to YAGNI, which is E(ITO)YAGNI: Eventually, It
+Turns Out, You *Are* Going To Need It.  As Mimic grew, other services within
+Rackspace wanted to make use of its functionality, and a couple of JSON
+response dictionaries in global variables were not going to cut it any more.
+
+So we created a plugin API.
+
+As Lekha mentioned previously, Mimic's Identity endpoint was the top-level
+entry point to Mimic as a service; every other URL was available from within
+the service catalog.  As we were designing the plugin API, it was clear that
+this top-level Identity endpoint needed to be the core part of Mimic, and
+plug-ins would each add an entry for themselves to the service catalog.
+
+Each plugin implements the `IAPIMock` interface, which has only two methods:
+`catalog_entries` and `resource_for_region`.
+
+`catalog_entries` takes a tenant ID and returns an iterable of `Entry` objects,
+each of which is a name and a collection of `Endpoint` objects, each containing
+a region, a URI version prefix, and a tenant ID of its own.
+
+Put more simply, APIs have catalog entries for each API type, which in turn
+have endpoints for each virtual region they represent.
+
+`resource_for_region` takes the name of a region, a URI prefix - generated by
+Mimic's core - and a session store where the API mock may look up state
+associated with particular tenants.  `resource_for_region` returns an HTTP
+resource associated with the top level of the given region.  This resource then
+routes this request to any tenant-specific resources associated with the full
+URL path.
+
+Mimic uses the Twisted plugin system, which has a very simple model of how
+plugins work: you have an abstract interface - some methods and attributes that
+you expect of a plugin - and then plugins register themselves by instantiating
+a provider of that interface and placing that instance into a module within a
+particular namespace package.  In Mimic's case, that interface is `IAPIMock`
+and that package is `mimic.plugins`.
+
+Each service can contribute to the service catalog, provide entries and
+endpoints, and each endpoint gets added within the URI hierarchy.
 
 # Lekha: mimic as a repository of known error conditions #
 
@@ -295,3 +367,10 @@ Mimic can be the tool which enables a OpenStack developer to get quick feedback 
 when the behavior of the upstream system changes, you only
 need to make a change in one place - Mimic - instead of once in every test
 that might be mocking different behavior of the upstream system.
+
+This made it relatively straightforward to move from a model where that service
+catalog was hard-coded based on a specific port-number offset for each service,
+to one where a custom URL path was generated for each service.  Initially,
+these were simply long opaque UUIDs per service, but Mimic now includes the
+name of the endpoint in addition to a small random key, so that the URIs are
+both unique and readable for debugging purposes.
