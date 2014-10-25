@@ -68,7 +68,7 @@
         </section>
 
         <section>
-          <h1>Autoscale</h1>
+          <h1>Auto Scale</h1>
           <aside class="notes">
             Rackspace Autoscale is a system which automates the process of
             getting the right amount of compute capacity for an application, by
@@ -87,6 +87,39 @@
             custom API.
           </aside>
         </section>
+
+        <section>
+          <h1>Testing</h1>
+          <h2>(for Auto Scale)</h2>
+          <aside class="notes">
+            The development started, and I was the QE in the group, and I
+            started writing automated tests, in parallel to the development
+            work. So, as autoscale was interacting with so many other systems,
+            testing it dint mean just testing autoscale, but that if any of
+            these systems it depended on didn't behave as expected, autoscale
+            did not crumble. But was consistent and able to handle them.
+          </aside>
+        </section>
+
+        <section>
+          <h1>Types of Tests</h1>
+          <h2>(for Auto Scale)</h2>
+          <aside class="notes">
+            So, I had two kinds of tests, one was the functional tests, to test
+            the API contracts, verify the responses of the API calls given
+            valid requests, or malformed requests.
+
+            The other, was system integration tests. These were more complex
+            tests, as they were going to be verifying the integration between
+            Identity(keystone), Compute, Load balancers and Autoscale. For
+            example, When a user created a scaling group, it will verify that
+            the minimum number of servers on the group are provisioned
+            successfully, as in the servers are active and they exist as nodes
+            on the load balancers. Or if a server, went into an error state,
+            that can happen, Autoscale was able to re-provision that server.
+          </aside>
+        </section>
+
 
         <section data-state="first-demo">
           <video src="bootstrap.mp4" id="first-demo-video"></video>

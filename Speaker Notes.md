@@ -12,29 +12,6 @@ Lekha: call to action: why and how the openstack community should help
 
 # Lekha
 
-### as a QE ###
-
-The development started, and I was the QE in the group, and I started writing
-automated tests, in parallel to the development work. So, as autoscale was
-interacting with so many other systems, testing it dint mean just testing
-autoscale, but that if any of these systems it depended on didn't behave as
-expected, autoscale did not crumble. But was consistent and able to handle
-them.
-
-### testing for autoscale ###
-
-So, I had two kinds of tests, one was the functional tests, to test the API
-contracts, verify the responses of the API calls given valid requests, or
-malformed requests.
-
-The other, was system integration tests. These were more complex tests, as
-they were going to be verifying the integration between Identity(keystone),
-Compute, Load balancers and Autoscale. For example, When a user created a
-scaling group, it will verify that the minimum number of servers on the group
-are provisioned successfully, as in the servers are active and they exist as
-nodes on the load balancers. Or if a server, went into an error state, that
-can happen, Autoscale was able to re-provision that server.
-
 ### issues with the tests, running against real services ###
 
 All these tests were running against the real services. Servers could take over
