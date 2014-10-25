@@ -10,32 +10,6 @@ Lekha: mimic as a repository of known error conditions
 Glyph: future enhancements: control of time, error injection
 Lekha: call to action: why and how the openstack community should help
 
-# Lekha
-
-### issues with the tests, running against real services ###
-
-All these tests were running against the real services. Servers could take over
-a minute, ten minutes to provision and the tests would run that much
-longer. Sometimes, the tests would fail due to random failures, like a server
-would go into error state, where as the test was expecting it to go into an
-active state. The tests for the negative scenarios, like actually testing how
-autoscale would behave if the server went into an error state, could not be
-tested. This is just not something that could be reproduced.
-
-### more issues, flaky slow tests affecting developers and other teams ###
-
-Well, the test coverage was improving as I continued to add tests, oblivious of
-the time it was taking run the entire test suite! Now, we had started using
-these tests as a gate in out merge pipeline. But the tests were running for so
-long and were sometimes flaky. Nobody dared to run these tests locally! Not even me,
-when I was adding more tests! Also, our peers from the compute and load
-balancers teams, whose resources we were using up for our "Auto-scale" testing,
-were _not_ happy! So much, so that, we were pretty glad, we were in a remote
-office!
-
-This had to change! we needed something! to save us from the slow and flaky
-testing!
-
 # Glyph
 
 ## what's good about fakes? ##
