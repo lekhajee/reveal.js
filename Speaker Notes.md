@@ -255,7 +255,7 @@ injection so that requests with injected errors could also be run against real
 services. For Autoscale, the expected end result is the same number of servers
 created, irrespective of the number of failures. But this behavior may also be
 useful to many other applications because retrying is a common pattern for
-handling errors.
+handling errors. 
 
 However, the first implementation of mimic had some flaws, it was fairly
 Rackspace specific. It implemented only the services required by autoscale, and
@@ -329,26 +329,32 @@ endpoints, and each endpoint gets added within the URI hierarchy.
 # Lekha: mimic as a repository of known error conditions #
 
 Anyone testing a product, will run into unexpected errors. Thats why we test!
-But we dont know what we dont know. However, we need to be able
-handle such scenarios within our application code and test them consistently.
+But we dont know what we dont know, and cant be prepared for this ahead of
+time right!
 
-As we were running integration tests for autoscale with compute, we began to
-see some failures due to a server going into an error state. We now had to have
-a way to deal with it and test it consistently. Then we found out that the
-servers could remain in building state for a long time, even up to an hour or
-more. Autoscale could not possibly have a server provisioning for an
-hour. Similarly, as we went on with this process we found many such error
-conditions, that we began to handle within our code, making it more robust.
+When we were running the autoscale tests against Compute, we began to see some
+one-off errors. Like, when provisioning a server, the
+test expected a server to go into a building state for some time before it is
+active, __but__ it would remain in building state for over an hour or even
+would sometimes go into an error state.
 
-Now, Wont it be great if not every system that used compute as a dependency had
-to go through this same cycle and have to find all the possible error
-conditions in a system by experience and have to deal with them at the pace
-that they occur.
+Autoscale had to handle such scenarios gracefully and the code was changed to
+do so. And Mimic provided for a way to tests this consistently. 
 
-What if we had a repository of all such known errors, that everyone contributes
-to. So the next person using the plugin can use the existing ones, and ensure
-there application behaves consistently irrespective of the errors, or add any
-new ones to it.
+However, like I said, we dont know what we dont know. We were not anticipating
+any other such errors. But, there were more! And this was slow process for us
+to uncover such errors as we tested against the real systems. And we continued
+to add them to Mimic.
+
+Now, Wont it be great if not every person writing an application that used
+compute as a dependency had to go through this same cycle and have to find all
+the possible error conditions in a system by experience and have to deal with
+them at the pace that they occur.
+
+What if we had a repository of all such known errors, that everyone
+contributes to. So the next person using the plugin can use the existing ones,
+and ensure there application behaves consistently irrespective of the errors,
+and be able add any new ones to it.
 
 Mimic is just that, a repository of all known responses including the error
 responses.
@@ -359,10 +365,12 @@ responses.
 Mimic, can be the tool, where you do not have to stand up the entire dev stack
 to understand how an OpenStack API behaves.
 
-Mimic can be the tool which enables a OpenStack developer to get quick
+Mimic can be the tool which enables an OpenStack developer to get quick
 feedback on the code he/she is writing and not have to go through the gate
-multiple times to understand that.. maybe I should have handled that one
+multiple times to understand that, maybe I should have handled that one
 error, that the upstream system decides to throw my way every now and then.
+
+
 
 
 
