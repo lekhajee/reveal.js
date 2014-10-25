@@ -17,14 +17,6 @@ Lekha: call to action: why and how the openstack community should help
 Introduction: Hi, I am Lekha Jeevan, a software developer in Test in Rackspace
 and (glyph)
 
-## What are we here to talk about? ##
-
-Today we are going to talk about Mimic - an opensource framework that allows
-for testing against for OpenStack and Rackspace APIs, how it is making testing
-for products in Rackspace a cake walk and how it could potentially do the same
-for your OpenStack-backed applications. Your contributions, will help us get
-there.
-
 ## What Is Autoscale? ##
 
 Rackspace Autoscale is a system which automates the process of getting the
