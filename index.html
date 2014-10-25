@@ -160,6 +160,107 @@
           </aside>
         </section>
 
+        <section>
+          <h1>What's Good About Fakes?</h1>
+          <h2>Split Up This Slide</h2>
+          <aside class="notes">
+            When you're testing against a real service, you have to deal with
+            the whole spectrum of real failures which might come back from that
+            service.  This is of course important for validating a product,
+            ensuring that it works as expected in a realistic deployment
+            environment, even if your colleagues on the compute and load
+            balancer teams get mad at you.
+
+            But when you write code to interact with a service, you need to
+            handle a wide variety of error cases.
+
+            Your positive-path code - the code that submits a request and gets
+            the response that it expects - is going to get lots of testing in
+            the real world.  Most interactions with services are successful,
+            and the operators of those services always strive to make ever more
+            of those interactions successful.  So most likely, the
+            positive-path code is going to get exercised all the time and you
+            will have plenty of opportunities to flush out bugs.
+
+            Your negative-path code, on the other hand, will only get invoked
+            in production when there's a real error.  If everything is going as
+            planned, this should be infrequent.
+
+            It's really important to get negative-path code right.  If
+            everything is going well, it's probably okay if your code has a
+            couple of bugs.  You might be able to manually work around them.
+
+            But if things are starting to fail with some regularity in your
+            cloud, that is exactly the time you want to make sure *your* system
+            is behaving correctly: accurately reporting the errors, measuring
+            the statistics, and allowing you to stay on top of incident
+            management for your service.
+
+            When you test against a real service, you are probably testing
+            against a staging instance.  And, if your staging instance is
+            typical, it probably doesn't have as much hardware, or as many
+            concurrent users, as your production environment.  Every additional
+            piece of harware or concurrent user is another opportunity for
+            failure, so that means your staging environment is probably even
+            less likely to fail.
+
+            I've been in the software industry for long enough now to remember
+            where this part of the talk would be the hardest part - the part
+            where we try to sell the idea that code coverage and automated
+            testing is really important.  Luckily we have moved on from the bad
+            old days of the 90s, when most teams didn't have build automation,
+            and if they wanted it they might not even be able to afford it.
+
+            Luckily today we are all somewhat more enlightened, and we know
+            that testing is important and full code coverage is important.  So
+            when we write code like this:
+
+            (slide: try/except with code)
+
+            ... we know that we need to write tests for this part:
+
+            (highlight 'except' part)
+
+            ... by writing a mock for it.
+
+            The problem with the traditional definition of a mock is that each
+            mock is defined just for the specific test that it's mocking.
+
+            Let's take a specific example from OpenStack Compute.
+
+            In June of this year, OpenStack Compute [introduced a
+            bug](https://github.com/openstack/nova/commit/1a6d32b9690b4bff709dc83bcf4c2d3a65fd7c3e)
+            making it impossible to revoke a certificate.
+
+            (This is not a criticism of Nova itself; [the bug was later
+            fixed](https://github.com/openstack/nova/commit/96b39341d5a6ea91d825d979e2381b9949b26e27).)
+
+            The bug here is that `chdir` does not actually return a value.
+            Because these tests construct their own mocks for `chdir`, we
+            properly cover all the code, but the code is not integrated with a
+            system that is verified in any way against what the real system (in
+            this case, Python's chdir) does.
+
+            In this *specific* case, we might have simply tested against a real
+            directory structure in the file system, because relative to the
+            value of testing against a real implementation, creating a
+            directory is not a terribly expensive operation.
+
+            However, an OpenStack cloud is a significantly more complex system
+            than `chdir`.  If you are developing an application that depends on
+            OpenStack, creating a real cloud to test against is far too
+            expensive and slow as Autoscale's experience shows.  Creating a
+            one-off mock for every test is fast to get started with and fast to
+            run, but is error prone and rapidily becomes a significant
+            maintainance burden of its own right. Autoscale needed something
+            that was quick to deploy, and lightweight to run like a mock, but
+            realistic and usable in an integration scenario like a __real__
+            system.
+
+            This is were Mimic comes in.
+          </aside>
+        </section>
+
         <section data-state="first-demo">
           <video src="bootstrap.mp4" id="first-demo-video"></video>
           <aside class="notes">
