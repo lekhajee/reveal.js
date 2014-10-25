@@ -67,6 +67,27 @@
           </aside>
         </section>
 
+        <section>
+          <h1>Autoscale</h1>
+          <aside class="notes">
+            Rackspace Autoscale is a system which automates the process of
+            getting the right amount of compute capacity for an application, by
+            creating (scaling up) and deleting (scaling down) servers and
+            associating them with load balancers.
+
+            In order to perform this task, Autoscale speaks to three back-end
+            APIs: Rackspace Identity for authentication and impersonation,
+            Rackspace Cloud Servers for provisioning and deleting servers, and
+            Rackspace Cloud Load Balancers for adding and removing servers to
+            load balancers as they are created and deleted.
+
+            Rackspace Identity is API-compatible with OpenStack Identity v2,
+            Rackspace Cloud Servers is powered by and API-compatible with
+            OpenStack Compute, although Rackspace Cloud Load Balancers is a
+            custom API.
+          </aside>
+        </section>
+
         <section data-state="first-demo">
           <video src="bootstrap.mp4" id="first-demo-video"></video>
           <aside class="notes">

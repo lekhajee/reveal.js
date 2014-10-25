@@ -12,22 +12,6 @@ Lekha: call to action: why and how the openstack community should help
 
 # Lekha
 
-## What Is Autoscale? ##
-
-Rackspace Autoscale is a system which automates the process of getting the
-right amount of compute capacity for an application, by creating (scaling up)
-and deleting (scaling down) servers and associating them with load balancers.
-
-In order to perform this task, Autoscale speaks to three back-end APIs:
-Rackspace Identity for authentication and impersonation, Rackspace Cloud
-Servers for provisioning and deleting servers, and Rackspace Cloud Load
-Balancers for adding and removing servers to load balancers as they are created
-and deleted.
-
-Rackspace Identity is API-compatible with OpenStack Identity v2, Rackspace
-Cloud Servers is powered by and API-compatible with OpenStack Compute, although
-Rackspace Cloud Load Balancers is a custom API.
-
 ### as a QE ###
 
 The development started, and I was the QE in the group, and I started writing
@@ -199,11 +183,6 @@ Here is a quick demo,
 
 (Demo here: "Look how easy it is to run Mimic...." bootstrap.mp4)
 
-As you can see here, it is only a 3 step process to get mimic started, and be
-able to hit the APIs it implements.  The steps are pip install mimic, run mimic
-and hit the endpoint! That's it.  As we mentioned, the way you hit the endpoint
-is to simply change your client's Identity URL to Mimic's and run your code as
-before.
 
 (Demo here: nova python client pretending to create a server, list servers,
 delete server, against mimic.)
