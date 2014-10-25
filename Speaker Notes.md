@@ -12,11 +12,6 @@ Lekha: call to action: why and how the openstack community should help
 
 # Lekha
 
-## Introduction ##
-
-Introduction: Hi, I am Lekha Jeevan, a software developer in Test in Rackspace
-and (glyph)
-
 ## What Is Autoscale? ##
 
 Rackspace Autoscale is a system which automates the process of getting the
