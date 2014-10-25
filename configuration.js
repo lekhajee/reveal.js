@@ -8,7 +8,7 @@ Reveal.initialize({
     center: true,
 
     theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-    transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+    transition: 'none', // Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
     // Parallax scrolling
     // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
