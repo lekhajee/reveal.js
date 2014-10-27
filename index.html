@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
   <head>
     <meta charset="utf-8">
 
-    <title>reveal.js - The HTML Presentation Framework</title>
+    <title>Mimic Presentation</title>
 
     <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
     <meta name="author" content="Hakim El Hattab">
@@ -13,6 +13,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="custom.css">
 
     <link rel="stylesheet" href="css/reveal.min.css">
     <link rel="stylesheet" href="css/theme/default.css" id="theme">
@@ -235,13 +238,14 @@
           <h1>Means Failing</h1>
           <h2>At Failure</h2>
           <aside class="notes">
-            Your negative-path code, on the other hand, will only get invoked
-            in production when there's a real error.  If everything is going as
-            planned, this should be infrequent.
+            If you test against real services, your negative-path code, will
+            only get invoked in production when there's a real error.  If
+            everything is going as planned, this should be infrequent.
           </aside>
         </section>
         <section>
-          <h1>Failure</h1>
+          <h1>Succeeding</h1>
+          <h2>At Failure</h2>
           <aside class="notes">
             It's really important to get negative-path code right.  If
             everything is going well, it's probably okay if your code has a
@@ -249,15 +253,20 @@
           </aside>
         </section>
         <section>
+          <h1 style="font-size: 800%">😈 ☁</h1>
+          <h3>(Production)</h3>
           <aside class="notes">
             But if things are starting to fail with some regularity in your
-            cloud, that is exactly the time you want to make sure *your* system
-            is behaving correctly: accurately reporting the errors, measuring
-            the statistics, and allowing you to stay on top of incident
-            management for your service.
+            cloud - that is to say - if you are using a cloud - that is exactly
+            the time you want to make sure <em>your</em> system is behaving
+            correctly: accurately reporting the errors, measuring the
+            statistics, and allowing you to stay on top of incident management
+            for your service.
           </aside>
         </section>
         <section>
+          <h1 style="font-size: 800%">😇 ☁</h1>
+          <h3>(Staging)</h3>
           <aside class="notes">
             When you test against a real service, you are probably testing
             against a staging instance.  And, if your staging instance is
@@ -269,6 +278,7 @@
           </aside>
         </section>
         <section>
+          <pre style="border: 1px solid white; font-size: 70px;"><code class="language-python">import unittest</code></pre>
           <aside class="notes">
             I've been in the software industry for long enough now to remember
             where this part of the talk would be the hardest part - the part
@@ -279,6 +289,7 @@
           </aside>
         </section>
         <section>
+          <h2 style="text-transform: none;"><code>test_stuff ... <span style="color: rgb(0, 255, 0);">[OK]</span></code></h2>
           <aside class="notes">
             Luckily today we are all somewhat more enlightened, and we know
             that testing is important and full code coverage is important.  So
@@ -286,47 +297,97 @@
           </aside>
         </section>
         <section>
+          <pre style="font-size: 40px"><code class="language-python" style="padding: 1em;">try:
+    result = service_request()
+except:
+    return error
+else:
+    return ok(result)</code></pre>
           <aside class="notes">
-            (slide: try/except with code)
-
             ... we know that we need to write tests for this part:
-
-            (highlight 'except' part)
-
-            ... by writing a mock for it.
           </aside>
         </section>
         <section>
+<pre style="font-size: 40px"><span class="codelike" style="padding: 1em;"><span class="keyword">try</span>:
+    result = service_request()
+<div class="highlighted"><span class="keyword">except</span>:
+    <span class="keyword">return</span> error
+</div><span class="keyword">else</span>:
+    <span class="keyword">return</span> ok(result)</span></pre>
+          <aside class="notes">
+            (highlight 'except' part)
+
+            ... and one popular way to get test coverage for those error lines
+            is by writing a custom mock for it.
+          </aside>
+        </section>
+        <section>
+          <img src="Alice_par_John_Tenniel_34_Cropped.png">
           <aside class="notes">
             The problem with the traditional definition of a mock is that each
             mock is defined just for the specific test that it's mocking.
           </aside>
         </section>
         <section>
+          <img src="Alice_par_John_Tenniel_34_Cropped_Tears.png">
           <aside class="notes">
-            Let's take a specific example from OpenStack Compute.
+            The problem with the traditional definition of a mock is that each
+            mock is defined just for the specific test that it's mocking.
+            There's a reason that Alice in Wonderland's Mock Turtle is crying.
+            Mocking is often a sad enterprise.
+            <p>
+              Let's take a specific example from OpenStack Compute.
+            </p>
           </aside>
         </section>
         <section>
+          <pre style="font-size: 24pt;"><code class="language-python">if not os.chdir(ca_folder(project_id)):
+    raise exception.ProjectNotFound(
+        project_id=project_id)</code></pre>
           <aside class="notes">
             In June of this year, OpenStack Compute [introduced a
             bug](https://github.com/openstack/nova/commit/1a6d32b9690b4bff709dc83bcf4c2d3a65fd7c3e)
-            making it impossible to revoke a certificate.
+            making it impossible to revoke a certificate.  The lines of code at
+            fault were these two additions here.
 
             (This is not a criticism of Nova itself; [the bug was later
             fixed](https://github.com/openstack/nova/commit/96b39341d5a6ea91d825d979e2381b9949b26e27).)
 
+          </aside>
+        </section>
+        <section>
+          <pre style="font-size: 24pt;"><span class="codelike language-python"><span class="highlighted"><span class="keyword">if</span> <span class="keyword">not</span> os.chdir</span>(ca_folder(project_id)):
+    <span class="keyword">raise</span> exception.ProjectNotFound(
+        project_id=project_id)</span></pre>
+          <aside class="notes">
+          </aside>
+        </section>
+        <section>
+          <pre style="font-size: 17pt"><code class="language-python">@mock.patch.object(os, 'chdir', return_value=True)
+def test_revoke_cert_process_execution_error(self):
+    "..."
+
+@mock.patch.object(os, 'chdir', return_value=False)
+def test_revoke_cert_project_not_found_chdir_fails(self):
+    "..."</code></pre>
+          <aside class="notes">
             The bug here is that `chdir` does not actually return a value.
             Because these tests construct their own mocks for `chdir`, we
             properly cover all the code, but the code is not integrated with a
             system that is verified in any way against what the real system (in
             this case, Python's chdir) does.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             In this *specific* case, we might have simply tested against a real
             directory structure in the file system, because relative to the
             value of testing against a real implementation, creating a
             directory is not a terribly expensive operation.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             However, an OpenStack cloud is a significantly more complex system
             than `chdir`.  If you are developing an application that depends on
             OpenStack, creating a real cloud to test against is far too
@@ -337,13 +398,16 @@
             that was quick to deploy, and lightweight to run like a mock, but
             realistic and usable in an integration scenario like a __real__
             system.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             This is were Mimic comes in.
           </aside>
         </section>
-
         <section>
-          <h1>First Version of Mimic</h1>
+          <h1>Mimic</h1>
+          <h2>Version 0.0</h2>
           <aside class="notes">
             Mimic was built as a stand-in service for Identity, Compute and
             Rackspace Load balancers, the services that autoscale depends
@@ -352,13 +416,18 @@
           </aside>
         </section>
         <section>
+          <h1>Pretending</h1>
           <aside class="notes">
             The essence of Mimic is pretending.  The first thing that you must
-            do to interact with it is to pretend to authenticate.
+            do to interact with it is to...
           </aside>
         </section>
         <section>
+          <h1>Pretending</h1>
+          <h2>to authenticate</h2>
           <aside class="notes">
+            ...pretend to authenticate.
+            <br>
             Although Mimic does not validate credentials - all authentications
             will succeed - as with the real Identity endpoint, Mimic's identity
             endpoint has a service catalog which includes URLs for all the
@@ -371,6 +440,8 @@
           </aside>
         </section>
         <section>
+          <h1>Pretending</h1>
+          <h2>to Boot Servers</h2>
           <aside class="notes">
             When you ask Mimic to create a server, it pretends to create
             one. This is not like stubbing with static responses: when Mimic
@@ -379,6 +450,8 @@
           </aside>
         </section>
         <section>
+          <h1>Pretending</h1>
+          <h2>is faster than working</h2>
           <aside class="notes">
             Mimic was originally created to speed things up. So, it was very
             important that it be fast both to respond to requests and to have
@@ -389,6 +462,7 @@
           </aside>
         </section>
         <section>
+          <h1>Demo!</h1>
           <aside class="notes">
             Here is a quick demo.
           </aside>
@@ -484,7 +558,6 @@
         </section>
         <section>
           <aside class="notes">
-
             However, the first implementation of mimic had some flaws, it was
             fairly Rackspace specific. It implemented only the services
             required by autoscale, and they were all implemented as the
@@ -494,8 +567,7 @@
             but only using the metadata. This was not useful for all cases, for
             example, for a control panel that does not not allow every UI
             action to contain metadata.
-
-            (TODO: ask someone if Horizon matches this description?)
+            <!-- (TODO: ask someone if Horizon matches this description?) -->
           </aside>
         </section>
         <section>
@@ -506,7 +578,6 @@
             mimic instance.
           </aside>
         </section>
-
         <section>
           <h1>Refactoring Mimic</h1>
           <h2>(To Use with things other than Auto Scale)</h2>

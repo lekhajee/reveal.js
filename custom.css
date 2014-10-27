@@ -1,0 +1,25 @@
+.reveal pre span.codelike {
+    display: block;
+    padding: 0.5em;
+    background: #3F3F3F;
+    color: #DCDCDC;
+    font-family: menlo;
+}
+
+.reveal .highlighted {
+    color: white;
+    font-weight: bold;
+    font-style: oblique;
+    background-color: black;
+    padding-left: 0.2em;
+    margin-left: -0.2em;
+}
+
+body .reveal code {
+    font-family: menlo;
+}
+
+body .reveal pre code {
+    padding: 0.5em;
+}
+
