@@ -58,7 +58,7 @@
         <section>
           <h1>What?</h1>
           <aside class="notes">
-            Lekha: Today we are going to talk about Mimic - an opensource
+            Lekha: Today we are going to talk about Mimic - an open source
             framework that allows for testing against for OpenStack and
             Rackspace APIs, how it is making testing for products in Rackspace
             a cake walk and how it could potentially do the same for your
@@ -68,23 +68,33 @@
         </section>
 
         <section>
-          <h1>TODO: introduce Mimic briefly</h1>
-          <h2>explain <i>that</i> autoscale needed it before we launch into <i>how</i> it needed it</h2>
+          <h1>Why?</h1>
+          <aside class="notes">
+            Glyph: While Mimic is hopefully general purpose, it was originally
+            created for testing a specific application: Rackspace Auto Scale.
+            So let's talk about that first.
+          </aside>
         </section>
 
         <section>
           <h1>Auto Scale</h1>
           <aside class="notes">
-            Rackspace Autoscale is a system which automates the process of
-            getting the right amount of compute capacity for an application, by
-            creating (scaling up) and deleting (scaling down) servers and
+            Lekha: Rackspace Autoscale is a system which automates the process
+            of getting the right amount of compute capacity for an application,
+            by creating (scaling up) and deleting (scaling down) servers and
             associating them with load balancers.
+          </aside>
+        </section>
 
-            In order to perform this task, Autoscale speaks to three back-end
-            APIs: Rackspace Identity for authentication and impersonation,
-            Rackspace Cloud Servers for provisioning and deleting servers, and
-            Rackspace Cloud Load Balancers for adding and removing servers to
-            load balancers as they are created and deleted.
+        <section>
+          <h1>Dependencies</h1>
+          <h2>(of Auto Scale)</h2>
+          <aside class="notes">
+            Lekha: In order to perform this task, Autoscale speaks to three
+            back-end APIs: Rackspace Identity for authentication and
+            impersonation, Rackspace Cloud Servers for provisioning and
+            deleting servers, and Rackspace Cloud Load Balancers for adding and
+            removing servers to load balancers as they are created and deleted.
 
             Rackspace Identity is API-compatible with OpenStack Identity v2,
             Rackspace Cloud Servers is powered by and API-compatible with
@@ -97,8 +107,8 @@
           <h1>Testing</h1>
           <h2>(for Auto Scale)</h2>
           <aside class="notes">
-            The development started, and I was the QE in the group, and I
-            started writing automated tests, in parallel to the development
+            Lekha: The development started, and I was the QE in the group, and
+            I started writing automated tests, in parallel to the development
             work. So, as autoscale was interacting with so many other systems,
             testing it dint mean just testing autoscale, but that if any of
             these systems it depended on didn't behave as expected, autoscale
@@ -110,9 +120,9 @@
           <h1>Types of Tests</h1>
           <h2>(for Auto Scale)</h2>
           <aside class="notes">
-            So, I had two kinds of tests, one was the functional tests, to test
-            the API contracts, verify the responses of the API calls given
-            valid requests, or malformed requests.
+            Lekha: So, I had two kinds of tests, one was the functional tests,
+            to test the API contracts, verify the responses of the API calls
+            given valid requests, or malformed requests.
 
             The other, was system integration tests. These were more complex
             tests, as they were going to be verifying the integration between
@@ -129,14 +139,15 @@
           <h1>Testing Problems</h1>
           <h2>(with Auto Scale)</h2>
           <aside class="notes">
-            All these tests were running against the real services. Servers
-            could take over a minute, ten minutes to provision and the tests
-            would run that much longer. Sometimes, the tests would fail due to
-            random failures, like a server would go into error state, where as
-            the test was expecting it to go into an active state. The tests for
-            the negative scenarios, like actually testing how autoscale would
-            behave if the server went into an error state, could not be
-            tested. This is just not something that could be reproduced.
+            Lekha: All these tests were running against the real
+            services. Servers could take over a minute, ten minutes to
+            provision and the tests would run that much longer. Sometimes, the
+            tests would fail due to random failures, like a server would go
+            into error state, where as the test was expecting it to go into an
+            active state. The tests for the negative scenarios, like actually
+            testing how autoscale would behave if the server went into an error
+            state, could not be tested. This is just not something that could
+            be reproduced.
           </aside>
         </section>
 
@@ -144,9 +155,9 @@
           <h1>More Problems</h1>
           <h2>(with Auto Scale)</h2>
           <aside class="notes">
-            Well, the test coverage was improving as I continued to add tests,
-            oblivious of the time it was taking run the entire test suite! Now,
-            we had started using these tests as a gate in out merge
+            Lekha: Well, the test coverage was improving as I continued to add
+            tests, oblivious of the time it was taking run the entire test
+            suite! Now, we had started using these tests as a gate in out merge
             pipeline. But the tests were running for so long and were sometimes
             flaky. Nobody dared to run these tests locally! Not even me, when I
             was adding more tests! Also, our peers from the compute and load
@@ -160,25 +171,49 @@
           <h1>We've Had Enough!</h1>
           <h2>(on Auto Scale)</h2>
           <aside class="notes">
-            This had to change! we needed something! to save us from the slow and flaky
-            testing!
+            Lekha: This had to change! we needed something! to save us from the
+            slow and flaky testing!
           </aside>
         </section>
 
         <section>
-          <h1>What's Good About Fakes?</h1>
-          <h2>Split Up This Slide</h2>
+          <h1>There And Back Again</h1>
+          <h2 class="fragment current-visible">Specific → General</h2>
+          <h2 class="fragment current-visible">General → Specific</h2>
           <aside class="notes">
-            When you're testing against a real service, you have to deal with
-            the whole spectrum of real failures which might come back from that
-            service.  This is of course important for validating a product,
-            ensuring that it works as expected in a realistic deployment
-            environment, even if your colleagues on the compute and load
-            balancer teams get mad at you.
+            Glyph: Now that we've had enough, how are we going to solve this
+            problem?  Since we've been proceeding from the specific case of
+            Autoscale to the general utility of Mimic, (click) let's go back to
+            the general and proceed to the specific.
+          </aside>
+        </section>
 
+        <section>
+          <h1>From The General</h1>
+          <h2>Success</h2>
+
+          <aside class="notes">
+            When you have a complex distributed system - that is, a service A
+            which makes requests of another service B - you have to deal with
+            the whole spectrum of real failures which might come back from
+            service B.  Testing against the real service is of course important
+            for validating a product, ensuring that it works as expected in a
+            realistic deployment environment, even if your colleagues on the
+            compute and load balancer teams get mad at you.
+          </aside>
+        </section>
+
+        <section>
+          <h1>Failure</h1>
+          <aside class="notes">
             But when you write code to interact with a service, you need to
             handle a wide variety of error cases.
+          </aside>
+        </section>
 
+        <section>
+          <h1>Failure</h1>
+          <aside class="notes">
             Your positive-path code - the code that submits a request and gets
             the response that it expects - is going to get lots of testing in
             the real world.  Most interactions with services are successful,
