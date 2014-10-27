@@ -48,48 +48,91 @@
         </section>
 
         <section>
-          <h1>Introductions</h1>
+          <h1>Lekha</h1>
+          <h3 style="color: gray"> software developer in test</h3>
+          <h3 style="color: gray"> (at) Rackspace </h3>
           <aside class="notes">
-            <p>Lekha: Hi, I am Lekha Jeevan, a software developer in Test in Rackspace</p>
+            <p>Lekha: Hi, I am Lekha Jeevan, a software developer in test at Rackspace</p>
+          </aside>
+        </section>
+
+        <section>
+          <h1>Glyph</h1>
+          <h3 style="color: gray"> software developer </h3>
+          <h3 style="color: gray"> (at) Rackspace </h3>
+          <aside class="notes">
             <p>Glyph: and I'm Glyph, also a software developer at Rackspace.</p>
           </aside>
         </section>
 
         <section>
-          <h1>What?</h1>
+          <h1>Mimic</h1>
           <aside class="notes">
-            Lekha: Today we are going to talk about Mimic - an opensource
-            framework that allows for testing against for OpenStack and
-            Rackspace APIs, how it is making testing for products in Rackspace
-            a cake walk and how it could potentially do the same for your
-            OpenStack-backed applications. Your contributions, will help us get
-            there.
+
+            Lekha: Today Glyph and I are going to be talking to you all about
+            Mimic. An opensource framework that allows for testing of
+            OpenStack and Rackpsace APIs.
+
           </aside>
         </section>
 
         <section>
-          <h1>TODO: introduce Mimic briefly</h1>
-          <h2>explain <i>that</i> autoscale needed it before we launch into <i>how</i> it needed it</h2>
+          <h1>How?</h1>
+          <aside class="notes">
+
+           Lekha: How does Mimic do that you ask.
+
+          </aside>
         </section>
 
         <section>
-          <h1>Auto Scale</h1>
+          <h1>Mimic</h1>
+          <h1>PRETENDS!</h1>
           <aside class="notes">
-            Rackspace Autoscale is a system which automates the process of
-            getting the right amount of compute capacity for an application, by
-            creating (scaling up) and deleting (scaling down) servers and
-            associating them with load balancers.
 
-            In order to perform this task, Autoscale speaks to three back-end
-            APIs: Rackspace Identity for authentication and impersonation,
-            Rackspace Cloud Servers for provisioning and deleting servers, and
-            Rackspace Cloud Load Balancers for adding and removing servers to
-            load balancers as they are created and deleted.
+           Lekha: well, it just pretends to be the OpenStack or Rackspace API! 
 
-            Rackspace Identity is API-compatible with OpenStack Identity v2,
-            Rackspace Cloud Servers is powered by and API-compatible with
-            OpenStack Compute, although Rackspace Cloud Load Balancers is a
-            custom API.
+          </aside>
+        </section>
+
+        <section>
+          <h1>Sneak Peek</h1>
+          <aside class="notes">
+
+           Lekha: Before we even begin to dive into the details, let us take a
+           quick sneak peek of how __easy__ it is to get started with Mimic.
+
+          </aside>
+        </section>
+
+        <section data-state="first-demo">
+          <video src="bootstrap.mp4" id="first-demo-video"></video>
+          <aside class="notes">
+
+            Its only a 3 step process: pip install mimic, run mimic and hit
+            the endpoint! And... there is our endpoint to be able to
+            Authenticate and get a service catalog containing the (OpenStack) services
+            Mimic implements.
+
+          </aside>
+        </section>
+
+        <section>
+          <h1>Why?</h1>
+          <aside class="notes">
+
+           Lekha: Now, why does one need this you might wonder.
+
+          </aside>
+        </section>
+
+        <section>
+          <h1>Rewind</h1>
+          <!--img class="transparent" src="rewind.png" style="border:5px gray" height="600"-->
+          <aside class="notes">
+
+           Lekha: Lets go back and see how Rackspace AutoScale was doing without Mimic.
+
           </aside>
         </section>
 
@@ -303,16 +346,7 @@
           </aside>
         </section>
 
-        <section data-state="first-demo">
-          <video src="bootstrap.mp4" id="first-demo-video"></video>
-          <aside class="notes">
-            As you can see here, it is only a 3 step process to get mimic
-            started, and be able to hit the APIs it implements.  The steps are
-            pip install mimic, run mimic and hit the endpoint! That's it.  As
-            we mentioned, the way you hit the endpoint is to simply change your
-            client's Identity URL to Mimic's and run your code as before.
-          </aside>
-        </section>
+        
 
         <section>
           <aside class="notes">
@@ -534,3 +568,16 @@
 
   </body>
 </html>
+
+
+
+
+
+            <!--Today we are going to talk about Mimic - an opensource
+            framework that allows for testing OpenStack and
+            Rackspace APIs. How it is making testing for products in Rackspace
+            a cakewalk and how it could potentially do the same for your
+            OpenStack-backed applications. Your contributions, will help us get
+            there.
+          </aside>
+        </section> -->
