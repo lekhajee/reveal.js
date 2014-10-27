@@ -17,6 +17,7 @@
 
 body .reveal code {
     font-family: menlo;
+    text-transform: none;
 }
 
 body .reveal pre code {
