@@ -196,16 +196,16 @@
           <h2 class="fragment visible">Testing For Failure</h2>
 
           <aside class="notes">
-            When you have a complex distributed system - that is, a service A
-            which makes requests of another service B - you have to deal with
-            the whole spectrum of real failures which might come back from
-            service B.
+            Glyph: When you have a complex distributed system - that is, a
+            service A which makes requests of another service B - you have to
+            deal with the whole spectrum of real failures which might come back
+            from service B.
           </aside>
         </section>
         <section>
           <h1>Real Services Fail</h1>
           <aside class="notes">
-            Testing against the real service is of course important for
+            Glyph: Testing against the real service is of course important for
             validating a product, ensuring that it works as expected in a
             realistic deployment environment, even if your colleagues on the
             compute and load balancer teams get mad at you.
@@ -215,9 +215,9 @@
         <section>
           <h1>(Unpredictably)</h1>
           <aside class="notes">
-            But when you write code to interact with a service, you need to
-            handle a wide variety of error cases.  Those errors won't come back
-            from the real service every time.
+            Glyph: But when you write code to interact with a service, you need
+            to handle a wide variety of error cases.  Those errors won't come
+            back from the real service every time.
           </aside>
         </section>
 
@@ -225,13 +225,13 @@
           <h1>Succeeding</h1>
           <h2>At Success</h2>
           <aside class="notes">
-            Your positive-path code - the code that submits a request and gets
-            the response that it expects - is going to get lots of testing in
-            the real world.  Most interactions with services are successful,
-            and the operators of those services always strive to make ever more
-            of those interactions successful.  So most likely, the
-            positive-path code is going to get exercised all the time and you
-            will have plenty of opportunities to flush out bugs.
+            Glyph: Your positive-path code - the code that submits a request
+            and gets the response that it expects - is going to get lots of
+            testing in the real world.  Most interactions with services are
+            successful, and the operators of those services always strive to
+            make ever more of those interactions successful.  So most likely,
+            the positive-path code is going to get exercised all the time and
+            you will have plenty of opportunities to flush out bugs.
           </aside>
         </section>
         <section>
@@ -420,6 +420,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
         <section>
           <h1>Pretending</h1>
+          <h2 style="visibility: hidden">...</h2>
           <aside class="notes">
             The essence of Mimic is pretending.  The first thing that you must
             do to interact with it is to...
@@ -454,7 +455,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
         <section>
           <h1>Pretending</h1>
-          <h2>is faster than working</h2>
+          <h2>is <em>faster</em> than working</h2>
           <aside class="notes">
             Mimic was originally created to speed things up. So, it was very
             important that it be fast both to respond to requests and to have
@@ -481,12 +482,12 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
-          <h1>Audience:</h1>
-          <h2>Suspend Disbelief Please</h2>
+          <h1>INSERT DEMO HERE</h1>
+          <h2>TODO: Nova Python client pretending to</h2>
+          <h3>Create A Server</h3>
+          <h3>List Servers</h3>
+          <h3>Delete Servers</h3>
           <aside class="notes">
-            (Demo here: nova python client pretending to create a server, list
-            servers, delete server, against mimic.)
-
             Here is an example of how we could use Mimic against the OpenStack
             nova python client.  We're including the Mimic identity endpoint as
             the `AUTH_URL`.
@@ -532,9 +533,15 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
+          <h1>Fast Feedback!</h1>
           <aside class="notes">
             Our dev VMs are configured to run tests against Mimic, so
-            developers get immediate feedback on the code being written and
+            developers get immediate feedback on the code being written.
+          </aside>
+        </section>
+        <section>
+          <h1>Keep Working!</h1>
+          <aside class="notes">
             they can work offline without having to worry about uptimes of the
             upstream systems.
           </aside>
@@ -542,7 +549,6 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         <section>
           <h1>Error Injection</h1>
           <aside class="notes">
-
             Glyph: But Lekha, what about all the error injection stuff I
             mentioned before?  Does Mimic do that?  How did this set-up test
             Autoscale's error conditions?
@@ -551,18 +557,17 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         <section>
           <h1>?</h1>
           <aside class="notes">
-            Well Glyph, I am as pleased as I am suprised that you ask that.
-            Mimic does simulate errors.
+            Lekha: Well Glyph, I am as pleased as I am suprised that you ask
+            that.  Mimic does simulate errors.
           </aside>
         </section>
         <section>
           <h1>Metadata</h1>
           <aside class="notes">
-
-            Earlier, when I said Mimic pretends to create a server, that wasn't
-            entirely true - sometimes Mimic pretends to *not* create a server.
-            It uses the metadata provided during the creation of the server. It
-            inspects the metadata, and sets the state of the server
+            Lekha: Earlier, when I said Mimic pretends to create a server, that
+            wasn't entirely true - sometimes Mimic pretends to *not* create a
+            server.  It uses the metadata provided during the creation of the
+            server. It inspects the metadata, and sets the state of the server
             respectively. For example, setting a `metadata` of say
             `"server_building": 30`, will make the server stay in building
             state for 30 seconds. Similarly, servers can be made to go into
@@ -572,32 +577,47 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         <section>
           <h1>Retry On Errors</h1>
           <aside class="notes">
-            Autoscale's purpose is to get the user the right number of servers,
-            even if a number of attempts to create one failed. We chose to use
-            `metadata` for error injection so that requests with injected
-            errors could also be run against real services. For Autoscale, the
-            expected end result is the same number of servers created,
-            irrespective of the number of failures. But this behavior may also
-            be useful to many other applications because retrying is a common
-            pattern for handling errors.
+            Lekha: Autoscale's purpose is to get the user the right number of
+            servers, even if a number of attempts to create one failed. We
+            chose to use `metadata` for error injection so that requests with
+            injected errors could also be run against real services. For
+            Autoscale, the expected end result is the same number of servers
+            created, irrespective of the number of failures. But this behavior
+            may also be useful to many other applications because retrying is a
+            common pattern for handling errors.
           </aside>
         </section>
         <section>
-          <h1>(Only Some Errors)</h1>
+          <h2>Mimic 0.0 was...</h2>
+          <h1>Too Specific</h1>
           <aside class="notes">
-            However, the first implementation of mimic had some flaws, it was
-            fairly Rackspace specific. It implemented only the services
-            required by autoscale, and they were all implemented as the
-            core. It ran each service on a different port, meaning that for N
-            endpoints you would need not just N port numbers, but N
-            *consecutive* port numbers. It allowed for testing error scenarios,
-            but only using the metadata. This was not useful for all cases, for
-            example, for a control panel that does not not allow every UI
-            action to contain metadata.
+            Lekha: However, the first implementation of mimic had some flaws,
+            it was fairly Rackspace specific. It implemented only the services
+            required by autoscale,
+          </aside>
+        </section>
+        <section>
+          <h2>Mimic 0.0 was...</h2>
+          <h1>Too Monolithic</h1>
+          <aside class="notes">
+            and they were all implemented as the core. It ran each service on a
+            different port, meaning that for N endpoints you would need not
+            just N port numbers, but N *consecutive* port numbers.
+          </aside>
+        </section>
+        <section>
+          <h2>Mimic 0.0 was...</h2>
+          <h1>Too Limited</h1>
+          <aside class="notes">
+            It allowed for testing error scenarios, but only using the
+            metadata. This was not useful for all cases, for example, for a
+            control panel that does not not allow every UI action to contain
+            metadata.
             <!-- (TODO: ask someone if Horizon matches this description?) -->
           </aside>
         </section>
         <section>
+          <h2>Mimic 0.0 was...</h2>
           <h1>Single Region</h1>
           <aside class="notes">
             Mimic also did not implement multiple regions.  It used global
@@ -607,8 +627,8 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
+          <h2>Beyond Auto Scale:</h2>
           <h1>Refactoring Mimic</h1>
-          <h2>(Beyond Auto Scale)</h2>
           <aside class="notes">
             Mimic had an ambitious vision: to be a one-stop mock for all
             OpenStack and Rackspace services that needed fast integration
@@ -666,8 +686,11 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
-          <h3 class="fragment"><code>catalog_entries(...)</code></h2>
-          <h3 class="fragment"><code>resource_for_region(...)</code></h2>
+          <h3 class="fragment"><code>catalog_entries(...)</code></h3>
+          <h3 class="fragment"><code>resource_for_region(...)</code></h3>
+          <br />
+          <h3 class="fragment">(that's it!)</h3>
+
           <aside class="notes">
             `catalog_entries` and `resource_for_region`.
 
