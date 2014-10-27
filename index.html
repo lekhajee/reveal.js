@@ -192,8 +192,8 @@
         </section>
 
         <section>
-          <h1>From The General</h1>
-          <h2>Testing For Failure</h2>
+          <h1>General →</h1>
+          <h2 class="fragment visible">Testing For Failure</h2>
 
           <aside class="notes">
             When you have a complex distributed system - that is, a service A
@@ -379,14 +379,16 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
+          <img src="folders.png" />
           <aside class="notes">
-            In this *specific* case, we might have simply tested against a real
-            directory structure in the file system, because relative to the
-            value of testing against a real implementation, creating a
+            In this <em>specific</em> case, we might have simply tested against
+            a real directory structure in the file system, because relative to
+            the value of testing against a real implementation, creating a
             directory is not a terribly expensive operation.
           </aside>
         </section>
         <section>
+          <img src="openstack_havana_conceptual_arch.png" />
           <aside class="notes">
             However, an OpenStack cloud is a significantly more complex system
             than `chdir`.  If you are developing an application that depends on
@@ -401,6 +403,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
+          <h1>Mimic</h1>
           <aside class="notes">
             This is were Mimic comes in.
           </aside>
@@ -409,10 +412,10 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h1>Mimic</h1>
           <h2>Version 0.0</h2>
           <aside class="notes">
-            Mimic was built as a stand-in service for Identity, Compute and
-            Rackspace Load balancers, the services that autoscale depends
-            upon. Mimic initially implemented only the subset of each of these
-            endpoints needed by Autoscale.
+            Mimic was originally built as a stand-in service for Identity,
+            Compute and Rackspace Load balancers, the services that autoscale
+            depends upon. Mimic initially implemented only the subset of each
+            of these endpoints needed by Autoscale.
           </aside>
         </section>
         <section>
@@ -467,7 +470,6 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             Here is a quick demo.
           </aside>
         </section>
-
         <section data-state="first-demo">
           <video src="bootstrap.mp4" id="first-demo-video"></video>
           <aside class="notes">
@@ -478,8 +480,9 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             client's Identity URL to Mimic's and run your code as before.
           </aside>
         </section>
-
         <section>
+          <h1>Audience:</h1>
+          <h2>Suspend Disbelief Please</h2>
           <aside class="notes">
             (Demo here: nova python client pretending to create a server, list
             servers, delete server, against mimic.)
@@ -493,22 +496,43 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         <section>
           <h1>Using Mimic</h1>
           <h2>(on Auto Scale)</h2>
-          <h3>TODO: split up this slide</h3>
 
           <aside class="notes">
             We did this with Autoscale, and pointed its tests at a Mimic
-            instance.  This reduced the test time exponentially. Before Mimic,
-            the functional tests would take 15 minutes, and now they run in 30
-            seconds. The system integration tests would take 3 *hours* or more,
-            cause if one of the servers in the test remained in the "building"
-            state for fifteen minutes longer than usual, then the tests ran
-            fifteen minutes slower.  That 3 *hours* (or more) went down to be
-            less than 3 *minutes* (consistently) to complete!
+            instance.  This reduced the test time exponentially.
+
+          </aside>
+        </section>
+        <section>
+          <h1>15 <em>Minutes</em></h1>
+          <aside class="notes">
+            Before Mimic, the functional tests would take 15 minutes,
+          </aside>
+        </section>
+        <section>
+          <h1>30 <em>Seconds</em></h1>
+          <aside class="notes">
+            and now they run in 30 seconds. The system integration tests would
+            take
+          </aside>
+        </section>
+        <section>
+          <h1>3 <em>Hours</em></h1>
+          <aside class="notes">
+            3 *hours* or more, cause if one of the servers in the test
+            remained in the "building" state for fifteen minutes longer than
+            usual, then the tests ran fifteen minutes slower.
+          </aside>
+        </section>
+        <section>
+          <h1>3 <em>Minutes</em></h1>
+          <aside class="notes">
+            That 3 *hours* (or more) went down to be less than 3 *minutes*
+            (consistently) to complete!
           </aside>
         </section>
         <section>
           <aside class="notes">
-
             Our dev VMs are configured to run tests against Mimic, so
             developers get immediate feedback on the code being written and
             they can work offline without having to worry about uptimes of the
@@ -516,6 +540,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
+          <h1>Error Injection</h1>
           <aside class="notes">
 
             Glyph: But Lekha, what about all the error injection stuff I
@@ -524,13 +549,14 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
+          <h1>?</h1>
           <aside class="notes">
-
             Well Glyph, I am as pleased as I am suprised that you ask that.
             Mimic does simulate errors.
           </aside>
         </section>
         <section>
+          <h1>Metadata</h1>
           <aside class="notes">
 
             Earlier, when I said Mimic pretends to create a server, that wasn't
@@ -544,8 +570,8 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
+          <h1>Retry On Errors</h1>
           <aside class="notes">
-
             Autoscale's purpose is to get the user the right number of servers,
             even if a number of attempts to create one failed. We chose to use
             `metadata` for error injection so that requests with injected
@@ -557,6 +583,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
+          <h1>(Only Some Errors)</h1>
           <aside class="notes">
             However, the first implementation of mimic had some flaws, it was
             fairly Rackspace specific. It implemented only the services
@@ -571,6 +598,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
+          <h1>Single Region</h1>
           <aside class="notes">
             Mimic also did not implement multiple regions.  It used global
             variables for storing all state, which meant that it was hard to
@@ -580,19 +608,18 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
         <section>
           <h1>Refactoring Mimic</h1>
-          <h2>(To Use with things other than Auto Scale)</h2>
+          <h2>(Beyond Auto Scale)</h2>
           <aside class="notes">
             Mimic had an ambitious vision: to be a one-stop mock for all
             OpenStack and Rackspace services that needed fast integration
             testing.  However, its architecture at the time severely limited
             the ability of other teams to use it or contribute to it.  As Lekha
             mentioned, it was specific not only to Rackspace but to Autoscale.
-
           </aside>
         </section>
         <section>
+          <h1>YAGNI</h1>
           <aside class="notes">
-
             On balance, Mimic was also extremely simple.  It followed the You
             Aren't Gonna Need It principle of extreme programming very well,
             and implemented just the bare minimum to satisfy its requirements,
@@ -601,8 +628,8 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
+          <h1>E(ITO)YAGNI</h1>
           <aside class="notes">
-
             There is, however, a corrolary to YAGNI, which is E(ITO)YAGNI:
             Eventually, It Turns Out, You *Are* Going To Need It.  As Mimic
             grew, other services within Rackspace wanted to make use of its
@@ -611,14 +638,16 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
+          <h1>Plugins!</h1>
           <aside class="notes">
-
             So we created a plugin API.
           </aside>
         </section>
         <section>
+          <h1>Identity</h1>
+          <h2>Is the Entry Point</h2>
+          <h3>(Not A Plugin)</h3>
           <aside class="notes">
-
             As Lekha mentioned previously, Mimic's Identity endpoint was the
             top-level entry point to Mimic as a service; every other URL was
             available from within the service catalog.  As we were designing
@@ -628,10 +657,19 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
-          <aside class="notes">
+          <h1><code>IAPIMock</code></h1>
+          <h2>Plugin Interface</h2>
 
+          <aside class="notes">
             Each plugin implements the `IAPIMock` interface, which has only two
-            methods: `catalog_entries` and `resource_for_region`.
+            methods:
+          </aside>
+        </section>
+        <section>
+          <h3 class="fragment"><code>catalog_entries(...)</code></h2>
+          <h3 class="fragment"><code>resource_for_region(...)</code></h2>
+          <aside class="notes">
+            `catalog_entries` and `resource_for_region`.
 
             `catalog_entries` takes a tenant ID and returns an iterable of
             `Entry` objects, each of which is a name and a collection of
