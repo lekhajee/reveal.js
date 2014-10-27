@@ -8,6 +8,8 @@ function inIframe () {
 
 document.addEventListener('first-demo', function() {
     if (!inIframe()) {  // speaker notes
-        document.getElementById("first-demo-video").play();
+        var aVideo = document.getElementById("first-demo-video");
+        aVideo.currentTime = 0.0;
+        aVideo.play();
     }
 } );
