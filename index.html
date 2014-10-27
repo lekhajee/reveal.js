@@ -190,29 +190,37 @@
 
         <section>
           <h1>From The General</h1>
-          <h2>Success</h2>
+          <h2>Testing For Failure</h2>
 
           <aside class="notes">
             When you have a complex distributed system - that is, a service A
             which makes requests of another service B - you have to deal with
             the whole spectrum of real failures which might come back from
-            service B.  Testing against the real service is of course important
-            for validating a product, ensuring that it works as expected in a
+            service B.
+          </aside>
+        </section>
+        <section>
+          <h1>Real Services Fail</h1>
+          <aside class="notes">
+            Testing against the real service is of course important for
+            validating a product, ensuring that it works as expected in a
             realistic deployment environment, even if your colleagues on the
             compute and load balancer teams get mad at you.
           </aside>
         </section>
 
         <section>
-          <h1>Failure</h1>
+          <h1>(Unpredictably)</h1>
           <aside class="notes">
             But when you write code to interact with a service, you need to
-            handle a wide variety of error cases.
+            handle a wide variety of error cases.  Those errors won't come back
+            from the real service every time.
           </aside>
         </section>
 
         <section>
-          <h1>Failure</h1>
+          <h1>Succeeding</h1>
+          <h2>At Success</h2>
           <aside class="notes">
             Your positive-path code - the code that submits a request and gets
             the response that it expects - is going to get lots of testing in
@@ -221,21 +229,36 @@
             of those interactions successful.  So most likely, the
             positive-path code is going to get exercised all the time and you
             will have plenty of opportunities to flush out bugs.
-
+          </aside>
+        </section>
+        <section>
+          <h1>Means Failing</h1>
+          <h2>At Failure</h2>
+          <aside class="notes">
             Your negative-path code, on the other hand, will only get invoked
             in production when there's a real error.  If everything is going as
             planned, this should be infrequent.
-
+          </aside>
+        </section>
+        <section>
+          <h1>Failure</h1>
+          <aside class="notes">
             It's really important to get negative-path code right.  If
             everything is going well, it's probably okay if your code has a
             couple of bugs.  You might be able to manually work around them.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             But if things are starting to fail with some regularity in your
             cloud, that is exactly the time you want to make sure *your* system
             is behaving correctly: accurately reporting the errors, measuring
             the statistics, and allowing you to stay on top of incident
             management for your service.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             When you test against a real service, you are probably testing
             against a staging instance.  And, if your staging instance is
             typical, it probably doesn't have as much hardware, or as many
@@ -243,18 +266,27 @@
             piece of harware or concurrent user is another opportunity for
             failure, so that means your staging environment is probably even
             less likely to fail.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             I've been in the software industry for long enough now to remember
             where this part of the talk would be the hardest part - the part
             where we try to sell the idea that code coverage and automated
             testing is really important.  Luckily we have moved on from the bad
             old days of the 90s, when most teams didn't have build automation,
             and if they wanted it they might not even be able to afford it.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             Luckily today we are all somewhat more enlightened, and we know
             that testing is important and full code coverage is important.  So
             when we write code like this:
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             (slide: try/except with code)
 
             ... we know that we need to write tests for this part:
@@ -262,12 +294,21 @@
             (highlight 'except' part)
 
             ... by writing a mock for it.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             The problem with the traditional definition of a mock is that each
             mock is defined just for the specific test that it's mocking.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             Let's take a specific example from OpenStack Compute.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             In June of this year, OpenStack Compute [introduced a
             bug](https://github.com/openstack/nova/commit/1a6d32b9690b4bff709dc83bcf4c2d3a65fd7c3e)
             making it impossible to revoke a certificate.
@@ -308,10 +349,16 @@
             Rackspace Load balancers, the services that autoscale depends
             upon. Mimic initially implemented only the subset of each of these
             endpoints needed by Autoscale.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             The essence of Mimic is pretending.  The first thing that you must
             do to interact with it is to pretend to authenticate.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             Although Mimic does not validate credentials - all authentications
             will succeed - as with the real Identity endpoint, Mimic's identity
             endpoint has a service catalog which includes URLs for all the
@@ -321,19 +368,28 @@
             communicating with the cloud, i.e. credentials and the identity
             endpoint. A client written this way will only need to change the
             Identity endpoint to be that of Mimic.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             When you ask Mimic to create a server, it pretends to create
             one. This is not like stubbing with static responses: when Mimic
             pretends to build a server, it remembers the information about that
             server and will tell you about it in the subsequent requests.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             Mimic was originally created to speed things up. So, it was very
             important that it be fast both to respond to requests and to have
             developers setup. So it was built using in-memory data
             structures. Mimic has minimal software dependencies - almost
             entirely pure Python. No service dependencies and no
             configuration. It is entirely self- contained.
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             Here is a quick demo.
           </aside>
         </section>
@@ -374,18 +430,34 @@
             state for fifteen minutes longer than usual, then the tests ran
             fifteen minutes slower.  That 3 *hours* (or more) went down to be
             less than 3 *minutes* (consistently) to complete!
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             Our dev VMs are configured to run tests against Mimic, so
             developers get immediate feedback on the code being written and
             they can work offline without having to worry about uptimes of the
             upstream systems.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             Glyph: But Lekha, what about all the error injection stuff I
             mentioned before?  Does Mimic do that?  How did this set-up test
             Autoscale's error conditions?
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             Well Glyph, I am as pleased as I am suprised that you ask that.
             Mimic does simulate errors.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             Earlier, when I said Mimic pretends to create a server, that wasn't
             entirely true - sometimes Mimic pretends to *not* create a server.
@@ -395,6 +467,10 @@
             `"server_building": 30`, will make the server stay in building
             state for 30 seconds. Similarly, servers can be made to go into
             error state on creation.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             Autoscale's purpose is to get the user the right number of servers,
             even if a number of attempts to create one failed. We chose to use
@@ -404,6 +480,10 @@
             irrespective of the number of failures. But this behavior may also
             be useful to many other applications because retrying is a common
             pattern for handling errors.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             However, the first implementation of mimic had some flaws, it was
             fairly Rackspace specific. It implemented only the services
@@ -416,7 +496,10 @@
             action to contain metadata.
 
             (TODO: ask someone if Horizon matches this description?)
-
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             Mimic also did not implement multiple regions.  It used global
             variables for storing all state, which meant that it was hard to
             add additional endpoints with different state in the same running
@@ -434,19 +517,36 @@
             the ability of other teams to use it or contribute to it.  As Lekha
             mentioned, it was specific not only to Rackspace but to Autoscale.
 
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
+
             On balance, Mimic was also extremely simple.  It followed the You
             Aren't Gonna Need It principle of extreme programming very well,
             and implemented just the bare minimum to satisfy its requirements,
             so there wasn't a whole lot of terrible code to throw out or much
             unnecessary complexity to eliminate.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             There is, however, a corrolary to YAGNI, which is E(ITO)YAGNI:
             Eventually, It Turns Out, You *Are* Going To Need It.  As Mimic
             grew, other services within Rackspace wanted to make use of its
             functionality, and a couple of JSON response dictionaries in global
             variables were not going to cut it any more.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             So we created a plugin API.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             As Lekha mentioned previously, Mimic's Identity endpoint was the
             top-level entry point to Mimic as a service; every other URL was
@@ -454,6 +554,10 @@
             the plugin API, it was clear that this top-level Identity endpoint
             needed to be the core part of Mimic, and plug-ins would each add an
             entry for themselves to the service catalog.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             Each plugin implements the `IAPIMock` interface, which has only two
             methods: `catalog_entries` and `resource_for_region`.
@@ -465,6 +569,10 @@
 
             Put more simply, APIs have catalog entries for each API type, which
             in turn have endpoints for each virtual region they represent.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             `resource_for_region` takes the name of a region, a URI prefix -
             produced by Mimic core to make URI for each service unique - and a
@@ -475,6 +583,10 @@
             this request to any tenant- specific resources associated with the
             full URL path.
 
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             Mimic uses the Twisted plugin system, which has a very simple model
             of how plugins work: you have an abstract interface - some methods
             and attributes that you expect of a plugin - and then plugins
@@ -483,6 +595,10 @@
             namespace package.  In Mimic's case, that interface is `IAPIMock`
             and that package is `mimic.plugins`.
 
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
             Each service can contribute to the service catalog, provide entries
             and endpoints, and each endpoint gets added within the URI
             hierarchy.
@@ -498,31 +614,55 @@
             Anyone testing a product, will run into unexpected errors. Thats
             why we test!  But we dont know what we dont know, and cant be
             prepared for this ahead of time right!
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             When we were running the autoscale tests against Compute, we began
             to see some one-off errors. Like, when provisioning a server, the
             test expected a server to go into a building state for some time
             before it is active, __but__ it would remain in building state for
             over an hour or even would sometimes go into an error state.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             Autoscale had to handle such scenarios gracefully and the code was
             changed to do so. And Mimic provided for a way to tests this
             consistently.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             However, like I said, we dont know what we dont know. We were not
             anticipating any other such errors. But, there were more! And this
             was slow process for us to uncover such errors as we tested against
             the real systems. And we continued to add them to Mimic.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             Now, Wont it be great if not every person writing an application
             that used compute as a dependency had to go through this same cycle
             and have to find all the possible error conditions in a system by
             experience and have to deal with them at the pace that they occur.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             What if we had a repository of all such known errors, that everyone
             contributes to. So the next person using the plugin can use the
             existing ones, and ensure there application behaves consistently
             irrespective of the errors, and be able add any new ones to it.
+          </aside>
+        </section>
+        <section>
+          <aside class="notes">
 
             Mimic is just that, a repository of all known responses including
             the error responses.
