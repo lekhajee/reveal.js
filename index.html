@@ -1171,6 +1171,12 @@ the_mock_plugin = SomeAPIMock()
                     "version": 4,
                     "addr": "198.101.241.239"
           </code></pre>
+          <aside class="notes">
+            Glyph: If you've previously created a server with "server_building"
+            metadata that tells it to build for some number of seconds, and you
+            hit the 'tick' endpoint telling it to advance time the
+            server_building number of seconds...
+          </aside>
         </section>
         <section>
           <pre style="font-size: 34px"><code class="language-javascript"
@@ -1186,6 +1192,41 @@ the_mock_plugin = SomeAPIMock()
                     "version": 4,
                     "addr": "198.101.241.239"
           </code></pre>
+          <aside class="notes">
+            Glyph: that server (and any others) will now show up as "active",
+            as it should.  This means you can set up very long timeouts, and
+            have servers behave "realistically", but in a way where you can
+            test several hours of timeouts a time.
+          </aside>
+        </section>
+
+        <section>
+          <h1>Later</h1>
+          <aside class="notes">
+            Glyph: Another feature that we hope to design later is the ability
+            to inject errors ahead of time, using a separate control-plane
+            interface which is not part of a mock's endpoint.
+          </aside>
+        </section>
+
+        <section>
+          <h1> Error Injection </h1>
+          <aside class="notes">
+            Glyph: We've already begun work on doing this for Compute, but we
+            feel that every service should have the ability to inject arbitrary
+            errors.
+          </aside>
+        </section>
+
+        <section>
+          <h1>Even Later...</h1>
+          <aside class="notes">
+            Glyph: But that's not the only feature that we'd like to implement
+            one day.  What we'd really like is to start to build a community
+            around these testing practices, cataloguing errors, and making it
+            possible to experiment with cloud APIs in a very lightweight way.
+            We need <em>your</em> features.
+          </aside>
         </section>
 
         <section>
