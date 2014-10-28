@@ -652,7 +652,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
 
         <section>
-          <h1>self- contained</h1>
+          <h1>self-contained</h1>
           <aside class="notes">
             And entirely self-contained.
           </aside>
@@ -700,8 +700,12 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
 
         <section>
-          <h1>15 minutes vs. less than 30 seconds</h1>
-          <h2>(Functional tests using Mimic)</h2>
+          <h3>Functional Tests:</h3>
+          <h1>15 minutes</h1>
+          <h3>against a real system</h3>
+          <h2>vs.</h2>
+          <h1>30 seconds</h1>
+          <h3>against Mimic</h3>
           <aside class="notes">
 
             15 minutes to complete, and now they run in less than 30 seconds!
@@ -723,7 +727,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
 
         <section>
-          <h3>Functional tests:</h3>
+          <h3>System Integration Tests:</h3>
           <h1>3 hours or more</h1>
           <h3>against a real system</h3>
           <h2>vs.</h2>
@@ -795,7 +799,6 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
 
           </aside>
         </section>
-
 
         <section>
           <h1>Retry On Errors</h1>
@@ -903,9 +906,9 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
-          <h2><code>class IAPIMock():</code></h2>
-          <h3 class="fragment"><code>catalog_entries(...)</code></h3>
-          <h3 class="fragment"><code>resource_for_region(...)</code></h3>
+          <pre><code>class IAPIMock():</code></pre>
+          <pre class="fragment"><code>catalog_entries(...)</code></pre>
+          <pre class="fragment"><code>resource_for_region(...)</code></pre>
           <br />
           <h3 class="fragment">(that's it!)</h3>
 
@@ -922,8 +925,9 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
-          <aside class="notes">
+          
 
+          <aside class="notes">
             `resource_for_region` takes the name of a region, a URI prefix -
             produced by Mimic core to make URI for each service unique - and a
             session store where the API mock may look up state of the resources
