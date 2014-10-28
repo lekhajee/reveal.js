@@ -717,14 +717,18 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             The system integration tests would take 3 *hours* or more, cause
             if one of the servers in the test remained in the "building" state
             for fifteen minutes longer than usual, then the tests ran fifteen
-            minutes slower. 
+            minutes slower.
 
           </aside>
         </section>
 
         <section>
-          <h1> 3 hours or more vs. 3 minutes </h1>
-          <h2>(Functional tests using Mimic)</h2>
+          <h3>Functional tests:</h3>
+          <h1>3 hours or more</h1>
+          <h3>against a real system</h3>
+          <h2>vs.</h2>
+          <h1>3 minutes</h1>
+          <h3>against Mimic</h3>
           <aside class="notes">
 
             This went down to be less than 3 *minutes* (consistently) to
@@ -734,7 +738,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
 
         <section>
-          <h1> Developing on Airplane Mode! </h1>
+          <h1>Developing in<br>Airplane Mode!</h1>
           <aside class="notes">
 
             Our dev VMs are now configured to run against Mimic.
@@ -747,7 +751,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
-          <h1> What about error injection? </h1>
+          <h1> What about<br>error injection? </h1>
           <aside class="notes">
             Glyph: But Lekha, what about all the error injection stuff I
             mentioned before?  Does Mimic do that?  How did this set-up test
@@ -757,7 +761,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
 
         <section>
-          <h1> Mimic does simulate errors </h1>
+          <h1> Mimic does<br>simulate errors </h1>
           <aside class="notes">
 
             Well Glyph, I am as pleased as I am suprised that you ask that.
