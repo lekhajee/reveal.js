@@ -395,8 +395,8 @@
           </aside>
         </section>
         <section>
-          <h1>Succeeding</h1>
-          <h2>At Failure</h2>
+          <h1>Mimic Succeeds</h1>
+          <h2>At Failure!</h2>
           <aside class="notes">
             It's really important to get negative-path code right.  If
             everything is going well, it's probably okay if your code has a
@@ -905,16 +905,23 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             methods:
           </aside>
         </section>
-        <section>
-          <pre><code>class IAPIMock():</code></pre>
-          <pre class="fragment"><code>catalog_entries(...)</code></pre>
-          <pre class="fragment"><code>resource_for_region(...)</code></pre>
+        <section class="apimock">
+          <pre><code class="language-python">class IAPIMock():</code></pre>
+          <pre class="fragment"><code class="language-python">  def catalog_entries(...)</code></pre>
+          <pre class="fragment"><code class="language-python">  def resource_for_region(...)</code></pre>
           <br />
           <h3 class="fragment">(that's it!)</h3>
 
           <aside class="notes">
-            `catalog_entries` and `resource_for_region`.
+            (click) `catalog_entries` (click) and `resource_for_region`.
+          </aside>
+        </section>
 
+        <section class="apimock">
+          <pre><code class="language-python"
+>def catalog_entries(self,
+                    tenant_id):</code></pre>
+          <aside class="notes">
             `catalog_entries` takes a tenant ID and returns an iterable of
             `Entry` objects, each of which is a name and a collection of
             `Endpoint` objects, each containing a region, a URI version prefix,
@@ -924,9 +931,12 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             in turn have endpoints for each virtual region they represent.
           </aside>
         </section>
-        <section>
-          
-
+        <section class="apimock">
+          <pre><code class="language-python"
+>def resource_for_region(
+    self, region, uri_prefix,
+    session_store
+):</code></pre>
           <aside class="notes">
             `resource_for_region` takes the name of a region, a URI prefix -
             produced by Mimic core to make URI for each service unique - and a
@@ -936,7 +946,6 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             with the top level of the given region.  This resource then routes
             this request to any tenant- specific resources associated with the
             full URL path.
-
           </aside>
         </section>
         <section>
@@ -948,7 +957,6 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             and placing that instance into a module within a particular
             namespace package.  In Mimic's case, that interface is `IAPIMock`
             and that package is `mimic.plugins`.
-
           </aside>
         </section>
         <section>

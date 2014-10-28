@@ -24,3 +24,6 @@ body .reveal pre code {
     padding: 0.5em;
 }
 
+.reveal .apimock pre {
+    font-size: 34pt;
+}
