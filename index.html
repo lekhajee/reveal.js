@@ -1108,6 +1108,87 @@ the_mock_plugin = SomeAPIMock()
         </section>
 
         <section>
+          <h1>Now</h1>
+          <aside class="notes">
+            Glyph: Appropriately enough, since I'm talking about things now and
+            things in the future, the behavior-control feature I'd like to talk
+            about that that Mimic has right now is the ability to control time.
+          </aside>
+        </section>
+        <section>
+          <h1><code>now()</code></h1>
+          <aside class="notes">
+            Glyph: That is to say: when you do something against Mimic that
+            will take some time, such as building a server, time does not
+            actually pass ... for the purposes of that operation.
+          </aside>
+        </section>
+        <section>
+          <h2><code>/mimic/v1.1/tick</code></h2>
+          <aside class="notes">
+            Glyph: Instead of simply waiting 10 seconds, you can hit this
+            second out-of-band endpoint, the "tick" endpoint ...
+          </aside>
+        </section>
+        <section class="apimock">
+          <pre><code class="language-javascript"
+>{
+    "amount": 100.0
+}
+</code></pre>
+          <aside class="notes">
+            Glyph: with a payload like this.  It will tell you that time has
+            passed, like so:
+          </aside>
+        </section>
+        <section>
+          <pre style="font-size: 34px"><code class="language-javascript"
+>{
+    "advanced": 1.0,
+    "now": "1970-01-01T00:00:02.000000Z"
+}</code></pre>
+          <aside class="notes">
+            Glyph: with a payload like this.  It will tell you that time has
+            passed, like so.  Now, you may notice there's something a little
+            funny about that timestamp - it's suspiciously close to midnight,
+            january first, 1970.  Mimic begins each subsequent restart thinking
+            it's 1970, at the unix epoch; if you want to advance the clock,
+            just plug in the number of seconds since the epoch as the "amount"
+            and your mimic will appear to catch up to real time.
+          </aside>
+        </section>
+        <section>
+          <pre style="font-size: 34px"><code class="language-javascript"
+>{
+    "server": {
+        "status": "BUILD",
+        "updated": "1970-01-01T00:00:00.000000Z",
+        "OS-EXT-STS:task_state": null,
+        "user_id": "170454",
+        "addresses": {
+            "public": [
+                {
+                    "version": 4,
+                    "addr": "198.101.241.239"
+          </code></pre>
+        </section>
+        <section>
+          <pre style="font-size: 34px"><code class="language-javascript"
+>{
+    "server": {
+        "status": "ACTIVE",
+        "updated": "1970-01-01T00:00:00.000000Z",
+        "OS-EXT-STS:task_state": null,
+        "user_id": "170454",
+        "addresses": {
+            "public": [
+                {
+                    "version": 4,
+                    "addr": "198.101.241.239"
+          </code></pre>
+        </section>
+
+        <section>
           <h1>Call to Action</h1>
           <aside class="notes">
             Lekha: Mimic, can be the tool, where you do not have to stand up
