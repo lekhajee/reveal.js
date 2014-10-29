@@ -45,7 +45,7 @@
 
       <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
-        <section>
+        <section data-background="photo.png">
           <h1>Mimic</h1>
           <h2>An API Compatible Mock Service For OpenStack</h2>
         </section>
@@ -87,7 +87,7 @@
           <aside class="notes">
 
            Lekha: Before we even begin to dive into the details, let us take a
-           quick sneak peek of how __easy__ it is to get started with Mimic.
+           quick sneak peek on how <b>easy</b> it is to get started with Mimic.
 
           </aside>
         </section>
@@ -95,11 +95,13 @@
         <section data-state="first-demo">
           <video src="bootstrap.mp4" id="first-demo-video"></video>
           <aside class="notes">
-
-            Its only a 3 step process: pip install mimic, run mimic and hit
-            the endpoint! And... there is our endpoint to be able to
-            Authenticate and get a service catalog containing the (OpenStack)
-            services that Mimic implements.
+            It is <em>only</em> a 3 step process!
+            In a virtual env, we pip install mimic, run mimic and hit the
+            endpoint!
+            <br> 
+            And there is an endpoint to be able to Authenticate and get a
+            service catalog containing the (OpenStack) services that Mimic
+            implements.
 
           </aside>
         </section>
@@ -166,22 +168,44 @@
         </section>
 
         <section>
-          <h3>Rackspace Identity ≈ OpenStack Identity v2</h3>
-          <h3>Rackspace Cloud Servers ≈ OpenStack Compute</h3>
-          <h3>Rackspace Cloud Load Balancers = Custom API</h3>
+          <h2>Rackspace Identity</h2>
+          <h3 style="color:orange"> is API compatible with </h3>
+          <h2> Openstack Identity v2 </h2>
           <aside class="notes">
 
             Lekha: Rackspace Identity is API-compatible with OpenStack
-            Identity v2. Rackspace Cloud Servers is powered by and API-
-            compatible with OpenStack Compute. Although Rackspace Cloud Load
-            Balancers is a custom API.
+            Identity v2.
+
+          </aside>
+        </section>
+
+        <section>
+          <h2>Rackspace Cloud Servers</h2>
+          <h3 style="color:orange"> is API compatible with </h3>
+          <h2> Openstack Compute </h2>
+          <aside class="notes">
+
+            Lekha: Rackspace Cloud Servers is powered by and API- compatible
+            with OpenStack Compute.
+
+          </aside>
+        </section>
+
+        <section>
+          <h2>Rackspace Cloud Load Balancers</h2>
+          <h3 style="color:orange"> is a </h3>
+          <h2> Custom API </h2>
+          <aside class="notes">
+          <aside class="notes">
+
+            Lekha: Although Rackspace Cloud Load Balancers is a custom API.
 
           </aside>
         </section>
 
         <section>
           <h1>Testing</h1>
-          <h2>(for Auto Scale)</h2>
+          <h2 style="color: gray">(for Auto Scale)</h2>
           <aside class="notes">
 
             Lekha: As Auto Scale was interacting with so many other systems,
@@ -199,7 +223,7 @@
 
         <section>
           <h1>Types of Tests</h1>
-          <h2>(for Auto Scale)</h2>
+          <h2 style="color: gray">(for Auto Scale)</h2>
           <aside class="notes">
             Lekha: So, there were two kinds tests for Auto Scale:
           </aside>
