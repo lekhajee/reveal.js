@@ -106,7 +106,7 @@
           </aside>
         </section>
 
-        <section>
+        <section data-background="rewind.jpg">
           <h1>Why?</h1>
           <aside class="notes">
 
@@ -118,7 +118,9 @@
         </section>
 
         <section>
-          <h1>Auto Scale</h1>
+          <h1>Rackspace Auto Scale</h1>
+          <p style="color: orange">Opensource project</p>
+          <a href="https://github.com/rackerlabs/otter">Source Code on Github</a>
           <aside class="notes">
 
             Lekha: Rackspace Auto Scale is a system which automates the process
@@ -131,40 +133,42 @@
         </section>
 
         <section>
-          <h1>Dependencies</h1>
-          <h2>(of Auto Scale)</h2>
-          <aside class="notes">
-            Lekha: In order to perform these tasks, Auto Scale speaks to three
-            back-end Rackspace APIs.
-          </aside>
-        </section>
+          <section>
+            <h1>Dependencies</h1>
+            <h2>(of Auto Scale)</h2>
+            <aside class="notes">
+              Lekha: In order to perform these tasks, Auto Scale speaks to three
+              back-end Rackspace APIs.
+            </aside>
+          </section>
 
-        <section>
-          <h1>Rackspace Identity</h1>
-          <aside class="notes">
+          <section>
+            <h1>Rackspace Identity</h1>
+            <aside class="notes">
 
-            Lekha: Identity for authentication and impersonation.
+              Lekha: Identity for authentication and impersonation.
 
-          </aside>
-        </section>
+            </aside>
+          </section>
 
-        <section>
-          <h1>Rackspace Cloud Servers</h1>
-          <aside class="notes">
+          <section>
+            <h1>Rackspace Cloud Servers</h1>
+            <aside class="notes">
 
-            Lekha: Cloud Servers for provisioning and deleting servers.
+              Lekha: Cloud Servers for provisioning and deleting servers.
 
-          </aside>
-        </section>
+            </aside>
+          </section>
 
-        <section>
-          <h1>Rackspace Cloud Load Balancers</h1>
-          <aside class="notes">
+          <section>
+            <h1>Rackspace Cloud Load Balancers</h1>
+            <aside class="notes">
 
-            Lekha: Rackspace Cloud Load Balancers for adding and removing servers to
-            load balancers as they are created or deleted.
+              Lekha: Rackspace Cloud Load Balancers for adding and removing servers to
+              load balancers as they are created or deleted.
 
-          </aside>
+            </aside>
+          </section>
         </section>
 
         <section>
@@ -242,8 +246,8 @@
         </section>
 
         <section>
-          <h1>Types of Tests</h1>
-          <h2>System Integration</h2>
+          <h1>System Integration</h1>
+          <p> TODO: Include diagram here</p>
           <br>
           <br>
 
@@ -327,7 +331,7 @@
 
         <section>
           <h1>Testing Problems</h1>
-          <h2>(with Auto Scale)</h2>
+          <h2 style="color: gray">(with Auto Scale)</h2>
           <aside class="notes">
 
             Lekha: All these tests were set up to run against the real services.
@@ -349,7 +353,7 @@
 
         <section>
           <h1>More Problems</h1>
-          <h2>(with Auto Scale)</h2>
+          <h2 style="color: gray">(with Auto Scale)</h2>
           <aside class="notes">
 
             Lekha: Well, the overall test coverage was improving. And I
@@ -375,7 +379,7 @@
 
         <section>
           <h1>We've Had Enough!</h1>
-          <h2>(on Auto Scale)</h2>
+          <h2 style="color: gray">(on Auto Scale)</h2>
           <aside class="notes">
 
             Lekha: But! We had had enough! This had to change! we needed
@@ -878,7 +882,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h1>Too Limited</h1>
           <aside class="notes">
 
-            Glyph: However, the first implementation of mimic had some flaws,
+            Lekha: However, the first implementation of mimic had some flaws,
             it was fairly Rackspace specific and only implemented the endpoints
             of the services that Autoscale depends upon . And they were all
             implemented as part of Mimic's core. It ran each service on a
@@ -896,7 +900,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h2>Mimic 0.0 was...</h2>
           <h1>Single Region</h1>
           <aside class="notes">
-            Glyph: Mimic also did not implement multiple regions.  It used
+            Lekha: Mimic also did not implement multiple regions.  It used
             global variables for storing all state, which meant that it was
             hard to add additional endpoints with different state in the same
             running mimic instance.
@@ -1250,11 +1254,10 @@ the_mock_plugin = SomeAPIMock()
         </section>
 
         <section>
-          <h1>Call to Action</h1>
+          <h1>Mimic for OpenStack</h1>
           <aside class="notes">
             Lekha: Mimic, can be the tool, where you do not have to stand up
             the entire dev stack to understand how an OpenStack API behaves.
-
             <p>
               Mimic can be the tool which enables an OpenStack developer to get
               quick feedback on the code he/she is writing and not have to go
@@ -1276,14 +1279,32 @@ the_mock_plugin = SomeAPIMock()
           </aside>
         </section>
 
-        <!--
+        <section>
+          <h1>We need your help!</h1>
+          <a href="https://github.com/rackerlabs/mimic">Source Code on Github</a>
+          <br>
+          <a href="https://github.com/rackerlabs/mimic/issues">Issues on Github</a>
+          <p> Also join us on irc freenode on the channel:    
+            <span style="color: orange" </span> ##mimic </span>
+          </p>
+          <aside class="notes">
 
-            <section>
-              <aside class="notes">
-              </aside>
-            </section>
+            Lekha: So, please come join us build Mimic. Together we can make
+            this a repository for all known reponses (including errors!) for the
+            OpenStack APIs.  <br>
 
-            -->
+            As we mentioned earlier, Mimic is Opensource and here is the
+            github link to the repository. 
+
+            All the features or issues we are working on, or planning to work
+            on in the near future are under the issues tab on github.
+
+            You can start by using Mimic and giving us your feedback or better
+            yet, forking it and contributing to it by adding plugins for
+            services that do not exist today! 
+
+          </aside>
+        </section>
 
       </div>
 
