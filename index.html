@@ -101,7 +101,6 @@
             And there is an endpoint to be able to Authenticate and get a
             service catalog containing the (OpenStack) services that Mimic
             implements.
-
           </aside>
         </section>
 
@@ -1226,29 +1225,76 @@ the_mock_plugin = SomeAPIMock()
         <section>
           <h1>Later</h1>
           <aside class="notes">
-            Glyph: Another feature that we hope to design later is the ability
-            to inject errors ahead of time, using a separate control-plane
-            interface which is not part of a mock's endpoint.
+            Glyph: Another feature that isn't implemented yet, that we hope to
+            design later, is the ability to inject errors ahead of time, using
+            a separate control-plane interface which is not part of a mock's
+            endpoint.
           </aside>
         </section>
 
         <section>
           <h1> Error Injection </h1>
+          <h2> </h2>
           <aside class="notes">
-            Glyph: We've already begun work on doing this for Compute, but we
+            Glyph: We've begun work on a branch doing this for Compute, but we
             feel that every service should have the ability to inject arbitrary
             errors.
           </aside>
         </section>
 
         <section>
+          <h1> Error Injection </h1>
+          <h2>Currently: Metadata-Based</h2>
+          <aside class="notes">
+            Glyph: As Lekha explained, Mimic can already some inject errors by
+            supplying metadata within a request itself.
+          </aside>
+        </section>
+
+        <section>
+          <h1> Error Injection </h1>
+          <h2>Currently: In-Band</h2>
+          <aside class="notes">
+            Glyph: However, this means that in order to cause an error to
+            happen, you need to modify the request that you're making to mimic,
+            which means your application isn't <em>entirely</em> unmodified.
+          </aside>
+        </section>
+
+        <section>
+          <h1> Error Injection </h1>
+          <h2>Future: Separate Service Catalog Entry</h2>
+          <aside class="notes">
+            Glyph: What we'd like to do in the future is to put the
+            error-injection control plane into the service catalog, with a
+            special entry type so that your testing infrastructure can talk to
+            it.
+          </aside>
+        </section>
+
+        <section>
+          <h1> Error Injection </h1>
+          <h2>Future: Out-Of-Band</h2>
+          <aside class="notes">
+            Glyph: This way, your testing tool would authenticate to mimic, and
+            tell Mimic to cause certain upcoming requests to succeed or fail
+            before the system that you're testing even communicates with
+            it. Your system would not need to relay any expected-failure data
+            itself, and so no metadata would need to be passed through.
+          </aside>
+        </section>
+
+        <section>
           <h1>Even Later...</h1>
           <aside class="notes">
-            Glyph: But that's not the only feature that we'd like to implement
-            one day.  What we'd really like is to start to build a community
-            around these testing practices, cataloguing errors, and making it
-            possible to experiment with cloud APIs in a very lightweight way.
-            We need <em>your</em> features.
+            Glyph: What we'd really like to build with these out-of-band
+            failures, though, is not just a single feature, but an API that
+            allows people developing applications against openstack to make
+            those applications as robust as possible by easily determining how
+            they will react at scale, under load, and under stress, even if
+            they've never experienced those conditions.  So we need you to
+            contribute the errors and behaviors that <em>you</em> have
+            experienced.
           </aside>
         </section>
 
