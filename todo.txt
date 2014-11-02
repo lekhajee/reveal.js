@@ -1,0 +1,58 @@
+
+    - system integration test slides
+
+        - "example 1" / "example 2" -> better words
+
+    - testing / types of testing slides
+
+        - merge into one slide
+
+    - "testing problems" / "more problems"
+
+        - one slide per problem; say what the problem is specifically on the slide
+
+    - plugin section
+
+        - slides for "Entry" / "Endpoint" so it's clear what these data structures are
+
+        - slide for URL structure so that it's clearer what "return a resource"
+          means, since these kids today don't even know what a PROPFIND on an
+          entity collection is
+
+        - word wrap / hyphenation on 'entry'
+
+        - much better outro transition
+
+    - demos
+
+        - slow down a little bit, especially the error injection one
+
+        - autoplay video on speaker notes as well, hopefully times will
+          synchronize relatively closely so we can see them playing together
+
+    - visuals
+
+        - increase the size of code samples, images, and videos in the CSS
+          (especially videos)
+
+    - general->specific / specific->general
+
+        - call out what "general" refers to (mocking, testing for failure) and
+          what "specific" refers to (mimic itself, autoscale)
+
+    - error repository slides
+
+        - what errors are currently present (talk about presets & preset API
+          endpoint, maybe?)
+
+        - what is the plan for the future for making the repository of response
+          types more discoverable?
+
+    - time control
+
+        - JSON response looks unintentionally truncated
+            - 2 space indents so timestamp fits
+            - "..." instead of randomly cutting off
+
+        - highlight relevant / important areas
+
