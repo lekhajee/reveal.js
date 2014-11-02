@@ -23,6 +23,10 @@
 
         - much better outro transition
 
+    - autoscale dependencies
+
+        - remove vertical slides
+
     - demos
 
         - slow down a little bit, especially the error injection one
