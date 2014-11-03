@@ -584,8 +584,8 @@ def test_revoke_cert_process_execution_error(self):
 def test_revoke_cert_project_not_found_chdir_fails(self):
     "..."</code></pre>
           <aside class="notes">
-            Glyph: The bug here is that `chdir` does not actually return a
-            value.  Because these tests construct their own mocks for `chdir`,
+            Glyph: The bug here is that <code>chdir</code> does not actually return a
+            value.  Because these tests construct their own mocks for <code>chdir</code>,
             we properly cover all the code, but the code is not integrated with
             a system that is verified in any way against what the real system
             (in this case, Python's chdir) does.
@@ -604,7 +604,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <img src="openstack_havana_conceptual_arch.png" />
           <aside class="notes">
             Glyph: However, an OpenStack cloud is a significantly more complex
-            system than `chdir`.  If you are developing an application that
+            system than <code>chdir</code>.  If you are developing an application that
             depends on OpenStack, creating a real cloud to test against is far
             too expensive and slow as Auto Scale's experience shows.  Creating
             a one-off mock for every test is fast to get started with and fast
@@ -739,7 +739,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <aside class="notes">
             Lekha: Here is an example of how we could use Mimic against the
             OpenStack nova python client.  We're including the Mimic identity
-            endpoint as the `AUTH_URL`.
+            endpoint as the <CODE>AUTH_URL</CODE>.
           </aside>
         </section>
 
@@ -857,10 +857,10 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <aside class="notes">
 
             Lekha: Lets go back to the demo and see how this can be done. We
-            are creating a server with `metadata`: `"server_building": 30`.
+            are creating a server with <code>metadata</code>: <code>"server_building": 30</code>.
             This... will make the server stay in building state for 30
             seconds. Similarly, servers can also be made to go into error state
-            on creation, using the `metadata`: `"server_error": True`.
+            on creation, using the <code>metadata</code>: <code>"server_error": True</code>.
 
           </aside>
         </section>
@@ -871,7 +871,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
 
             Lekha: For the purposes of Auto Scale it was important that we have
             right number of servers on a scaling group, even if a number of
-            attempts to create one failed. We chose to use `metadata` for error
+            attempts to create one failed. We chose to use <code>metadata</code> for error
             injection so that requests with injected errors could also be run
             against real services. For Auto Scale, the expected end result is
             the same number of servers created, irrespective of the number of
@@ -966,19 +966,18 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h2>Plugin Interface</h2>
 
           <aside class="notes">
-            Glyph: Each plugin implements the `IAPIMock` interface, which has
-            only two methods:
+            Glyph: Each plugin is an API mock, which has only two methods:
           </aside>
         </section>
         <section class="apimock">
-          <pre><code class="language-python">class IAPIMock():</code></pre>
+          <pre><code class="language-python">class YourAPIMock():</code></pre>
           <pre class="fragment"><code class="language-python">  def catalog_entries(...)</code></pre>
           <pre class="fragment"><code class="language-python">  def resource_for_region(...)</code></pre>
           <br />
           <h3 class="fragment">(that's it!)</h3>
 
           <aside class="notes">
-            Glyph: (click) `catalog_entries` (click) and `resource_for_region`.
+            Glyph: (click) <code>catalog_entries</code> (click) and <code>resource_for_region</code>.
           </aside>
         </section>
 
@@ -988,7 +987,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
                     tenant_id):</code></pre>
           <aside class="notes">
             <p>
-              Glyph: `catalog_entries` takes a tenant ID and returns the
+              Glyph: <code>catalog_entries</code> takes a tenant ID and returns the
               entries in Mimic's service catalog for that particular API mock.
 
             <p>
@@ -996,8 +995,8 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
               endpoints for each virtual region they represent.
 
             <p>
-              This takes the form of an iterable of a class called `Entry`,
-              each of which is a name and a collection of `Endpoint` objects,
+              This takes the form of an iterable of a class called <code>Entry</code>,
+              each of which is a name and a collection of <code>Endpoint</code> objects,
               each containing a region, a URI version prefix, and a tenant ID
               of its own.
           </aside>
@@ -1009,11 +1008,11 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
     session_store
 ):</code></pre>
           <aside class="notes">
-            Glyph: `resource_for_region` takes the name of a region, a URI
+            Glyph: <code>resource_for_region</code> takes the name of a region, a URI
             prefix - produced by Mimic core to make URI for each service unique
             - and a session store where the API mock may look up state of the
             resources it pretended to provision for the respective
-            tenants. `resource_for_region` returns an HTTP resource associated
+            tenants. <code>resource_for_region</code> returns an HTTP resource associated
             with the top level of the given region.  This resource then routes
             this request to any tenant- specific resources associated with the
             full URL path.
@@ -1033,7 +1032,7 @@ the_mock_plugin = SomeAPIMock()
             plugins register themselves by instantiating a provider of that
             interface and placing that instance into a module within a
             particular namespace package.  In Mimic's case, that interface is
-            `IAPIMock` and that package is `mimic.plugins`.
+            <code>IAPIMock</code> and that package is <code>mimic.plugins</code>.
           </aside>
         </section>
         <section>
