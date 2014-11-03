@@ -54,6 +54,10 @@
           <h1>Lekha</h1>
           <h3 style="color: gray"> software developer in test</h3>
           <h3 style="color: gray"> (at) Rackspace </h3>
+          <!--img src="lekha.jpg" width=290 length=200-->
+          <p style="color: black"> github: lekhajee </p>
+          <p style="color: black"> freenode irc: lekha </p>
+          <p style="color: black"> twitter: @lekha_j1 </p>
           <aside class="notes">
             Lekha: Hi, I am Lekha Jeevan, a software developer in test at Rackspace
           </aside>
@@ -63,6 +67,9 @@
           <h1>Glyph</h1>
           <h3 style="color: gray"> software developer </h3>
           <h3 style="color: gray"> (at) Rackspace </h3>
+          <p style="color: black"> github: glyph </p>
+          <p style="color: black"> freenode irc: glyph </p>
+          <p style="color: black"> twitter: @glyph </p>
           <aside class="notes">
             Glyph: and I'm Glyph, also a software developer at Rackspace
           </aside>
@@ -117,20 +124,18 @@
 
         <section>
           <h1>Rackspace Auto Scale</h1>
-          <p style="color: orange">Opensource project</p>
-          <a href="https://github.com/rackerlabs/otter">Source Code on Github</a>
+          <p style="color: orange">An opensource project</p>
+          <a href="https://github.com/rackerlabs/otter">Source Code on Github: https://github.com/rackerlabs/otter</a>
           <aside class="notes">
 
-            Lekha: Rackspace Auto Scale is a system which automates the process
-            of getting the right amount of compute capacity for an application,
-            by creating (scaling up) and deleting (scaling down) servers and
-            associating them with load balancers.
-            <!-- TO DO: A diagram indicating the above-->
+            Lekha: Rackspace Auto Scale is an open source project. A solution
+            that Rackspace utilizes to provide the right amount of compute
+            capacity for an application, by creating (scaling up) and deleting
+            (scaling down) servers and associating them with load balancers.
 
           </aside>
         </section>
 
-        <section>
           <section>
             <h1>Dependencies</h1>
             <h2>(of Auto Scale)</h2>
@@ -167,7 +172,6 @@
 
             </aside>
           </section>
-        </section>
 
         <section>
           <h2>Rackspace Identity</h2>
@@ -183,7 +187,7 @@
 
         <section>
           <h2>Rackspace Cloud Servers</h2>
-          <h3 style="color:orange"> is API compatible with </h3>
+          <h3 style="color:orange"> is powered by </h3>
           <h2> Openstack Compute </h2>
           <aside class="notes">
 
@@ -211,23 +215,15 @@
           <aside class="notes">
 
             Lekha: As Auto Scale was interacting with so many other systems,
-            testing Auto Scale did not mean <b>just</b> testing features of Auto
-            Scale. But also that, if any of these systems it depended on did not
-            behave as expected, Auto Scale did not crumble or crash, but was consistent
-            and able to handle these upstream failures gracefully.
+            testing Auto Scale did not mean <b>just</b> testing features of
+            Auto Scale. But also that, if any of these systems it depended on
+            did not behave as expected, Auto Scale did not crumble or crash,
+            but was consistent and able to handle these upstream failures
+            gracefully.
 
-            <!-- TO DO: Include diagram to depict this. Something like-->
-            <!-- Auto Scale interacting with systems and them not responding.-->
-            <!-- But Auto Scale reponding to the end user-->
+            <br>
+            So, there were two kinds tests for Auto Scale:
 
-          </aside>
-        </section>
-
-        <section>
-          <h1>Types of Tests</h1>
-          <h2 style="color: gray">(for Auto Scale)</h2>
-          <aside class="notes">
-            Lekha: So, there were two kinds tests for Auto Scale:
           </aside>
         </section>
 
@@ -245,7 +241,6 @@
 
         <section>
           <h1>System Integration</h1>
-          <p> TODO: Include diagram here</p>
           <br>
           <br>
 
@@ -295,33 +290,30 @@
         </section>
 
         <section>
-          <h1>Types of Tests</h1>
           <h2>System Integration</h2>
-          <h2>(Example 1)</h2>
+          <h2>Success</h2>
 
           <aside class="notes">
 
-            Lekha: For example: When a scaling group was created, one such test will verify
-            that the servers on that group were provisioned successfully. That
-            is, that the servers went into an 'active' state and were added as a nodes to the
-            load balancer on the sceling group.
+            Lekha: For example: When a scaling group was created, one such
+            test will verify that the servers on that group were provisioned
+            successfully. That is, that the servers went into an 'active'
+            state and were then added as a nodes to the load balancer on the
+            sceling group.
 
-                        <!-- Include diagram to depict this and use a better heading ? -->
           </aside>
         </section>
 
         <section>
-          <h1>Types of Tests</h1>
           <h2>System Integration</h2>
-          <h2>(Example 2)</h2>
+          <h2>Failure</h2>
 
           <aside class="notes">
 
-            Lekha: Or, if a server went into an error state, (yes! that can happen!),
-            Auto Scale was able to re-provision that server succefully, and then add that
-            active server to the load balancer on the scaling group.
-
-            <!-- Include diagram to depict this and use a better heading ? -->
+            Lekha: Or, if a server went into an error state, (yes! that can
+            happen!), Auto Scale was able to re-provision that server
+            succefully, and then add that active server to the load balancer
+            on the scaling group.
 
 
           </aside>
@@ -329,29 +321,38 @@
 
         <section>
           <h1>Testing Problems</h1>
-          <h2 style="color: gray">(with Auto Scale)</h2>
+          <p text-transform:lowercase class="fragment">Servers <em>building</em> for long</p>
+          <p text-transform:lowercase class="fragment">Servers going into an <em>error</em>  state</p>
           <aside class="notes">
 
-            Lekha: All these tests were set up to run against the real services.
-            And... here are some observations I had while writing the tests:
-            Servers could take over a minute, or ten minutes, or longer to
-            provision. And the tests would run that-much-longer.
+            Lekha: All these tests were set up to run against the real
+            services. And... here are some observations I had while writing
+            the tests: Servers could take over a minute, or ten minutes, or
+            longer to provision. And the tests would run that-much-longer.
             <br>
+
             Sometimes, the tests would fail! due to raandom upstream failures.
-            Like a server would go into 'error' state, where as the <b>test</b> was
-            expecting it to go into an 'active' state.
-            <br>
-            And tests for such negative scenarios, like actually testing how
-            Auto Scale would behave if the server did go into 'error' state,
-            could not be tested. This is something that could <b>not</b> be
-            reproduced consistently.
+            Like a server would go into 'error' state, where as the
+            <b>test</b> was expecting it to go into an 'active' state.
 
           </aside>
         </section>
 
         <section>
-          <h1>More Problems</h1>
-          <h2 style="color: gray">(with Auto Scale)</h2>
+          <h2> No way to test such unknown errors!</h2>
+          <aside class="notes">
+            Lekha: And tests for such negative scenarios, like actually testing how
+            Auto Scale would behave if the server did go into 'error' state,
+            could not be tested. This is something that could <b>not</b> be
+            reproduced consistently.
+          </aside>
+        </section>
+
+
+        <section>
+          <h2>However...</h2>
+          <p class="fragment">Overall test coverage improved</p>
+          <p class="fragment">Tests included to run as the gate for Auto Scale's CI/CD</p>
           <aside class="notes">
 
             Lekha: Well, the overall test coverage was improving. And I
@@ -360,8 +361,16 @@
             <br>
             Later, we had started using these tests as a <em>gate</em>, in our merge
             pipeline.
-            <br>
-            But, the tests were running for <b>so</b> long and were sometimes flaky.
+          </aside>
+        </section>
+
+
+        <section>
+          <h2> And... things were not going well </h2>
+          <p class="fragment"> Slow and flaky tests</p>
+          <p class="fragment"> Unhappy peers</p>
+          <aside class="notes">
+            Lekha: But, the tests were running for <b>so</b> long and were sometimes flaky.
             Nobody dared to run these tests locally! Not even me, when I was
             adding more tests!
             <br>
@@ -369,8 +378,6 @@
             resources we were using up for our "Auto-scale" testing, were
             <em>not</em> happy! So much, so that, we were <em>pretty</em> glad, we were in a
             remote office!
-
-            <!--TO DO: Pictures to depict each para above-->
 
           </aside>
         </section>
