@@ -1,16 +1,4 @@
 
-    - system integration test slides
-
-        - "example 1" / "example 2" -> better words
-
-    - testing / types of testing slides
-
-        - merge into one slide
-
-    - "testing problems" / "more problems"
-
-        - one slide per problem; say what the problem is specifically on the slide
-
     - plugin section
 
         - slides for "Entry" / "Endpoint" so it's clear what these data structures are
@@ -23,13 +11,7 @@
 
         - much better outro transition
 
-    - autoscale dependencies
-
-        - remove vertical slides
-
     - demos
-
-        - slow down a little bit, especially the error injection one
 
         - autoplay video on speaker notes as well, hopefully times will
           synchronize relatively closely so we can see them playing together
