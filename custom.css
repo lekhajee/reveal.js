@@ -27,3 +27,15 @@ body .reveal pre code {
 .reveal .apimock pre {
     font-size: 34pt;
 }
+
+.deemphasized {
+    color: gray;
+}
+
+.contactlabel {
+    color: orange;
+}
+
+.contactinfo {
+    color: cyan;
+}
