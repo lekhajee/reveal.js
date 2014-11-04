@@ -1,20 +1,7 @@
 
     - plugin section
 
-        - slides for "Entry" / "Endpoint" so it's clear what these data structures are
-
-        - slide for URL structure so that it's clearer what "return a resource"
-          means, since these kids today don't even know what a PROPFIND on an
-          entity collection is
-
         - word wrap / hyphenation on 'entry'
-
-        - much better outro transition
-
-    - visuals
-
-        - increase the size of code samples, images, and videos in the CSS
-          (especially videos)
 
     - general->specific / specific->general
 
