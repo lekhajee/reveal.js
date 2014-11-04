@@ -196,7 +196,7 @@
           <h3> is API compatible with </h3>
           <h2 style="color:orange" class="fragment grow"> Openstack Identity v2 </h2>
           <aside class="notes">
-            Lekha: Rackspace Identity is API-compatible with OpenStack
+            Lekha: Rackspace Identity is API-compatible with (CLICK) OpenStack
             Identity v2.
 
           </aside>
@@ -207,7 +207,7 @@
           <h3> is powered by </h3>
           <h2 style="color:orange" class="fragment grow"> Openstack Compute </h2>
           <aside class="notes">
-            Lekha: Rackspace Cloud Servers is powered by OpenStack Compute.
+            Lekha: Rackspace Cloud Servers is powered by (CLICK) OpenStack Compute.
 
           </aside>
         </section>
@@ -308,10 +308,10 @@
             test will verify that the servers on that group were provisioned
             successfully. That is, that the servers went into an 'active'
             state and were then added as a nodes to the load balancer on the
-            sceling group.<br>
+            scaling group.(DOUBLE CLICK)<br>
             Or, if a server went into an error state, (yes! that can
             happen!), Auto Scale was able to re-provision that server
-            succefully, and then add that active server to the load balancer
+            successfully, and then add that active server to the load balancer
             on the scaling group.
 
           </aside>
@@ -323,8 +323,18 @@
           <aside class="notes">
             Lekha: All these tests were set up to run against the real
             services. And... here are some observations I had whilst writing
-            the tests: Servers could take over a minute, or ten minutes, or
+            the tests: (CLICK)<br>
+            Servers could take over a minute, or ten minutes, or
             longer to provision. And the tests would run that-much-longer.
+          </aside>
+        </section>
+
+        <section class="replace">
+          <h1> <span style="color:orange"> BUILD → <span style="display:inline-block;"><span style="color:rgb(0,255,0)" class="fragment current-visible">ACTIVE </span> <span style="color:rgb(255,0,0)" class="fragment current-visible">ERROR </span><span style="visibility:hidden">ACTIVE</span></span></h1>
+          <aside class="notes">
+            Lekha: Sometimes, the tests would fail! due to raandom upstream failures.
+            Like a test would expect a building server to go into an 'active' state,
+            but it would (CLICK) go into an ERROR state
           </aside>
         </section>
 
@@ -332,10 +342,7 @@
           <h1> No way to test</h1>
           <h1> unknown errors</h1>
           <aside class="notes">
-            Lekha: Sometimes, the tests would fail! due to raandom upstream failures.
-            Like a server would go into 'error' state, where as the
-            <b>test</b> was expecting it to go into an 'active' state.<br>
-            And tests for such negative scenarios, like actually testing how
+            Lekha: And tests for such negative scenarios, like actually testing how
             Auto Scale would behave if the server did go into 'error' state,
             could not be tested. This is something that could <b>not</b> be
             reproduced consistently.
@@ -348,11 +355,11 @@
           <h2 class="fragment">Improving test coverage</h2>
           <h2 class="fragment">Tests → gate</h2>
           <aside class="notes">
-            Lekha: However, the overall test coverage was improving. And I
+            Lekha: However, (CLICK)the overall test coverage was improving. And I
             continued to add tests, oblivious of the time it was taking run
             the entire test suite!
             <br>
-            Later, we had started using these tests as a <em>gate</em>, in the
+            Later, (CLICK) we had started using these tests as a <em>gate</em>, in the
             Autoscale merge pipeline.
           </aside>
         </section>
@@ -363,9 +370,9 @@
           <h2 class="fragment"> Slow, flaky tests</h2>
           <h2 class="fragment"> Unhappy peers</h2>
           <aside class="notes">
-            Lekha: But, the tests were running for <b>so</b> long and were sometimes flaky.
+            Lekha: And, (CLICK) the tests were running for <b>so</b> long and were sometimes flaky.
             Nobody dared to run these tests locally! Not even me, when I was
-            adding more tests!
+            adding more tests! (CLICK)
             <br>
             Also, our peers from the compute and load balancers teams, whose
             resources we were using up for our "Auto-scale" testing, were
@@ -402,7 +409,7 @@
           </center>
           <aside class="notes">
             Glyph: Now that we've had enough, how are we going to solve this
-            problem?  Since we've been proceeding from the specific case of
+            problem?  (CLICK) Since we've been proceeding from the specific case of
             Auto Scale to the general utility of Mimic, (click) let's go back to
             the general and proceed to the specific.
           </aside>
@@ -789,12 +796,12 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
 
             Lekha: Let's pip install the python nova-client and ensure the
             config file has the AUTH_URL pointing to that of Mimic. We source
-            the config file and we see that no server exist on Mimic! Let's
+            the config file and we see that no servers exist on Mimic start up! Let's
             create a server with a random flavor and image. The server created
             is in an <b> active </b> state. Lets create a second server, which
             also is built immediately and is an active state. Now we have 2
             active servers that Mimic knows of. Lets delete the second
-            server... and now Mimic knows of the deletd server and has only
+            server... and now Mimic knows of the deleted server and has only
             the one server remaining.
 
 
@@ -833,7 +840,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h3>against Mimic</h3>
           <aside class="notes">
 
-            Lekha: 15 minutes to complete, and now they run in less than 30
+            Lekha: (CLICK) 15 minutes to complete, and now they run in (CLICK)less than 30
             seconds!
 
           </aside>
@@ -860,8 +867,8 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h3>against Mimic</h3>
           <aside class="notes">
 
-            Lekha: These tests took <b>over 3 hours to complete</b> and using
-            Mimic this went down to be less than 3 *minutes*
+            Lekha: These tests took (CLICK)<b>over 3 hours to complete</b> and using
+            Mimic this went down to be (CLICK) less than 3 *minutes*
             <em>consistently</em>, to complete!
 
           </aside>
@@ -872,7 +879,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h1 style="-webkit-transform: rotateY(180deg); font-size: 800px;">✈</h1>
           <aside class="notes">
 
-            Lekha: Now, all our dev VMs are now configured to run against
+            Lekha: All our dev VMs are now configured to run against
             Mimic. <br> One of our devs from the Rackspace Cloud Intelligence
             team, calls this "Developing on Airplane Mode!", as we can work
             offline without having to worry about uptimes of the upstream
@@ -917,8 +924,8 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             Lekha:  So, we had the one active server. Now, lets  create a
             server with the `metadata`: `"server_building": 30`. This will
             keep the server in build state for 30 seconds. Now we have 2
-            servers. The active and building sever.  We can create a server
-            that goes into erro state, using the `metadata`: `"server_error":
+            servers. The active and building sever.  Also, We can create a server
+            that goes into an error state, using the `metadata`: `"server_error":
             True`. As you can see, we now have 3 different servers, with 3
             different states.
 
@@ -1000,7 +1007,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             global variables were not going to cut it any more.
           </aside>
         </section>
-        <section>
+        <section data-background="plug.jpg">
           <h1>Plugins!</h1>
           <aside class="notes">
             Glyph: So we created a plugin architecture.
@@ -1050,7 +1057,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h3 class="fragment">(that's it!)</h3>
 
           <aside class="notes">
-            Glyph: (click) <code>catalog_entries</code> (click) and <code>resource_for_region</code>.
+            Glyph: (click) <code>catalog_entries</code> (click) and <code>resource_for_region</code> (click) That's it!.
           </aside>
         </section>
 
@@ -1089,7 +1096,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
               Glyph: This takes the form of an iterable of a class called
               (CLICK) <code>Entry</code>, each of which is (CLICK) a tenant ID,
               (CLICK) a type, (CLICK) a name, (CLICK) and a collection of
-              (CLICK) <code>Endpoint</code> objects, each containing (CLICK)
+              (CLICK) <code>Endpoint</code> objects, each (CLICK) containing (CLICK)
               the name of a pretend region, (CLICK) a URI version prefix that
               should appear in the service catalog after the generated service
               URL but before the tenant ID.
@@ -1110,7 +1117,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             in any responses which need them - (CLICK) and a session store
             where the API mock may look up state of the resources it pretended
             to provision for the respective
-            tenants. <code>resource_for_region</code> returns an HTTP resource
+            tenants. (CLICK) <code>resource_for_region</code> returns an HTTP resource
             associated with the top level of the given region.  This resource
             then routes this request to any tenant- specific resources
             associated with the full URL path.
@@ -1433,7 +1440,7 @@ other_data = session.data_for_api(other_api_mock,
           <h1> Error Injection </h1>
           <h2>Currently: Metadata-Based</h2>
           <aside class="notes">
-            Glyph: As Lekha explained, Mimic can already some inject errors by
+            Glyph: As Lekha explained, Mimic can already inject some errors by
             supplying metadata within a request itself.
           </aside>
         </section>
