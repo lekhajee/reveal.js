@@ -1371,13 +1371,12 @@ other_data = session.data_for_api(other_api_mock,
     "now": "1970-01-01T00:00:01.000000Z"
 }</code></pre>
           <aside class="notes">
-            Glyph: with a payload like this.  It will tell you that time has
-            passed, like so.  Now, you may notice there's something a little
-            funny about that timestamp - it's suspiciously close to midnight,
-            january first, 1970.  Mimic begins each subsequent restart thinking
-            it's 1970, at the unix epoch; if you want to advance the clock,
-            just plug in the number of seconds since the epoch as the "amount"
-            and your mimic will appear to catch up to real time.
+            Glyph: Now, you may notice there's something a little funny about
+            that timestamp - it's suspiciously close to midnight, january
+            first, 1970.  Mimic begins each subsequent restart thinking it's
+            1970, at the unix epoch; if you want to advance the clock, just
+            plug in the number of seconds since the epoch as the "amount" and
+            your mimic will appear to catch up to real time.
           </aside>
         </section>
         <section>
