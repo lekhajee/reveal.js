@@ -6,8 +6,6 @@
 
     - error repository slides
 
-        - what errors are currently present (talk about presets & preset API
-          endpoint, maybe?)
 
         - what is the plan for the future for making the repository of response
           types more discoverable?
