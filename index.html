@@ -286,10 +286,10 @@
             test will verify that the servers on that group were provisioned
             successfully. That is, that the servers went into an 'active'
             state and were then added as a nodes to the load balancer on the
-            sceling group.<br>
+            scaling group.(CLICK)<br>
             Or, if a server went into an error state, (yes! that can
             happen!), Auto Scale was able to re-provision that server
-            succefully, and then add that active server to the load balancer
+            successfully, and then add that active server to the load balancer
             on the scaling group.
 
           </aside>
@@ -301,7 +301,8 @@
           <aside class="notes">
             Lekha: All these tests were set up to run against the real
             services. And... here are some observations I had whilst writing
-            the tests: Servers could take over a minute, or ten minutes, or
+            the tests: (CLICK)<br>
+            Servers could take over a minute, or ten minutes, or
             longer to provision. And the tests would run that-much-longer.
           </aside>
         </section>
@@ -326,11 +327,11 @@
           <h2 class="fragment">Improving test coverage</h2>
           <h2 class="fragment">Tests → gate</h2>
           <aside class="notes">
-            Lekha: However, the overall test coverage was improving. And I
+            Lekha: However, (CLICK)the overall test coverage was improving. And I
             continued to add tests, oblivious of the time it was taking run
             the entire test suite!
             <br>
-            Later, we had started using these tests as a <em>gate</em>, in the
+            Later, (CLICK) we had started using these tests as a <em>gate</em>, in the
             Autoscale merge pipeline.
           </aside>
         </section>
@@ -341,9 +342,9 @@
           <h2 class="fragment"> Slow, flaky tests</h2>
           <h2 class="fragment"> Unhappy peers</h2>
           <aside class="notes">
-            Lekha: But, the tests were running for <b>so</b> long and were sometimes flaky.
+            Lekha: And, (CLICK) the tests were running for <b>so</b> long and were sometimes flaky.
             Nobody dared to run these tests locally! Not even me, when I was
-            adding more tests!
+            adding more tests! (CLICK)
             <br>
             Also, our peers from the compute and load balancers teams, whose
             resources we were using up for our "Auto-scale" testing, were
@@ -380,7 +381,7 @@
           </center>
           <aside class="notes">
             Glyph: Now that we've had enough, how are we going to solve this
-            problem?  Since we've been proceeding from the specific case of
+            problem?  (CLICK) Since we've been proceeding from the specific case of
             Auto Scale to the general utility of Mimic, (click) let's go back to
             the general and proceed to the specific.
           </aside>
