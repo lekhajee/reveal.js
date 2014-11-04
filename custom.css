@@ -52,3 +52,13 @@ body .reveal pre code {
     background-color: black;
     text-decoration: underline;
 }
+
+.reveal .taba td:first-child {
+    text-align: right;
+    /* border: 1px solid white; */
+}
+
+.reveal .taba td:last-child {
+    text-align: left;
+    /* border: 1px solid blue; */
+}
