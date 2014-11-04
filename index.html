@@ -572,6 +572,8 @@ else:
     <span class="keyword">raise</span> exception.ProjectNotFound(
         project_id=project_id)</span></pre>
           <aside class="notes">
+            Glyph: The bug here is that <code>chdir</code> does not actually
+            return a value.
           </aside>
         </section>
         <section>
@@ -583,11 +585,10 @@ def test_revoke_cert_process_execution_error(self):
 def test_revoke_cert_project_not_found_chdir_fails(self):
     "..."</code></pre>
           <aside class="notes">
-            Glyph: The bug here is that <code>chdir</code> does not actually return a
-            value.  Because these tests construct their own mocks for <code>chdir</code>,
-            we properly cover all the code, but the code is not integrated with
-            a system that is verified in any way against what the real system
-            (in this case, Python's chdir) does.
+            Glyph: Because these tests construct their own mocks
+            for <code>chdir</code>, we properly cover all the code, but the
+            code is not integrated with a system that is verified in any way
+            against what the real system (in this case, Python's chdir) does.
           </aside>
         </section>
         <section>
@@ -602,16 +603,16 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         <section>
           <img src="openstack_havana_conceptual_arch.png" />
           <aside class="notes">
-            Glyph: However, an OpenStack cloud is a significantly more complex
-            system than <code>chdir</code>.  If you are developing an application that
-            depends on OpenStack, creating a real cloud to test against is far
-            too expensive and slow as Auto Scale's experience shows.  Creating
-            a one-off mock for every test is fast to get started with and fast
-            to run, but is error prone and rapidily becomes a significant
-            maintainance burden of its own right. Auto Scale needed something
-            that was quick to deploy, and lightweight to run like a mock, but
-            realistic and usable in an integration scenario like a __real__
-            system.
+            Glyph: However, standing up an OpenStack cloud is a significantly
+            more work than making a new folder.  If you are developing an
+            application that depends on OpenStack, creating a real cloud to
+            test against is far too expensive and slow as Auto Scale's
+            experience shows.  Creating a one-off mock for every test is fast
+            to get started with and fast to run, but is error prone and
+            rapidily becomes a significant maintainance burden of its own
+            right. Auto Scale needed something that was quick to deploy, and
+            lightweight to run like a mock, but realistic and usable in an
+            integration scenario like a __real__ system.
           </aside>
         </section>
         <section>
