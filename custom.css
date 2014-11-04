@@ -29,7 +29,8 @@ body .reveal pre code {
 }
 
 .deemphasized {
-    color: gray;
+    color: rgba(190, 190, 190, 1);
+    text-shadow: 2px 3px 4px rgba(0, 0, 0, 1);
 }
 
 .contactlabel {
