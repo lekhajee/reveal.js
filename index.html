@@ -240,7 +240,7 @@
 
         <section>
           <h1>Functional</h1>
-          <h2>(API contracts)</h2>
+          <h2>API contracts</h2>
           <aside class="notes">
             Lekha: One, was the Functional tests to validate the API
             contracts. These tests verified the responses of the Auto Scale
@@ -258,10 +258,9 @@
             <table>
               <tr>
                 <td>
-                  <h2>Auto Scale</h2>
                 </td>
                 <td>
-                  <h2>→</h2>
+                  <h2><code>↱</code></h2>
                 </td>
                 <td>
                   <h2>Identity</h2>
@@ -269,9 +268,10 @@
               </tr>
               <tr>
                 <td>
+                  <h2>Auto Scale</h2>
                 </td>
                 <td>
-                  <h2>→</h2>
+                  <h2><code>→</code></h2>
                 </td>
                 <td>
                   <h2>Compute</h2>
@@ -280,8 +280,8 @@
               <tr>
                 <td>
                 </td>
-                <td>
-                  <h2>→</h2>
+                <td style="vertical-align: top;">
+                  <h2><code>↳</code></h2>
                 </td>
                 <td>
                   <h2>Load Balancers</h2>
@@ -339,7 +339,6 @@
         </section>
 
         <section>
-          <h1> No way to test</h1>
           <h1> unknown errors</h1>
           <aside class="notes">
             Lekha: And tests for such negative scenarios, like actually testing how
@@ -705,7 +704,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
 
         <section>
-          <h1>minimal software dependencies</h1>
+          <h1>minimal<br>dependencies</h1>
           <p text-transform:lowercase> (almost entirely pure Python) </p>
           <aside class="notes">
             Lekha: with minimal software dependencies, almost entirely pure Python.
@@ -848,7 +847,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
 
         <section>
           <h1>The Results!</h1>
-          <h2>(System Integration tests using Mimic)</h2>
+          <h2>(Integration tests using Mimic)</h2>
           <aside class="notes">
 
             Lekha: In the system integration tests, if one of the servers in
@@ -859,7 +858,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
 
         <section>
-          <h3>System Integration Tests:</h3>
+          <h3>Integration Tests:</h3>
           <h1 class="fragment grow" style="color:orange">3 hours or more</h1>
           <h3>against a real system</h3>
           <h2>vs.</h2>
@@ -1148,8 +1147,12 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
-          <h1>Telling Mimic</h1>
+          <h1>Tell Mimic</h1>
           <h1>To Load It</h1>
+          <aside class="notes">
+            Glyph: Now that we have most of a plugin written, let's get Mimic
+            to load it up.
+          </aside>
         </section>
         <section>
           <pre style="font-size: 30pt;"><code class="language-python"
