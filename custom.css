@@ -39,3 +39,16 @@ body .reveal pre code {
 .contactinfo {
     color: cyan;
 }
+
+.mimic-core-url {
+    color: orange;
+}
+
+.mimic-plugin-url {
+    color: cyan;
+}
+
+.highlight-current-green.current-fragment {
+    background-color: black;
+    text-decoration: underline;
+}

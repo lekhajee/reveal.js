@@ -975,17 +975,33 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h2>Is the Entry Point</h2>
           <h3>(Not A Plugin)</h3>
           <aside class="notes">
-            Glyph: As Lekha mentioned previously, Mimic's Identity endpoint was
-            the top-level entry point to Mimic as a service; every other URL
-            was available from within the service catalog.  As we were
-            designing the plugin API, it was clear that this top-level Identity
-            endpoint needed to be the core part of Mimic, and plug-ins would
-            each add an entry for themselves to the service catalog.
+            Glyph: Mimic's Identity endpoint is the top-level entry point to
+            Mimic as a service.  Every other URL to a mock is available from
+            within the service catalog.  As we were designing the plugin API,
+            it was clear that this top-level Identity endpoint needed to be the
+            core part of Mimic, and plug-ins would each add an entry for
+            themselves to the service catalog.
           </aside>
         </section>
         <section>
-          <h1><code>IAPIMock</code></h1>
-          <h2>Plugin Interface</h2>
+          <code>
+            <span class="mimic-core-url">http://localhost:8900/
+              <br>
+              <br>mimicking/NovaApi-78bc54/ORD/</span>
+            <br><br><span class="fragment roll-in mimic-plugin-url">v2/tenant_id_f15c1028/servers</span>
+          </code>
+          <aside class="notes">
+            Glyph: URLs within Mimic's service catalog all start the same way.
+            In order to prevent conflicts between plugins, each one encodes the
+            name of your plugin and the region name specified by your plugin's
+            endpoint.  Here we can see what a URL for the Compute mock looks
+            like. This portion of the URL is handled by Mimic itself, so that
+            it's always addressing the right object. (click) Then there's the
+            part of the URL that your plugin itself handles.
+          </aside>
+        </section>
+        <section>
+          <h1>Plugin Interface:<br>“API Mock”</h1>
 
           <aside class="notes">
             Glyph: Each plugin is an API mock, which has only two methods:
@@ -1016,58 +1032,147 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
               APIs have catalog entries for each API type, which in turn have
               endpoints for each virtual region they represent.
 
+          </aside>
+        </section>
+        <section>
+<pre style="font-size: 18pt;"><span class="codelike language-python"><span class="keyword">return</span> [
+    <span class="fragment highlight-current-green">Entry</span>(
+        <span class="fragment highlight-current-green">tenant_id</span>, <span class="string"><span class="fragment highlight-current-green">"compute"</span></span>, <span class="string"><span class="fragment highlight-current-green">"cloudServersOpenStack"</span></span>,
+        <span class="fragment highlight-current-green">[
+            <span class="fragment highlight-current-green">Endpoint(tenant_id, region=<span class="string"><span class="fragment highlight-current-green">"ORD"</span></span>,
+                     endpoint_id=text_type(uuid4()),
+                     prefix=<span class="string"><span class="fragment highlight-current-green">"v2"</span></span>)</span>,
+            Endpoint(tenant_id, region=<span class="string">"DFW"</span>,
+                     endpoint_id=text_type(uuid4()),
+                     prefix=<span class="string">"v2"</span>)
+        ]</span>
+    )
+]
+</span></pre>
+          <aside class="notes">
             <p>
-              This takes the form of an iterable of a class called <code>Entry</code>,
-              each of which is a name and a collection of <code>Endpoint</code> objects,
-              each containing a region, a URI version prefix, and a tenant ID
-              of its own.
+              Glyph: This takes the form of an iterable of a class called
+              (CLICK) <code>Entry</code>, each of which is (CLICK) a tenant ID,
+              (CLICK) a type, (CLICK) a name, (CLICK) and a collection of
+              (CLICK) <code>Endpoint</code> objects, each containing (CLICK)
+              the name of a pretend region, (CLICK) a URI version prefix that
+              should appear in the service catalog after the generated service
+              URL but before the tenant ID.
           </aside>
         </section>
         <section class="apimock">
-          <pre><code class="language-python"
->def resource_for_region(
-    self, region, uri_prefix,
-    session_store
-):</code></pre>
+<pre><span class="codelike language-python"><span class="function"><span class="keyword">def</span> <span class="title">resource_for_region</span><span class="params">(
+    self, <span class="fragment highlight-current-green">region</span>, <span class="fragment highlight-current-green">uri_prefix</span>,
+    <span class="fragment highlight-current-green">session_store</span>
+)</span>:</span>
+    <span class="fragment highlight-current-green"><span class="keyword">return</span> (YourRegion(...)
+            .app.resource())</span>
+</code></pre>
           <aside class="notes">
-            Glyph: <code>resource_for_region</code> takes the name of a region, a URI
-            prefix - produced by Mimic core to make URI for each service unique
-            - and a session store where the API mock may look up state of the
-            resources it pretended to provision for the respective
-            tenants. <code>resource_for_region</code> returns an HTTP resource associated
-            with the top level of the given region.  This resource then routes
-            this request to any tenant- specific resources associated with the
-            full URL path.
+            Glyph: <code>resource_for_region</code> takes (CLICK) the name of a
+            region, (CLICK) a URI prefix - produced by Mimic core to make URI
+            for each service unique, so you can generate URLs to your services
+            in any responses which need them - (CLICK) and a session store
+            where the API mock may look up state of the resources it pretended
+            to provision for the respective
+            tenants. <code>resource_for_region</code> returns an HTTP resource
+            associated with the top level of the given region.  This resource
+            then routes this request to any tenant- specific resources
+            associated with the full URL path.
           </aside>
+        </section>
+        <section>
+          <pre style="font-size: 22pt;"><code class="language-python"
+>class YourRegion():
+
+    app = MimicApp()
+
+    @app.route('/v2/&lt;string:tenant_id&gt;/servers',
+               methods=['GET'])
+
+    def list_servers(self, request, tenant_id):
+        return json.dumps({"servers": []})
+</code></pre>
+          <aside class="notes">
+            Glyph: Once you've created a resource for your region, it has a
+            route for the parts of the URI that starts at the end of the URI
+            path.  Here you can see what the nova "list servers" endpoint would
+            look like using Mimic's API; as you can see, it's not a lot of work
+            at all to return a canned response.  It would be a little beyond
+            the scope of this brief talk to do a full tutorial of how resource
+            traversal works in the web framework that Mimic uses, but hopefully
+            this slide - which is a fully working response - shows that it
+            is pretty easy to get started.
+          </aside>
+        </section>
+        <section>
+          <h1>Telling Mimic</h1>
+          <h1>To Load It</h1>
         </section>
         <section>
           <pre style="font-size: 30pt;"><code class="language-python"
 ># mimic/plugins/your_plugin.py
 
-from your_api import SomeAPIMock
-the_mock_plugin = SomeAPIMock()
+from your_api import YourAPIMock
+the_mock_plugin = YourAPIMock()
 </code></pre>
           <aside class="notes">
-            Glyph: Mimic uses the Twisted plugin system, which has a very
-            simple model of how plugins work: you have an abstract interface -
-            some methods and attributes that you expect of a plugin - and then
-            plugins register themselves by instantiating a provider of that
-            interface and placing that instance into a module within a
-            particular namespace package.  In Mimic's case, that interface is
-            <code>IAPIMock</code> and that package is <code>mimic.plugins</code>.
+            Glyph: To register your plugin with Mimic, you just need to drop an
+            instance of it into any module of the <code>mimic.plugins</code>
+            package.
           </aside>
         </section>
         <section>
+          <h1>Mimic Remembers</h1>
+          <h2 class="fragment">(until you restart it)</h2>
           <aside class="notes">
-            Glyph: Each service can contribute to the service catalog, provide
-            entries and endpoints, and each endpoint gets added within the URI
-            hierarchy.
-
-            <!-- TODO: Demo of implementing a plugin! -->
-
+            Glyph: This, of course, just shows you how to create ephemeral,
+            static responses - but as Lekha said previously, Mimic doesn't just
+            create fake responses; it remembers - (CLICK) in memory - what
+            you've asked it to do.
           </aside>
         </section>
-        <!-- TODO: insert a segue or transition here! -->
+        <section>
+          <pre><code class="language-python"
+>session = session_store.session_for_tenant_id(tenant_id)
+class YourMockData(): "..."
+your_data = session.data_for_api(your_api_mock, YourMockData)</code></pre>
+          <aside class="notes">
+            Glyph: That "session_store" object passed to resource_for_region is
+            the place you can keep any relevant state.  It gives you a
+            per-tenant session object, and then you can ask that session for
+            any mock-specific data you want to store for that tenant.  All
+            session data is created on demand, so you pass in a callable which
+            will create your data if no data exists for that tentant/API pair.
+          </aside>
+        </section>
+        <section>
+          <pre><code class="language-python"
+>session = session_store.session_for_tenant_id(tenant_id)
+from mimic.plugins.other_mock import other_api_mock
+other_data = session.data_for_api(other_api_mock, OtherMockData)</code></pre>
+          <aside class="notes">
+            Glyph: Note that you can pass other API mocks as well, so if you
+            want to inspect a tenant's session state for other services and
+            factor that into your responses, it's easy to do so.  This pattern
+            of inspecting and manipulating a different mock's data can also be
+            used to create control planes for your plugins, so that one plugin
+            can tell another plugin how and when to fail by storing information
+            about the future expected failure on its session.
+          </aside>
+        </section>
+        <section>
+          <h1>Errors As A Service</h1>
+          <aside class="notes">
+            Glyph: We are still working on the first error-injection endpoint
+            that works this way, by having a second plugin tell the first what
+            its failures are, but this is an aspect of Mimic's development we
+            are really excited about, because that control plane API also
+            doubles as a memory of the unexpected, and even potentially
+            undocumented, ways in which the mocked service can fail.
+          </aside>
+          </aside>
+        </section>
         <section>
           <h1>Error Conditions Repository</h1>
           <aside class="notes">
@@ -1223,19 +1328,17 @@ the_mock_plugin = SomeAPIMock()
           </aside>
         </section>
         <section>
-          <pre style="font-size: 34px"><code class="language-javascript"
+          <pre style="font-size: 32px"><code class="language-javascript"
 >{
-    "server": {
-        "status": "BUILD",
-        "updated": "1970-01-01T00:00:00.000000Z",
-        "OS-EXT-STS:task_state": null,
-        "user_id": "170454",
-        "addresses": {
-            "public": [
-                {
-                    "version": 4,
-                    "addr": "198.101.241.239"
-          </code></pre>
+  "server": {
+    "status": "BUILD",
+    "updated": "1970-01-01T00:00:00.000000Z",
+    "OS-EXT-STS:task_state": null,
+    "user_id": "170454",
+    "addresses": {},
+    "...": "..."
+  }
+}</code></pre>
           <aside class="notes">
             Glyph: If you've previously created a server with "server_building"
             metadata that tells it to build for some number of seconds, and you
@@ -1244,19 +1347,17 @@ the_mock_plugin = SomeAPIMock()
           </aside>
         </section>
         <section>
-          <pre style="font-size: 34px"><code class="language-javascript"
+          <pre style="font-size: 32px"><code class="language-javascript"
 >{
-    "server": {
-        "status": "ACTIVE",
-        "updated": "1970-01-01T00:00:00.000000Z",
-        "OS-EXT-STS:task_state": null,
-        "user_id": "170454",
-        "addresses": {
-            "public": [
-                {
-                    "version": 4,
-                    "addr": "198.101.241.239"
-          </code></pre>
+  "server": {
+    "status": "ACTIVE",
+    "updated": "1970-01-01T00:00:00.000000Z",
+    "OS-EXT-STS:task_state": null,
+    "user_id": "170454",
+    "addresses": {},
+    "...": "..."
+  }
+}</code></pre>
           <aside class="notes">
             Glyph: that server (and any others) will now show up as "active",
             as it should.  This means you can set up very long timeouts, and
