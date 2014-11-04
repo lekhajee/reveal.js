@@ -6,7 +6,7 @@ Reveal.initialize({
     progress: false,
     history: true,
     center: true,
-    margin: 0.01,
+    margin: 0.04,
     maxScale: 10.0,
 
     theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
