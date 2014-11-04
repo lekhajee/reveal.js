@@ -81,6 +81,9 @@ body .reveal pre code {
     height: 450px;
 }
 
+.reveal section.replace .fragment{
+    position:absolute;
+}
 .reveal section img.grue {
     border: none;
     background-color: rgba(0, 0, 0, 0);
