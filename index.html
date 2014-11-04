@@ -1291,19 +1291,17 @@ other_data = session.data_for_api(other_api_mock, OtherMockData)</code></pre>
           </aside>
         </section>
         <section>
-          <pre style="font-size: 34px"><code class="language-javascript"
+          <pre style="font-size: 32px"><code class="language-javascript"
 >{
-    "server": {
-        "status": "BUILD",
-        "updated": "1970-01-01T00:00:00.000000Z",
-        "OS-EXT-STS:task_state": null,
-        "user_id": "170454",
-        "addresses": {
-            "public": [
-                {
-                    "version": 4,
-                    "addr": "198.101.241.239"
-          </code></pre>
+  "server": {
+    "status": "BUILD",
+    "updated": "1970-01-01T00:00:00.000000Z",
+    "OS-EXT-STS:task_state": null,
+    "user_id": "170454",
+    "addresses": {},
+    "...": "..."
+  }
+}</code></pre>
           <aside class="notes">
             Glyph: If you've previously created a server with "server_building"
             metadata that tells it to build for some number of seconds, and you
@@ -1312,19 +1310,17 @@ other_data = session.data_for_api(other_api_mock, OtherMockData)</code></pre>
           </aside>
         </section>
         <section>
-          <pre style="font-size: 34px"><code class="language-javascript"
+          <pre style="font-size: 32px"><code class="language-javascript"
 >{
-    "server": {
-        "status": "ACTIVE",
-        "updated": "1970-01-01T00:00:00.000000Z",
-        "OS-EXT-STS:task_state": null,
-        "user_id": "170454",
-        "addresses": {
-            "public": [
-                {
-                    "version": 4,
-                    "addr": "198.101.241.239"
-          </code></pre>
+  "server": {
+    "status": "ACTIVE",
+    "updated": "1970-01-01T00:00:00.000000Z",
+    "OS-EXT-STS:task_state": null,
+    "user_id": "170454",
+    "addresses": {},
+    "...": "..."
+  }
+}</code></pre>
           <aside class="notes">
             Glyph: that server (and any others) will now show up as "active",
             as it should.  This means you can set up very long timeouts, and

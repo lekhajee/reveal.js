@@ -11,12 +11,3 @@
 
         - what is the plan for the future for making the repository of response
           types more discoverable?
-
-    - time control
-
-        - JSON response looks unintentionally truncated
-            - 2 space indents so timestamp fits
-            - "..." instead of randomly cutting off
-
-        - highlight relevant / important areas
-
