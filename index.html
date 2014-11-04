@@ -101,6 +101,19 @@
           </aside>
         </section>
 
+        <section>
+          <h1>Who?</h1>
+          <aside class="notes">
+            Lekha: I originally created Mimic to help with testing Rackspace
+            Auto Scale, but as I was creating it I realized I wanted to make
+            something re-usable that many projects across Rackspace and
+            OpenStack could use.
+            <br>
+            Glyph: I came on to the project later on and I've been helping to
+            flesh out its architecture, making it more generic and modular.
+          </aside>
+        </section>
+
         <section data-background="rs.jpg">
           <h1>Sneak Peek</h1>
           <aside class="notes">
@@ -125,10 +138,9 @@
         <section data-background="rewind.jpg">
           <h1>Why?</h1>
           <aside class="notes">
-            Glyph: While Mimic is hopefully general purpose, it was originally
+            Lekha: While Mimic is hopefully general purpose, it was originally
             created for testing a specific application: Rackspace Auto Scale.
             So let's talk about that.
-
           </aside>
         </section>
 
@@ -156,7 +168,7 @@
           </section>
 
           <section>
-            <h1>Rackspace Identity</h1>
+            <h1>Rackspace<br>Identity</h1>
             <aside class="notes">
               Lekha: Identity for authentication and impersonation.
 
@@ -164,7 +176,7 @@
           </section>
 
           <section>
-            <h1>Rackspace Cloud Servers</h1>
+            <h1>Rackspace<br>Cloud Servers</h1>
             <aside class="notes">
               Lekha: Cloud Servers for provisioning and deleting servers.
 
@@ -172,11 +184,10 @@
           </section>
 
           <section>
-            <h1>Rackspace Cloud Load Balancers</h1>
+            <h1>Rackspace<br>Cloud Load Balancers</h1>
             <aside class="notes">
               Lekha: Rackspace Cloud Load Balancers for adding and removing servers to
               load balancers as they are created or deleted.
-
             </aside>
           </section>
 
@@ -204,11 +215,10 @@
         <section>
           <h2>Rackspace Cloud Load Balancers</h2>
           <h3> is a </h3>
-          <h2 style="color:orange"> Custom API </h2>
+          <h2 style="color:orange" class="fragment shrink"> Custom API </h2>
           <aside class="notes">
           <aside class="notes">
             Lekha: Although Rackspace Cloud Load Balancers is a custom API.
-
           </aside>
         </section>
 
@@ -1017,20 +1027,19 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
-          <code>
-            <span class="mimic-core-url">http://localhost:8900/
-              <br>
-              <br>mimicking/NovaApi-78bc54/ORD/</span>
-            <br><br><span class="fragment roll-in mimic-plugin-url">v2/tenant_id_f15c1028/servers</span>
+          <code style="font-size: 48px; line-height: 1.4em;">
+            <span class="fragment mimic-core-url">http://localhost:8900/mimicking/ NovaApi-78bc54/ORD/</span> <span class="fragment mimic-plugin-url">v2/tenant_id_f15c1028/servers</span>
           </code>
           <aside class="notes">
-            Glyph: URLs within Mimic's service catalog all start the same way.
-            In order to prevent conflicts between plugins, each one encodes the
-            name of your plugin and the region name specified by your plugin's
-            endpoint.  Here we can see what a URL for the Compute mock looks
-            like. This portion of the URL is handled by Mimic itself, so that
-            it's always addressing the right object. (click) Then there's the
-            part of the URL that your plugin itself handles.
+            Glyph: URLs within Mimic's service catalog all look similar.  In
+            order to prevent conflicts between plugins, Mimic's core one
+            encodes the name of your plugin and the region name specified by
+            your plugin's endpoint.  Here we can see what a URL for the Compute
+            mock looks like. (CLICK) This portion of the URL, which identifies
+            which mock is being referenced, is handled by Mimic itself, so that
+            it's always addressing the right plugin. (CLICK) Then there's the
+            part of the URL that your plugin itself handles, which identifies
+            the tenant and the endpoint within your API.
           </aside>
         </section>
         <section>
@@ -1166,10 +1175,14 @@ the_mock_plugin = YourAPIMock()
           </aside>
         </section>
         <section>
-          <pre><code class="language-python"
+          <pre style="font-size: 26px;"><code class="language-python"
 >session = session_store.session_for_tenant_id(tenant_id)
-class YourMockData(): "..."
-your_data = session.data_for_api(your_api_mock, YourMockData)</code></pre>
+
+class YourMockData():
+    "..."
+
+your_data = session.data_for_api(your_api_mock,
+                                 YourMockData)</code></pre>
           <aside class="notes">
             Glyph: That "session_store" object passed to resource_for_region is
             the place you can keep any relevant state.  It gives you a
@@ -1180,10 +1193,14 @@ your_data = session.data_for_api(your_api_mock, YourMockData)</code></pre>
           </aside>
         </section>
         <section>
-          <pre><code class="language-python"
+          <pre style="font-size: 26px;"><code class="language-python"
 >session = session_store.session_for_tenant_id(tenant_id)
-from mimic.plugins.other_mock import other_api_mock
-other_data = session.data_for_api(other_api_mock, OtherMockData)</code></pre>
+
+from mimic.plugins.other_mock import (other_api_mock,
+                                      OtherMockData)
+
+other_data = session.data_for_api(other_api_mock,
+                                  OtherMockData)</code></pre>
           <aside class="notes">
             Glyph: Note that you can pass other API mocks as well, so if you
             want to inspect a tenant's session state for other services and
@@ -1348,7 +1365,7 @@ other_data = session.data_for_api(other_api_mock, OtherMockData)</code></pre>
           <pre style="font-size: 34px"><code class="language-javascript"
 >{
     "advanced": 1.0,
-    "now": "1970-01-01T00:00:02.000000Z"
+    "now": "1970-01-01T00:00:01.000000Z"
 }</code></pre>
           <aside class="notes">
             Glyph: with a payload like this.  It will tell you that time has
@@ -1384,7 +1401,7 @@ other_data = session.data_for_api(other_api_mock, OtherMockData)</code></pre>
 >{
   "server": {
     "status": "ACTIVE",
-    "updated": "1970-01-01T00:00:00.000000Z",
+    "updated": "1970-01-01T00:00:01.000000Z",
     "OS-EXT-STS:task_state": null,
     "user_id": "170454",
     "addresses": {},
@@ -1462,7 +1479,8 @@ other_data = session.data_for_api(other_api_mock, OtherMockData)</code></pre>
         </section>
 
         <section>
-          <h1>Even Later...</h1>
+          <h1>Error Injection</h1>
+          <h2>Future: With Your Help</h2>
           <aside class="notes">
             Glyph: What we'd really like to build with these out-of-band
             failures, though, is not just a single feature, but an API that
@@ -1472,6 +1490,51 @@ other_data = session.data_for_api(other_api_mock, OtherMockData)</code></pre>
             they've never experienced those conditions.  So we need you to
             contribute the errors and behaviors that <em>you</em> have
             experienced.
+          </aside>
+        </section>
+
+        <section>
+          <h1>Even Later...</h1>
+          <aside class="notes">
+            Glyph: Mimic is based on a networking framework ...
+          </aside>
+        </section>
+
+        <section>
+          <img src="gruehead.png" class="grue">
+          <aside class="notes">
+            Glyph: ... some of you know which one I'm talking about ...
+          </aside>
+        </section>
+
+        <section>
+          <h1>Even Later...</h1>
+          <h2>Future Possibilities,<br>Crazy Features!</h2>
+          <aside class="notes">
+            Glyph: ... which has such features as built-in DNS and SSH servers.
+          </aside>
+        </section>
+
+        <section>
+          <h2>Even Later...</h2>
+          <h1>Real <span class="contactlabel">SSH</span> Server</h1>
+          <h2 class="deemphasized">For Fake Servers</h2>
+          <aside class="notes">
+            Glyph: It would be really cool if when a virtual server was booted,
+            the advertised SSH port really did give you access to an SSH
+            server, albeit one that can be cheaply created from a local shell
+            as a restricted user or a container deployment, not a real virtual
+            machine.
+          </aside>
+        </section>
+
+        <section>
+          <h2>Even Later...</h2>
+          <h1>Real <span class="contactinfo">DNS</span> Server</h1>
+          <h2 class="deemphasized">For Fake Zones</h2>
+          <aside class="notes">
+            Glyph: Similarly, if we were to have a Desginate mock, it would be
+            really cool to have real DNS entries.
           </aside>
         </section>
 
@@ -1503,12 +1566,19 @@ other_data = session.data_for_api(other_api_mock, OtherMockData)</code></pre>
 
         <section>
           <h1>We need your help!</h1>
-          <a href="https://github.com/rackerlabs/mimic">Source: https://github.com/rackerlabs/mimic</a>
-          <br>
-          <a href="https://github.com/rackerlabs/mimic/issues">Issues on Github</a>
-          <p> Also join us on the irc freenode channel:    
-            <span style="color: orange" </span> ##mimic </span>
-          </p>
+          <center>
+            <table>
+              <tr>
+                <td class="contactlabel">Source:</td> <td class="contactinfo"><a href="https://github.com/rackerlabs/mimic">https://github.com/rackerlabs/mimic</a></td>
+              </tr>
+              <tr>
+                <td class="contactlabel">Issues:</td> <td class="contactinfo"><a href="https://github.com/rackerlabs/mimic">https://github.com/rackerlabs/mimic/issues</a></td>
+              </tr>
+              <tr>
+                <td class="contactlabel">Chat:</td> <td class="contactinfo"><a href="irc://chat.freenode.net/##mimic">##mimic on Freenode</a></td>
+              </tr>
+            </table>
+          </center>
           <aside class="notes">
 
             Lekha: So, please come join us build Mimic. Together we can make

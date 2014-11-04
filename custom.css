@@ -28,7 +28,7 @@ body .reveal pre code {
     font-size: 34pt;
 }
 
-.deemphasized {
+.reveal section .deemphasized {
     color: rgba(190, 190, 190, 1);
     text-shadow: 2px 3px 4px rgba(0, 0, 0, 1);
 }
@@ -41,12 +41,16 @@ body .reveal pre code {
     color: cyan;
 }
 
-.mimic-core-url {
+.mimic-core-url.visible {
     color: orange;
+    background-color: rgba(253, 164, 40, 0.10);
+    border: 1px solid rgba(253, 164, 40, 0.50);
 }
 
-.mimic-plugin-url {
+.mimic-plugin-url.visible {
     color: cyan;
+    background-color: rgba(45, 255, 254, 0.10);
+    border: 1px solid rgba(45, 255, 254, 0.50);
 }
 
 .highlight-current-green.current-fragment {
@@ -79,4 +83,14 @@ body .reveal pre code {
 
 .reveal section.replace .fragment{
     position:absolute;
+}
+.reveal section img.grue {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.reveal .slides section .fragment.mimic-core-url,
+.reveal .slides section .fragment.mimic-plugin-url
+{
+    opacity: 1;
 }
