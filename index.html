@@ -92,9 +92,8 @@
         <section>
           <h1>Sneak Peek</h1>
           <aside class="notes">
-
            Lekha: Before we even begin to dive into the details, let us take a
-           quick sneak peek on how <b>easy</b> it is to get started with Mimic.
+           quick sneak peek to see how <b>easy</b> it is to get started with Mimic.
 
           </aside>
         </section>
@@ -102,11 +101,12 @@
         <section data-state="first-demo">
           <video src="bootstrap.mp4" id="first-demo-video"></video>
           <aside class="notes">
-            Lekha: It is <em>only</em> a 3 step process!  In a virtual env, we
-            pip install mimic, run mimic and hit the endpoint!
+            Lekha: It is <em>only</em> a 3 step process!  In a virtual env, we 
+            pip install mimic, run mimic and make a GET request on localhost with
+            port 8900!
             <br>
-            And there is an endpoint to be able to Authenticate and get a
-            service catalog containing the (OpenStack) services that Mimic
+            Mimic returns the Authentication endpoint, to be able to Authenticate, 
+            and get a service catalog containing the (OpenStack) services that Mimic
             implements.
           </aside>
         </section>
@@ -114,7 +114,6 @@
         <section data-background="rewind.jpg">
           <h1>Why?</h1>
           <aside class="notes">
-
             Glyph: While Mimic is hopefully general purpose, it was originally
             created for testing a specific application: Rackspace Auto Scale.
             So let's talk about that.
@@ -125,13 +124,13 @@
         <section>
           <h1>Rackspace Auto Scale</h1>
           <p style="color: orange">An opensource project</p>
-          <a href="https://github.com/rackerlabs/otter">Source Code on Github: https://github.com/rackerlabs/otter</a>
+          <a href="https://github.com/rackerlabs/otter">Source: https://github.com/rackerlabs/otter</a>
           <aside class="notes">
-
             Lekha: Rackspace Auto Scale is an open source project. A solution
-            that Rackspace utilizes to provide the right amount of compute
-            capacity for an application, by creating (scaling up) and deleting
-            (scaling down) servers and associating them with load balancers.
+            that Rackspace utilizes to automate the process of getting the right
+            amount of compute capacity for an application, by creating (scaling up)
+            and deleting(scaling down) servers and associating them with 
+            load balancers.
 
           </aside>
         </section>
@@ -148,7 +147,6 @@
           <section>
             <h1>Rackspace Identity</h1>
             <aside class="notes">
-
               Lekha: Identity for authentication and impersonation.
 
             </aside>
@@ -157,7 +155,6 @@
           <section>
             <h1>Rackspace Cloud Servers</h1>
             <aside class="notes">
-
               Lekha: Cloud Servers for provisioning and deleting servers.
 
             </aside>
@@ -166,7 +163,6 @@
           <section>
             <h1>Rackspace Cloud Load Balancers</h1>
             <aside class="notes">
-
               Lekha: Rackspace Cloud Load Balancers for adding and removing servers to
               load balancers as they are created or deleted.
 
@@ -175,10 +171,9 @@
 
         <section>
           <h2>Rackspace Identity</h2>
-          <h3 style="color:orange"> is API compatible with </h3>
-          <h2> Openstack Identity v2 </h2>
+          <h3> is API compatible with </h3>
+          <h2 style="color:orange" class="fragment grow"> Openstack Identity v2 </h2>
           <aside class="notes">
-
             Lekha: Rackspace Identity is API-compatible with OpenStack
             Identity v2.
 
@@ -187,23 +182,20 @@
 
         <section>
           <h2>Rackspace Cloud Servers</h2>
-          <h3 style="color:orange"> is powered by </h3>
-          <h2> Openstack Compute </h2>
+          <h3> is powered by </h3>
+          <h2 style="color:orange" class="fragment grow"> Openstack Compute </h2>
           <aside class="notes">
-
-            Lekha: Rackspace Cloud Servers is powered by and API- compatible
-            with OpenStack Compute.
+            Lekha: Rackspace Cloud Servers is powered by OpenStack Compute.
 
           </aside>
         </section>
 
         <section>
           <h2>Rackspace Cloud Load Balancers</h2>
-          <h3 style="color:orange"> is a </h3>
+          <h3> is a </h3>
           <h2> Custom API </h2>
           <aside class="notes">
           <aside class="notes">
-
             Lekha: Although Rackspace Cloud Load Balancers is a custom API.
 
           </aside>
@@ -213,14 +205,12 @@
           <h1>Testing</h1>
           <h2 class="deemphasized">(for Auto Scale)</h2>
           <aside class="notes">
-
             Lekha: As Auto Scale was interacting with so many other systems,
             testing Auto Scale did not mean <b>just</b> testing features of
             Auto Scale. But also that, if any of these systems it depended on
-            did not behave as expected, Auto Scale did not crumble or crash,
+            did not behave as expected, Auto Scale did not crumble and crash,
             but was consistent and able to handle these upstream failures
             gracefully.
-
             <br>
             So, there were two kinds tests for Auto Scale:
 
@@ -231,7 +221,6 @@
           <h1>Functional</h1>
           <h2>(API contracts)</h2>
           <aside class="notes">
-
             Lekha: One, was the Functional tests to validate the API
             contracts. These tests verified the responses of the Auto Scale
             API calls given valid, or malformed requests.
@@ -281,7 +270,6 @@
           </center>
 
           <aside class="notes">
-
             Lekha: And the other was the System integration tests. Theese,
             were more complex. These tests verified integration between Auto
             Scale and Identity, Compute, and Load balancers.
@@ -290,58 +278,43 @@
         </section>
 
         <section>
-          <h2>System Integration</h2>
-          <h2>Success</h2>
+          <h1>System Integration</h1>
+          <h2 class="fragment fade-out">Success</h2>
+          <h2 class="fragment current-visible">Failure</h2>
 
           <aside class="notes">
-
             Lekha: For example: When a scaling group was created, one such
             test will verify that the servers on that group were provisioned
             successfully. That is, that the servers went into an 'active'
             state and were then added as a nodes to the load balancer on the
-            sceling group.
-
-          </aside>
-        </section>
-
-        <section>
-          <h2>System Integration</h2>
-          <h2>Failure</h2>
-
-          <aside class="notes">
-
-            Lekha: Or, if a server went into an error state, (yes! that can
+            sceling group.<br>
+            Or, if a server went into an error state, (yes! that can
             happen!), Auto Scale was able to re-provision that server
             succefully, and then add that active server to the load balancer
             on the scaling group.
-
 
           </aside>
         </section>
 
         <section>
           <h1>Testing Problems</h1>
-          <p text-transform:lowercase class="fragment">Servers <em>building</em> for long</p>
-          <p text-transform:lowercase class="fragment">Servers going into an <em>error</em>  state</p>
+          <h2 class="fragment">Server build times == Test run time</h2>
           <aside class="notes">
-
             Lekha: All these tests were set up to run against the real
-            services. And... here are some observations I had while writing
+            services. And... here are some observations I had whilst writing
             the tests: Servers could take over a minute, or ten minutes, or
             longer to provision. And the tests would run that-much-longer.
-            <br>
-
-            Sometimes, the tests would fail! due to raandom upstream failures.
-            Like a server would go into 'error' state, where as the
-            <b>test</b> was expecting it to go into an 'active' state.
-
           </aside>
         </section>
 
         <section>
-          <h2> No way to test such unknown errors!</h2>
+          <h1> No way to test</h1>
+          <h1> unknown errors</h1>
           <aside class="notes">
-            Lekha: And tests for such negative scenarios, like actually testing how
+            Lekha: Sometimes, the tests would fail! due to raandom upstream failures.
+            Like a server would go into 'error' state, where as the
+            <b>test</b> was expecting it to go into an 'active' state.<br>
+            And tests for such negative scenarios, like actually testing how
             Auto Scale would behave if the server did go into 'error' state,
             could not be tested. This is something that could <b>not</b> be
             reproduced consistently.
@@ -350,25 +323,24 @@
 
 
         <section>
-          <h2>However...</h2>
-          <p class="fragment">Overall test coverage improved</p>
-          <p class="fragment">Tests included to run as the gate for Auto Scale's CI/CD</p>
+          <h1>However...</h1>
+          <h2 class="fragment">Improving test coverage</h2>
+          <h2 class="fragment">Tests → gate</h2>
           <aside class="notes">
-
-            Lekha: Well, the overall test coverage was improving. And I
+            Lekha: However, the overall test coverage was improving. And I
             continued to add tests, oblivious of the time it was taking run
             the entire test suite!
             <br>
-            Later, we had started using these tests as a <em>gate</em>, in our merge
-            pipeline.
+            Later, we had started using these tests as a <em>gate</em>, in the
+            Autoscale merge pipeline.
           </aside>
         </section>
 
 
         <section>
-          <h2> And... things were not going well </h2>
-          <p class="fragment"> Slow and flaky tests</p>
-          <p class="fragment"> Unhappy peers</p>
+          <h1> And... </h1>
+          <h2 class="fragment"> Slow, flaky tests</h2>
+          <h2 class="fragment"> Unhappy peers</h2>
           <aside class="notes">
             Lekha: But, the tests were running for <b>so</b> long and were sometimes flaky.
             Nobody dared to run these tests locally! Not even me, when I was
@@ -386,7 +358,6 @@
           <h1>We've Had Enough!</h1>
           <h2 class="deemphasized">(on Auto Scale)</h2>
           <aside class="notes">
-
             Lekha: But! We had had enough! This had to change! we needed
             something! to save us from these slow flaky tests!
 
@@ -647,12 +618,10 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <aside class="notes">
             Lekha: ...pretend to authenticate.
             <br>
-
             Mimic does not validate credentials - all authentications will
             succeed. As with the real Identity endpoint, Mimic's identity
             endpoint has a service catalog which includes URLs for all the
             services implemented within Mimic. <br>
-
             A well behaved OpenStack client will use the service catalog to
             look up URLs for its service endpoints. Such a client will only
             need two pieces of configuration to begin communicating with the
@@ -674,11 +643,10 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
         <section>
           <h1>Pretending</h1>
-          <h2>is <em>faster</em> than working</h2>
+          <h2>is <em>faster</em></h2>
           <aside class="notes">
-
             Lekha: Mimic was originally created to speed things up. So, it was
-            very important that it be fast both to respond to requests and to
+            very important that - it be fast both to respond to requests, and to
             have developers setup.
 
           </aside>
@@ -706,7 +674,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             </span>
           </h1>
           <aside class="notes">
-            Lekha: No service dependencies
+            Lekha: With no service dependencies
           </aside>
         </section>
 
@@ -717,29 +685,70 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             </span>
           </h1>
           <aside class="notes">
-            Lekha: No configuration
+            Lekha: and no configuration
           </aside>
         </section>
 
         <section>
           <h1>self-contained</h1>
           <aside class="notes">
-            Lekha: And entirely self-contained.
+            Lekha: And is entirely self-contained.
           </aside>
         </section>
 
         <section>
           <h1>Demo!</h1>
+          <h2 style="color: orange"> Nova comand-line client <h2>
           <aside class="notes">
-            Lekha: Here is a quick demo.
+            Lekha: Lets see how we can run the python nova command-line client against Mimic
+          </aside>
+        </section>
+
+
+        <section>
+          <h1>config.sh</h1>
+  <pre style="font-size: 21px"><span class="codelike" style="padding: 1em;">
+  <span class="keyword">export</span> OS_USERNAME=username
+  <span class="keyword">export</span> OS_PASSWORD=password
+  <span class="keyword">export</span> OS_TENANT_NAME=11111
+  <span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</pre>
+          <aside class="notes">
+            Lekha: Here is the config file that holds
+            the  environment variables required for the OpenStack 
+            command-line clients. 
           </aside>
         </section>
         <section>
+          <h1>config.sh</h1>
+  <pre style="font-size: 21px"><span class="codelike" style="padding: 1em;">
+  <span class="highlighted"><span class="keyword">export</span> OS_USERNAME=username</span>
+  <span class="highlighted"><span class="keyword">export</span> OS_PASSWORD=password</span>
+  <span class="highlighted"><span class="keyword">export</span> OS_TENANT_NAME=11111</span>
+  <span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</pre>
+          <aside class="notes">
+            Lekha: We have set a random username, password
+            and tenant name, as Mimic only <em>pretends</em> to authenticate
+
+          </aside>
+        </section>
+        <section>
+          <h1>config.sh</h1>
+  <pre style="font-size: 21px"><span class="codelike" style="padding: 1em;">
+  <span class="keyword">export</span> OS_USERNAME=username
+  <span class="keyword">export</span> OS_PASSWORD=password
+  <span class="keyword">export</span> OS_TENANT_NAME=11111
+  <span class="highlighted"><span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</span></pre>
+          <aside class="notes">
+            Lekha: And the Auth url is set to be that of Mimic.
+            <br>
+            Now, let's continue where we left off with our first demo. So we already have an instance of mimic running.
+          </aside>
+        </section>
+
+        <section>
           <video src="python-client-demo.mp4">
           <aside class="notes">
-            Lekha: Here is an example of how we could use Mimic against the
-            OpenStack nova python client.  We're including the Mimic identity
-            endpoint as the `AUTH_URL`.
+            Lekha: Let's pip install the python nova-client and ensure the config file has the AUTH_URL pointing to that of Mimic. We source the config file and we see that no server exist on Mimic! Let's create a server with a random flavor and image. The server created is in an <b> active </b> state. Lets create a second server, which also is built immediately and is an active state. Now we have 2 active servers that Mimic knows of. Lets delete the second server... and now Mimic knows of the deletd server and has only the one server remaining.
           </aside>
         </section>
 
@@ -749,7 +758,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <aside class="notes">
 
             Lekha: We did the same thing with Auto Scale. We pointed the tests
-            and Autoscale to run against an instance of Mimic.
+            and the Autoscale API to run against an instance of Mimic.
 
           </aside>
         </section>
@@ -760,18 +769,17 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h2>(Functional tests using Mimic)</h2>
           <aside class="notes">
 
-            Lekha: This reduced the test time exponentially! Before Mimic the
-            functional tests would take...
+            Lekha: This reduced the test time exponentially! Before Mimic the functional tests would take...
 
           </aside>
         </section>
 
         <section>
           <h3>Functional Tests:</h3>
-          <h1>15 minutes</h1>
+          <h1 class="fragment grow" style="color:orange">15 minutes</h1>
           <h3>against a real system</h3>
           <h2>vs.</h2>
-          <h1>30 seconds</h1>
+          <h1 class="fragment grow" style="color:orange">30 seconds</h1>
           <h3>against Mimic</h3>
           <aside class="notes">
 
@@ -785,23 +793,25 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h1>The Results!</h1>
           <h2>(System Integration tests using Mimic)</h2>
           <aside class="notes">
-            Lekha: The system integration tests would take 3 *hours* or more,
-            cause if one of the servers in the test remained in the "building"
-            state for fifteen minutes longer than usual, then the tests ran
-            fifteen minutes slower.
+
+            Lekha: In the system integration tests, if one of the servers in
+            the test remained in "building" for fifteen minutes longer than
+            usual, then the tests ran fifteen minutes slower. And hence, these
+            tests took  <b>over 3 hours to complete</b>.
+
           </aside>
         </section>
 
         <section>
           <h3>System Integration Tests:</h3>
-          <h1>3 hours or more</h1>
+          <h1 class="fragment grow" style="color:orange">3 hours or more</h1>
           <h3>against a real system</h3>
           <h2>vs.</h2>
-          <h1>3 minutes</h1>
+          <h1 class="fragment grow" style="color:orange">3 minutes</h1>
           <h3>against Mimic</h3>
           <aside class="notes">
 
-            Lekha: This went down to be less than 3 *minutes* (consistently) to
+            Lekha: and using Mimic this went down to be less than 3 *minutes* <em>consistently</em> to
             complete!
 
           </aside>
@@ -811,12 +821,11 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h1 style="font-size: 800px;">✈</h1>
           <aside class="notes">
 
-            Lekha: Our dev VMs are now configured to run against Mimic.
-
+            Lekha: Now, all our dev VMs are now configured to run against Mimic.
+            <br>
             One of our devs from the Rackspace Cloud Intelligence team, calls
-            this "Developing on Airplane Mode!", as devs get immediate
-            feedback on the code being written and we can work offline without
-            having to worry about uptimes of the upstream systems.
+            this "Developing on Airplane Mode!", as we can work offline without
+            having to worry about uptimes of the upstream systems and get immediate feedback on the code being written.
 
           </aside>
         </section>
@@ -832,7 +841,6 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         <section>
           <h1> Mimic does<br>simulate errors </h1>
           <aside class="notes">
-
             Lekha: Well Glyph, I am as pleased as I am suprised that you ask
             that.  Mimic does simulate errors.
 
@@ -842,12 +850,11 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         <section>
           <h1>Error injection using <code>metadata</code></h1>
           <aside class="notes">
-
             Lekha: Earlier, when I said Mimic pretends to create a server, that
             wasn't entirely true - sometimes Mimic pretends to *not* create a
             server.  It uses the metadata provided during the creation of the
             server, inspects the metadata, and sets the state of the server
-            respectively.
+            respectively.Lets go back to the demo and see how this can be done.
 
           </aside>
         </section>
@@ -855,12 +862,9 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         <section>
           <video src="error-injection-demo.mp4"></video>
           <aside class="notes">
-
-            Lekha: Lets go back to the demo and see how this can be done. We
-            are creating a server with `metadata`: `"server_building": 30`.
-            This... will make the server stay in building state for 30
-            seconds. Similarly, servers can also be made to go into error state
-            on creation, using the `metadata`: `"server_error": True`.
+            Lekha:  So, we had the one active server. Now, lets 
+            create a server with the `metadata`: `"server_building": 30`. This will keep the server in build state for 30 seconds. Now we have 2 servers. The active and building sever.
+             We can create a server that goes into erro state, using the `metadata`: `"server_error": True`. As you can see, we now have 3 different servers, with 3 different states.
 
           </aside>
         </section>
@@ -868,7 +872,6 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         <section>
           <h1>Retry On Errors</h1>
           <aside class="notes">
-
             Lekha: For the purposes of Auto Scale it was important that we have
             right number of servers on a scaling group, even if a number of
             attempts to create one failed. We chose to use `metadata` for error
@@ -886,7 +889,6 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h2>Mimic 0.0 was...</h2>
           <h1>Too Limited</h1>
           <aside class="notes">
-
             Lekha: However, the first implementation of mimic had some flaws,
             it was fairly Rackspace specific and only implemented the endpoints
             of the services that Autoscale depends upon . And they were all
@@ -895,8 +897,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             just N port numbers, but N *consecutive* port numbers. It allowed
             for testing error scenarios, but only using the metadata. This was
             not useful for all cases, for example, for a control panel that
-            does not not allow every UI action to contain
-            metadata.  <!-- (TODO: ask someone if Horizon matches this
+            does not not allow the user to enter any metadata.  <!-- (TODO: ask someone if Horizon matches this
             description?) -->
 
           </aside>
@@ -1064,7 +1065,7 @@ the_mock_plugin = SomeAPIMock()
             server, the test expected a server to go into a building state for
             some time before it is active, __but__ it would remain in building
             state for over an hour or even would sometimes go into an error
-            state.
+            state, after.
           </aside>
         </section>
         <section>
@@ -1081,23 +1082,26 @@ the_mock_plugin = SomeAPIMock()
           <h2>Against Real Services</h2>
           <aside class="notes">
             Lekha: However, like I said, we dont know what we dont know. We
-            were not anticipating any other such errors. But, there were more!
-            And this was slow process for us to uncover such errors as we
-            tested against the real systems. And we continued to add them to
-            Mimic.
+            were not anticipating on finding any other such errors. But, there were more!
+            And this was slow process for us to uncover such errors, as we
+            tested against the real services. 
           </aside>
         </section>
+
         <section>
           <h1>Record Those Errors</h1>
           <h2>For The Next Project</h2>
           <aside class="notes">
-            Lekha: Now, Wont it be great if not every person writing an
-            application that used compute as a dependency had to go through
-            this same cycle and have to find all the possible error conditions
-            in a system by experience and have to deal with them at the pace
-            that they occur.
+
+            Lekha: And, we continued to add such errors to Mimic. Now, Wont it be great if not every client that depended on
+            a service had to go through this same cycle. Not everyone
+            had to find all the possible error conditions in the service <b>by
+            experience</b>. And have to deal with them at the pace that they
+            occur.
+          
           </aside>
         </section>
+
         <section>
           <h1>Share A Repository</h1>
           <h2>For Future Projects</h2>
@@ -1105,7 +1109,7 @@ the_mock_plugin = SomeAPIMock()
             Lekha: What if we had a repository of all such known errors, that
             everyone contributes to. So the next person using the plugin can
             use the existing ones, and ensure there application behaves
-            consistently irrespective of the errors, and be able add any new
+            consistently irrespective of the errors. And be able add any new
             ones to it.
           </aside>
         </section>
@@ -1114,6 +1118,18 @@ the_mock_plugin = SomeAPIMock()
           <aside class="notes">
             Lekha: Mimic is just that, a repository of all known responses
             including the error responses.
+          </aside>
+        </section>
+
+        <section>
+          <h1>Mimic Endpoint</h1>
+          <br>
+          <code style="font-size: 50px">/mimic/v1.0/presets</code></pre>
+          <aside class="notes">
+
+            Lekha: Mimic has an endpoint `presets` that lists all
+            the errors conditions that can be simulated using Mimic.
+          
           </aside>
         </section>
 
@@ -1313,9 +1329,9 @@ the_mock_plugin = SomeAPIMock()
             <p>
               Mimic can be the tool which enables an OpenStack developer to get
               quick feedback on the code he/she is writing and not have to go
-              through the gate multiple times to understand that, maybe I
+              through the gate multiple times to understand that - "maybe I
               should have handled that one error, that the upstream system
-              decides to throw my way every now and then.
+              decides to throw my way every now and then"
           </aside>
         </section>
 
@@ -1333,10 +1349,10 @@ the_mock_plugin = SomeAPIMock()
 
         <section>
           <h1>We need your help!</h1>
-          <a href="https://github.com/rackerlabs/mimic">Source Code on Github</a>
+          <a href="https://github.com/rackerlabs/mimic">Source: https://github.com/rackerlabs/mimic</a>
           <br>
           <a href="https://github.com/rackerlabs/mimic/issues">Issues on Github</a>
-          <p> Also join us on irc freenode on the channel:    
+          <p> Also join us on the irc freenode channel:    
             <span style="color: orange" </span> ##mimic </span>
           </p>
           <aside class="notes">
@@ -1349,11 +1365,13 @@ the_mock_plugin = SomeAPIMock()
             github link to the repository. 
 
             All the features or issues we are working on, or planning to work
-            on in the near future are under the issues tab on github.
+            on, in the near future are under the issues tab on github.
 
-            You can start by using Mimic and giving us your feedback or better
-            yet, forking it and contributing to it by adding plugins for
+            You can <em>start</em> by using Mimic and giving us your feedback. Or better
+            yet, forking it and contributing to it, by adding plugins for
             services that do not exist today! 
+
+            Thank you!
 
           </aside>
         </section>
