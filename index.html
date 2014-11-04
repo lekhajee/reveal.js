@@ -405,28 +405,32 @@
 
           <aside class="notes">
             Glyph: When you have a complex distributed system - that is, a
-            service A which makes requests of another service B - you have to
-            deal with the whole spectrum of real failures which might come back
-            from service B.
+            service A which makes requests of another service B (click) - you
+            have to deal with the whole spectrum of real failures which might
+            come back from service B.
           </aside>
         </section>
         <section>
           <h1>Real Services</h1>
           <h1 style="font-size: 9em; color: red;">FAIL</h1>
           <aside class="notes">
-            Glyph: Testing against the real service is of course important for
-            validating a product, ensuring that it works as expected in a
-            realistic deployment environment, even if your colleagues on the
-            compute and load balancer teams get mad at you.
+            Glyph: That service, B, is definitely going to fail, so you need to
+            handle that.  However, if you always test against a real service,
+            that real service might just be down, making it impossible to test
+            your success cases until it is available again; failing more than
+            is useful for your testing.
           </aside>
         </section>
 
         <section>
-          <h1>(Unpredictably)</h1>
+          <h1>But <span style="color: rgb(0, 255, 0)">Not</span> When You</h1>
+          <h1 style="font-size: 6em; color: rgb(0, 255, 0);">WANT THEM TO</h1>
           <aside class="notes">
-            Glyph: But when you write code to interact with a service, you need
-            to handle a wide variety of error cases.  Those errors won't come
-            back from the real service every time.
+            Glyph: And when you do write the code to handle errors that come
+            back from a service, you need to handle a wide variety of error
+            cases.  Those errors won't come back from the real service every
+            time.  So you won't be testing those very important code paths,
+            most of the time.
           </aside>
         </section>
 
