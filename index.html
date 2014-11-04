@@ -811,8 +811,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
 
             Lekha: In the system integration tests, if one of the servers in
             the test remained in "building" for fifteen minutes longer than
-            usual, then the tests ran fifteen minutes slower. And hence, these
-            tests took  <b>over 3 hours to complete</b>.
+            usual, then the tests ran fifteen minutes slower.
 
           </aside>
         </section>
@@ -826,8 +825,9 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h3>against Mimic</h3>
           <aside class="notes">
 
-            Lekha: and using Mimic this went down to be less than 3 *minutes* <em>consistently</em> to
-            complete!
+            Lekha: These tests took <b>over 3 hours to complete</b> and using
+            Mimic this went down to be less than 3 *minutes*
+            <em>consistently</em>, to complete!
 
           </aside>
         </section>
@@ -892,7 +892,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         <section>
           <h1>Retry On Errors</h1>
           <aside class="notes">
-            
+
             Lekha: For the purposes of Auto Scale it was important that we
             have right number of servers on a scaling group, even if a number
             of attempts to create one failed. We chose to use
