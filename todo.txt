@@ -1,8 +1,4 @@
 
-    - plugin section
-
-        - word wrap / hyphenation on 'entry'
-
     - general->specific / specific->general
 
         - call out what "general" refers to (mocking, testing for failure) and
