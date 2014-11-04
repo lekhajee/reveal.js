@@ -56,10 +56,20 @@ body .reveal pre code {
 
 .reveal .taba td:first-child {
     text-align: right;
+    width: 100px;
     /* border: 1px solid white; */
 }
 
 .reveal .taba td:last-child {
     text-align: left;
+    width: 100px;
     /* border: 1px solid blue; */
+}
+
+.taba .deemphasized {
+    font-size: 1.2em;
+}
+
+.aliceimg {
+    height: 450px;
 }
