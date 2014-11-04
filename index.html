@@ -718,11 +718,10 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
 
         <section>
           <h1>config.sh</h1>
-  <pre style="font-size: 21px"><span class="codelike" style="padding: 1em;">
-  <span class="keyword">export</span> OS_USERNAME=username
-  <span class="keyword">export</span> OS_PASSWORD=password
-  <span class="keyword">export</span> OS_TENANT_NAME=11111
-  <span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</pre>
+  <pre style="font-size: 24px"><span class="codelike" style="padding: 1em;"><span class="keyword">export</span> OS_USERNAME=username
+<span class="keyword">export</span> OS_PASSWORD=password
+<span class="keyword">export</span> OS_TENANT_NAME=11111
+<span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</pre>
           <aside class="notes">
             Lekha: Here is the config file that holds
             the  environment variables required for the OpenStack 
@@ -731,11 +730,10 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
         <section>
           <h1>config.sh</h1>
-  <pre style="font-size: 21px"><span class="codelike" style="padding: 1em;">
-  <span class="highlighted"><span class="keyword">export</span> OS_USERNAME=username</span>
-  <span class="highlighted"><span class="keyword">export</span> OS_PASSWORD=password</span>
-  <span class="highlighted"><span class="keyword">export</span> OS_TENANT_NAME=11111</span>
-  <span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</pre>
+  <pre style="font-size: 24px"><span class="codelike" style="padding: 1em;"><span class="highlighted"><span class="keyword">export</span> OS_USERNAME=username</span>
+<span class="highlighted"><span class="keyword">export</span> OS_PASSWORD=password</span>
+<span class="highlighted"><span class="keyword">export</span> OS_TENANT_NAME=11111</span>
+<span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</pre>
           <aside class="notes">
             Lekha: We have set a random username, password
             and tenant name, as Mimic only <em>pretends</em> to authenticate
@@ -744,11 +742,10 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
         <section>
           <h1>config.sh</h1>
-  <pre style="font-size: 21px"><span class="codelike" style="padding: 1em;">
-  <span class="keyword">export</span> OS_USERNAME=username
-  <span class="keyword">export</span> OS_PASSWORD=password
-  <span class="keyword">export</span> OS_TENANT_NAME=11111
-  <span class="highlighted"><span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</span></pre>
+  <pre style="font-size: 24px"><span class="codelike" style="padding: 1em;"><span class="keyword">export</span> OS_USERNAME=username
+<span class="keyword">export</span> OS_PASSWORD=password
+<span class="keyword">export</span> OS_TENANT_NAME=11111
+<span class="highlighted"><span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</span></pre>
           <aside class="notes">
             Lekha: And the Auth url is set to be that of Mimic.
             <br>
