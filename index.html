@@ -55,10 +55,16 @@
           <h3 class="deemphasized"> software developer in test</h3>
           <h3 class="deemphasized"> (at) Rackspace </h3>
           <!--img src="lekha.jpg" width=290 length=200-->
-          <p> <span class="contactlabel">github:</span> <span class="contactinfo">lekhajee</span> </p>
-          <p> <span class="contactlabel">freenode irc:</span> <span class="contactinfo">lekha</span> </p>
-          <p> <span class="contactlabel">twitter:</span> <span class="contactinfo">@lekha_j1</span> </p>
-          <aside class="notes">
+<center>
+  <table>
+    <tr> <td class="contactlabel">github:</td> <td class="contactinfo">lekhajee</td> </tr>
+    <tr> <td class="contactlabel">freenode irc:</td> <td class="contactinfo">lekha</td> </tr>
+    <tr> <td class="contactlabel">twitter:</td> <td class="contactinfo">@lekha_j1</td> </tr>
+  </table>
+
+</center>
+
+<aside class="notes">
             Lekha: Hi, I am Lekha Jeevan, a software developer in test at Rackspace
           </aside>
         </section>
@@ -67,10 +73,16 @@
           <h1>Glyph</h1>
           <h3 class="deemphasized"> software developer </h3>
           <h3 class="deemphasized"> (at) Rackspace </h3>
-          <p> <span class="contactlabel">github:</span> <span class="contactinfo">glyph</span> </p>
-          <p> <span class="contactlabel">freenode irc:</span> <span class="contactinfo">glyph</span> </p>
-          <p> <span class="contactlabel">twitter:</span> <span class="contactinfo">@glyph</span> </p>
-          <aside class="notes">
+<center>
+  <table>
+    <tr> <td class="contactlabel">github:</td> <td class="contactinfo">glyph</td> </tr>
+    <tr> <td class="contactlabel">freenode irc:</td> <td class="contactinfo">glyph</td> </tr>
+    <tr> <td class="contactlabel">twitter:</td> <td class="contactinfo">@glyph</td> </tr>
+  </table>
+
+</center>
+
+<aside class="notes">
             Glyph: and I'm Glyph, also a software developer at Rackspace
           </aside>
         </section>
@@ -393,28 +405,32 @@
 
           <aside class="notes">
             Glyph: When you have a complex distributed system - that is, a
-            service A which makes requests of another service B - you have to
-            deal with the whole spectrum of real failures which might come back
-            from service B.
+            service A which makes requests of another service B (click) - you
+            have to deal with the whole spectrum of real failures which might
+            come back from service B.
           </aside>
         </section>
         <section>
           <h1>Real Services</h1>
           <h1 style="font-size: 9em; color: red;">FAIL</h1>
           <aside class="notes">
-            Glyph: Testing against the real service is of course important for
-            validating a product, ensuring that it works as expected in a
-            realistic deployment environment, even if your colleagues on the
-            compute and load balancer teams get mad at you.
+            Glyph: That service, B, is definitely going to fail, so you need to
+            handle that.  However, if you always test against a real service,
+            that real service might just be down, making it impossible to test
+            your success cases until it is available again; failing more than
+            is useful for your testing.
           </aside>
         </section>
 
         <section>
-          <h1>(Unpredictably)</h1>
+          <h1>But <span style="color: rgb(0, 255, 0)">Not</span> When You</h1>
+          <h1 style="font-size: 6em; color: rgb(0, 255, 0);">WANT THEM TO</h1>
           <aside class="notes">
-            Glyph: But when you write code to interact with a service, you need
-            to handle a wide variety of error cases.  Those errors won't come
-            back from the real service every time.
+            Glyph: And when you do write the code to handle errors that come
+            back from a service, you need to handle a wide variety of error
+            cases.  Those errors won't come back from the real service every
+            time.  So you won't be testing those very important code paths,
+            most of the time.
           </aside>
         </section>
 
@@ -547,7 +563,7 @@ else:
               lines of code at fault were these two additions here.
 
             This is not a criticism of Nova itself;
-              [<a href="https://github.com/openstack/nova/commit/96b39341d5a6ea91d825d979e2381b9949b26e27">the
+            <a href="https://github.com/openstack/nova/commit/96b39341d5a6ea91d825d979e2381b9949b26e27">the
               bug was later fixed</a>.
           </aside>
         </section>
@@ -556,6 +572,8 @@ else:
     <span class="keyword">raise</span> exception.ProjectNotFound(
         project_id=project_id)</span></pre>
           <aside class="notes">
+            Glyph: The bug here is that <code>chdir</code> does not actually
+            return a value.
           </aside>
         </section>
         <section>
@@ -567,11 +585,10 @@ def test_revoke_cert_process_execution_error(self):
 def test_revoke_cert_project_not_found_chdir_fails(self):
     "..."</code></pre>
           <aside class="notes">
-            Glyph: The bug here is that <code>chdir</code> does not actually return a
-            value.  Because these tests construct their own mocks for <code>chdir</code>,
-            we properly cover all the code, but the code is not integrated with
-            a system that is verified in any way against what the real system
-            (in this case, Python's chdir) does.
+            Glyph: Because these tests construct their own mocks
+            for <code>chdir</code>, we properly cover all the code, but the
+            code is not integrated with a system that is verified in any way
+            against what the real system (in this case, Python's chdir) does.
           </aside>
         </section>
         <section>
@@ -586,16 +603,16 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         <section>
           <img src="openstack_havana_conceptual_arch.png" />
           <aside class="notes">
-            Glyph: However, an OpenStack cloud is a significantly more complex
-            system than <code>chdir</code>.  If you are developing an application that
-            depends on OpenStack, creating a real cloud to test against is far
-            too expensive and slow as Auto Scale's experience shows.  Creating
-            a one-off mock for every test is fast to get started with and fast
-            to run, but is error prone and rapidily becomes a significant
-            maintainance burden of its own right. Auto Scale needed something
-            that was quick to deploy, and lightweight to run like a mock, but
-            realistic and usable in an integration scenario like a __real__
-            system.
+            Glyph: However, standing up an OpenStack cloud is a significantly
+            more work than making a new folder.  If you are developing an
+            application that depends on OpenStack, creating a real cloud to
+            test against is far too expensive and slow as Auto Scale's
+            experience shows.  Creating a one-off mock for every test is fast
+            to get started with and fast to run, but is error prone and
+            rapidily becomes a significant maintainance burden of its own
+            right. Auto Scale needed something that was quick to deploy, and
+            lightweight to run like a mock, but realistic and usable in an
+            integration scenario like a __real__ system.
           </aside>
         </section>
         <section>
@@ -719,7 +736,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
 
         <section>
           <h1>config.sh</h1>
-  <pre style="font-size: 24px"><span class="codelike" style="padding: 1em;"><span class="keyword">export</span> OS_USERNAME=username
+  <pre style="font-size: 23px"><span class="codelike" style="padding: 1em;"><span class="keyword">export</span> OS_USERNAME=username
 <span class="keyword">export</span> OS_PASSWORD=password
 <span class="keyword">export</span> OS_TENANT_NAME=11111
 <span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</pre>
@@ -731,7 +748,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
         <section>
           <h1>config.sh</h1>
-  <pre style="font-size: 24px"><span class="codelike" style="padding: 1em;"><span class="highlighted"><span class="keyword">export</span> OS_USERNAME=username</span>
+  <pre style="font-size: 23px"><span class="codelike" style="padding: 1em;"><span class="highlighted"><span class="keyword">export</span> OS_USERNAME=username</span>
 <span class="highlighted"><span class="keyword">export</span> OS_PASSWORD=password</span>
 <span class="highlighted"><span class="keyword">export</span> OS_TENANT_NAME=11111</span>
 <span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</pre>
@@ -743,7 +760,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         </section>
         <section>
           <h1>config.sh</h1>
-  <pre style="font-size: 24px"><span class="codelike" style="padding: 1em;"><span class="keyword">export</span> OS_USERNAME=username
+  <pre style="font-size: 23px"><span class="codelike" style="padding: 1em;"><span class="keyword">export</span> OS_USERNAME=username
 <span class="keyword">export</span> OS_PASSWORD=password
 <span class="keyword">export</span> OS_TENANT_NAME=11111
 <span class="highlighted"><span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</span></pre>

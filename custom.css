@@ -54,16 +54,19 @@ body .reveal pre code {
     text-decoration: underline;
 }
 
-.reveal .taba td:first-child {
+.reveal td:first-child {
     text-align: right;
-    width: 100px;
     /* border: 1px solid white; */
 }
 
-.reveal .taba td:last-child {
+.reveal td:last-child {
     text-align: left;
-    width: 100px;
     /* border: 1px solid blue; */
+}
+
+.reveal .taba td:last-child,
+.reveal .taba td:first-child {
+    width: 100px;
 }
 
 .taba .deemphasized {
