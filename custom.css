@@ -29,7 +29,8 @@ body .reveal pre code {
 }
 
 .deemphasized {
-    color: gray;
+    color: rgba(190, 190, 190, 1);
+    text-shadow: 2px 3px 4px rgba(0, 0, 0, 1);
 }
 
 .contactlabel {
@@ -51,4 +52,14 @@ body .reveal pre code {
 .highlight-current-green.current-fragment {
     background-color: black;
     text-decoration: underline;
+}
+
+.reveal .taba td:first-child {
+    text-align: right;
+    /* border: 1px solid white; */
+}
+
+.reveal .taba td:last-child {
+    text-align: left;
+    /* border: 1px solid blue; */
 }

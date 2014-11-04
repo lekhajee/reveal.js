@@ -17,7 +17,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="custom.css">
 
-    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/default.css" id="theme">
 
     <!-- For syntax highlighting -->
@@ -366,8 +366,19 @@
 
         <section>
           <h1>There And Back Again</h1>
-          <h2 class="fragment current-visible">Specific → General</h2>
-          <h2 class="fragment current-visible">General → Specific</h2>
+          <center>
+            <table class="taba">
+              <tbody class="fragment current-visible">
+                <tr><td><h2>Specific</h2></td> <td><h2>→</h2></td> <td><h2>General</h2></td></tr>
+                <tr class="deemphasized"><td>(Auto Scale)</td> <td></td> <td>(Mimic)</td></tr>
+              </tbody>
+              <tbody class="fragment current-visible">
+                <tr><td><h2>General</h2></td> <td><h2>→</h2></td>
+                  <td><h2>Specific</h2></td>
+                <tr class="deemphasized"><td>(Mocking Failure)</td> <td></td> <td>(Mimic Mimicking OpenStack)</td></tr>
+              </tbody>
+            </table>
+          </center>
           <aside class="notes">
             Glyph: Now that we've had enough, how are we going to solve this
             problem?  Since we've been proceeding from the specific case of
@@ -832,8 +843,9 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
 
-        <section>
-          <h1 style="font-size: 800px;">✈</h1>
+        <section data-transition="linear"
+                 data-transition-speed="slow">
+          <h1 style="-webkit-transform: rotateY(180deg); font-size: 800px;">✈</h1>
           <aside class="notes">
 
             Lekha: Now, all our dev VMs are now configured to run against

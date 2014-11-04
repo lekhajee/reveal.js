@@ -10,7 +10,7 @@ Reveal.initialize({
     maxScale: 10.0,
 
     theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-    transition: 'none', // Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+    transition: Reveal.getQueryHash().transition || 'none', // default/cube/page/concave/zoom/linear/fade/none
 
     // Parallax scrolling
     // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
