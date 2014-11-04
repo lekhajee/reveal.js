@@ -76,3 +76,7 @@ body .reveal pre code {
 .aliceimg {
     height: 450px;
 }
+
+.reveal section.replace .fragment{
+    position:absolute;
+}
