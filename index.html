@@ -101,7 +101,7 @@
           </aside>
         </section>
 
-        <section>
+        <section data-background="rs.jpg">
           <h1>Sneak Peek</h1>
           <aside class="notes">
            Lekha: Before we even begin to dive into the details, let us take a
@@ -114,10 +114,9 @@
           <video src="bootstrap.mp4" id="first-demo-video"></video>
           <aside class="notes">
             Lekha: It is <em>only</em> a 3 step process!  In a virtual env, we 
-            pip install mimic, run mimic and make a GET request on localhost with
-            port 8900!
+            pip install mimic, run mimic and hit the endpoint!
             <br>
-            Mimic returns the Authentication endpoint, to be able to Authenticate, 
+            And Mimic returns the Authentication endpoint, to be able to Authenticate, 
             and get a service catalog containing the (OpenStack) services that Mimic
             implements.
           </aside>
@@ -205,7 +204,7 @@
         <section>
           <h2>Rackspace Cloud Load Balancers</h2>
           <h3> is a </h3>
-          <h2> Custom API </h2>
+          <h2 style="color:orange"> Custom API </h2>
           <aside class="notes">
           <aside class="notes">
             Lekha: Although Rackspace Cloud Load Balancers is a custom API.
@@ -291,8 +290,8 @@
 
         <section>
           <h1>System Integration</h1>
-          <h2 class="fragment fade-out">Success</h2>
-          <h2 class="fragment current-visible">Failure</h2>
+          <h2 style="color:rgb(0,255,0)" class="fragment fade-out">Success</h2>
+          <h2 style="color:rgb(255,0,0)" class="fragment current-visible">Failure</h2>
 
           <aside class="notes">
             Lekha: For example: When a scaling group was created, one such
@@ -310,7 +309,7 @@
 
         <section>
           <h1>Testing Problems</h1>
-          <h2 class="fragment">Server build times == Test run time</h2>
+          <h2 class="fragment">Test run time <span style="color: orange"> &ge;</span> server build time</h2>
           <aside class="notes">
             Lekha: All these tests were set up to run against the real
             services. And... here are some observations I had whilst writing
