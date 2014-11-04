@@ -11,11 +11,6 @@
 
         - much better outro transition
 
-    - demos
-
-        - autoplay video on speaker notes as well, hopefully times will
-          synchronize relatively closely so we can see them playing together
-
     - visuals
 
         - increase the size of code samples, images, and videos in the CSS
