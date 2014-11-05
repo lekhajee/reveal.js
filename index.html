@@ -420,8 +420,8 @@
           <h2 class="fragment visible">Negative Path Testing</h2>
 
           <aside class="notes">
-            Glyph: Whenever you have code that handles failures, you need to
-            have tests to ensure that that code works properly.
+            Glyph: Whenever you have code that handles failures, (CLICK) you
+            need to have tests to ensure that that code works properly.
           </aside>
         </section>
         <section>
@@ -451,18 +451,18 @@
           <aside class="notes">
             Glyph: Your positive-path code - the code that submits a request
             and gets the response that it expects - is going to get lots of
-            testing in the real world.  Most interactions with services are
-            successful, and the operators of those services always strive to
-            make ever more of those interactions successful.  So most likely,
-            the positive-path code is going to get exercised all the time and
-            you will have plenty of opportunities to flush out bugs.
+            testing in the real world.  Services usually work, and when they
+            don't, the whole business of service providers is to fix it so they
+            do.  So most likely, the positive-path code is going to get
+            exercised all the time and you will have plenty of opportunities to
+            flush out bugs.
           </aside>
         </section>
         <section>
           <h1>Means Failing</h1>
           <h2>At Failure</h2>
           <aside class="notes">
-            Glyph: If you test against real services, your negative-path code,
+            Glyph: If you test against real services, your negative-path code
             will only get invoked in production when there's a real error.  If
             everything is going as planned, this should be infrequent, which is
             great for your real service but terrible for your test coverage.
@@ -621,16 +621,25 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         <section>
           <img src="openstack_havana_conceptual_arch.png" />
           <aside class="notes">
-            Glyph: However, standing up an OpenStack cloud is a significantly
+            Glyph: However, standing up an OpenStack cloud is significantly
             more work than running <code>mkdir</code>.  If you are developing
-            an application that depends on OpenStack, creating a real cloud to
-            test against can be expensive, error-prone, and slow, as Auto
-            Scale's experience shows.  Creating a one-off mock for every test
-            is fast to get started with and fast to run, but is error prone and
-            rapidily becomes a significant maintainance burden of its own
-            right. Auto Scale needed something that was quick to deploy, and
-            lightweight to run like a unit test mock, but realistic and usable
-            in an integration scenario like a __real__ system.
+            an application against OpenStack, deploying a real cloud to test
+            against can be expensive, error-prone, and slow, as Auto Scale's
+            experience shows.
+          </aside>
+        </section>
+        <section>
+          <h1 class="fragment">The Best Of</h1>
+          <h1>Both Worlds?</h1>
+          <aside class="notes">
+            Creating a one-off mock for every test is quick, but error prone.
+            Good mocks rapidily become a significant maintainance burden in
+            their own right.  Auto Scale needed something that could produce
+            all possible behaviors like a unit test mock, but ensure those
+            behaviors accurately reflected a production environment. (CLICK) It
+            should be something maintained as a separate project, not part of a
+            test suite, that can have its own tests and code review to ensure
+            its behavior is accurate.
           </aside>
         </section>
         <section>
@@ -638,8 +647,9 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h2 class="fragment visible">Mimic</h2>
           <aside class="notes">
             Glyph: Since we've been proceeding from the general to the
-            specific, right here, where we need a realistic mock of a back-end
-            openstack service, is where the specific value of Mimic comes in.
+            specific, (CLICK) right here, where we need a realistic mock of a
+            back-end openstack service, is where the specific value of Mimic
+            comes in.
           </aside>
         </section>
         <section>
