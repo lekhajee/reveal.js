@@ -408,32 +408,29 @@
           </center>
           <aside class="notes">
             Glyph: Now that we've had enough, how are we going to solve this
-            problem?  (CLICK) Since we've been proceeding from the specific case of
-            Auto Scale to the general utility of Mimic, (click) let's go back to
-            the general and proceed to the specific.
+            problem?  (CLICK) Since we've been proceeding from the specific
+            case of Auto Scale to the general utility of Mimic, (click) let's
+            go back to the general problem of testing for failure, and proceed
+            to the specific benefits that Mimic provides.
           </aside>
         </section>
 
         <section>
           <h1>General →</h1>
-          <h2 class="fragment visible">Testing For Failure</h2>
+          <h2 class="fragment visible">Negative Path Testing</h2>
 
           <aside class="notes">
-            Glyph: When you have a complex distributed system - that is, a
-            service A which makes requests of another service B (click) - you
-            have to deal with the whole spectrum of real failures which might
-            come back from service B.
+            Glyph: Whenever you have code that handles failures, you need to
+            have tests to ensure that that code works properly.
           </aside>
         </section>
         <section>
           <h1>Real Services</h1>
           <h1 style="font-size: 9em; color: red;">FAIL</h1>
           <aside class="notes">
-            Glyph: That service, B, is definitely going to fail, so you need to
-            handle that.  However, if you always test against a real service,
-            that real service might just be down, making it impossible to test
-            your success cases until it is available again; failing more than
-            is useful for your testing.
+            Glyph: And if you have code that talks to external services, those
+            services are going to fail, and you're going to need to write code
+            to handle that.
           </aside>
         </section>
 
@@ -441,11 +438,10 @@
           <h1>But <span style="color: rgb(0, 255, 0)">Not</span> When You</h1>
           <h1 style="font-size: 6em; color: rgb(0, 255, 0);">WANT THEM TO</h1>
           <aside class="notes">
-            Glyph: And when you do write the code to handle errors that come
-            back from a service, you need to handle a wide variety of error
-            cases.  Those errors won't come back from the real service every
-            time.  So you won't be testing those very important code paths,
-            most of the time.
+            Glyph: But if your only integration tests are against real versions
+            of those external services, then only your unit tests are going to
+            give you any idea of whether you have handled those failure cases
+            correctly.
           </aside>
         </section>
 
@@ -468,7 +464,8 @@
           <aside class="notes">
             Glyph: If you test against real services, your negative-path code,
             will only get invoked in production when there's a real error.  If
-            everything is going as planned, this should be infrequent.
+            everything is going as planned, this should be infrequent, which is
+            great for your real service but terrible for your test coverage.
           </aside>
         </section>
         <section>
@@ -476,8 +473,9 @@
           <h2>At Failure!</h2>
           <aside class="notes">
             Glyph: It's really important to get negative-path code right.  If
-            everything is going well, it's probably okay if your code has a
-            couple of bugs.  You might be able to manually work around them.
+            all the <em>external</em> services you rely on are working fine,
+            then it's probably okay if <em>your</em> code has a couple of bugs.
+            You might be able to manually work around them.
           </aside>
         </section>
         <section>
@@ -488,41 +486,37 @@
             your cloud - that is to say - if you are using a cloud - that is
             exactly the time you want to make sure <em>your</em> system is
             behaving correctly: accurately reporting the errors, measuring the
-            statistics, and allowing you to stay on top of incident management
-            for your service.
+            statistics on those errors, and allowing you to stay on top of
+            incident management for your service and your cloud.
           </aside>
         </section>
         <section>
           <h1 style="font-size: 800%">😇 ☁</h1>
           <h3>(Staging)</h3>
           <aside class="notes">
-            Glyph: When you test against a real service, you are probably
-            testing against a staging instance.  And, if your staging instance
-            is typical, it probably doesn't have as much hardware, or as many
-            concurrent users, as your production environment.  Every additional
-            piece of harware or concurrent user is another opportunity for
-            failure, so that means your staging environment is probably even
-            less likely to fail.
+            Glyph: Even worse, when you test against a real service, you are
+            probably testing against a staging instance.  And, if your staging
+            instance is typical, it probably doesn't have as much hardware, or
+            as many concurrent users, as your production environment.  Every
+            additional piece of harware or concurrent user is another
+            opportunity for failure, so that means your staging environment is
+            even less likely to fail.
           </aside>
         </section>
         <section>
           <pre style="border: 1px solid white; font-size: 70px;"><code class="language-python">import unittest</code></pre>
           <aside class="notes">
-            Glyph: I've been in the software industry for long enough now to
-            remember where this part of the talk would be the hardest part -
-            the part where we try to sell the idea that code coverage and
-            automated testing is really important.  Luckily we have moved on
-            from the bad old days of the 90s, when most teams didn't have build
-            automation, and if they wanted it they might not even be able to
-            afford it.
+            Glyph: I remember the bad old days of the 1990s when most projects
+            didn't have any unit tests.  Things are better than that now.
+            OpenStack itself has great test coverage.  We have unit tests for
+            individual unit tests and integration tests for testing real
+            components together.
           </aside>
         </section>
         <section>
           <h2 style="text-transform: none;"><code>test_stuff ... <span style="color: rgb(0, 255, 0);">[OK]</span></code></h2>
           <aside class="notes">
-            Glyph: Luckily today we are all somewhat more enlightened, and we
-            know that testing is important and full code coverage is important.
-            So when we write code like this:
+            Glyph: We all know that when you have code like this:
           </aside>
         </section>
         <section>
@@ -533,7 +527,7 @@ except:
 else:
     return ok(result)</code></pre>
           <aside class="notes">
-            Glyph: ... we know that we need to write tests for this part:
+            Glyph: ... that we need to write tests for this part:
           </aside>
         </section>
         <section>
@@ -545,23 +539,30 @@ else:
     <span class="keyword">return</span> ok(result)</span></pre>
           <aside class="notes">
             Glyph: ... and one popular way to get test coverage for those error
-            lines is by writing a custom mock for it.
+            lines is by writing a custom mock for it in your unit tests.
           </aside>
         </section>
         <section>
           <img src="Alice_par_John_Tenniel_34_Cropped.png" class="aliceimg">
           <aside class="notes">
-            Glyph: The problem with the traditional definition of a mock is that each
-            mock is defined just for the specific test that it's mocking.
+            Glyph: So if we can't trust real systems for error conditions, why
+            isn't it sufficient to simply trust your unit tests to cover error
+            conditions, and have your integration tests for making sure that
+            things work in a more realistic scenario?
+            <p>
+              For those of you who don't recognize it, this is the Mock Turtle
+              from Alice in Wonderland.  As you can see, he's not quite the
+              same as a real turtle, just like your test mocks aren't quite the
+              same as a real system.
+            </p>
           </aside>
         </section>
         <section>
           <img src="Alice_par_John_Tenniel_34_Cropped_Tears.png" class="aliceimg">
           <aside class="notes">
-            Glyph: The problem with the traditional definition of a mock is
-            that each mock is defined just for the specific test that it's
-            mocking.  There's a reason that the Mock Turtle is crying.  Mocking
-            is often a sad enterprise.
+            Glyph: There's a reason that the mock turtle is crying.  He knows
+            that he can't quite do the things a real turtle can do, just like
+            your test mocks can't quite replace those real systems.
             <p>
               Let's take a specific example from OpenStack Compute.
             </p>
@@ -579,7 +580,8 @@ else:
 
             This is not a criticism of Nova itself;
             <a href="https://github.com/openstack/nova/commit/96b39341d5a6ea91d825d979e2381b9949b26e27">the
-              bug was later fixed</a>.
+              bug has already been fixed</a>.  My point is that they fell into
+              a very common trap.
           </aside>
         </section>
         <section>
@@ -600,34 +602,35 @@ def test_revoke_cert_process_execution_error(self):
 def test_revoke_cert_project_not_found_chdir_fails(self):
     "..."</code></pre>
           <aside class="notes">
-            Glyph: Because these tests construct their own mocks
-            for <code>chdir</code>, we properly cover all the code, but the
-            code is not integrated with a system that is verified in any way
-            against what the real system (in this case, Python's chdir) does.
+            Glyph: Because the unit tests introduced with that change construct
+            their own mocks for <code>chdir</code>, Nova's unit tests properly
+            cover all the code, but the code is not integrated with a system
+            that is verified in any way against what the real system (in this
+            case, Python's chdir) does.
           </aside>
         </section>
         <section>
           <img src="folders.png" />
           <aside class="notes">
-            Glyph: In this <em>specific</em> case, we might have simply tested
-            against a real directory structure in the file system, because
-            relative to the value of testing against a real implementation,
-            creating a directory is not a terribly expensive operation.
+            Glyph: In this <em>specific</em> case, Nova might have simply
+            tested against a real directory structure in the file system,
+            because relative to the value of testing against a real
+            implementation, "New Folder" is not a terribly expensive operation.
           </aside>
         </section>
         <section>
           <img src="openstack_havana_conceptual_arch.png" />
           <aside class="notes">
             Glyph: However, standing up an OpenStack cloud is a significantly
-            more work than making a new folder.  If you are developing an
-            application that depends on OpenStack, creating a real cloud to
-            test against is far too expensive and slow as Auto Scale's
-            experience shows.  Creating a one-off mock for every test is fast
-            to get started with and fast to run, but is error prone and
+            more work than running <code>mkdir</code>.  If you are developing
+            an application that depends on OpenStack, creating a real cloud to
+            test against can be expensive, error-prone, and slow, as Auto
+            Scale's experience shows.  Creating a one-off mock for every test
+            is fast to get started with and fast to run, but is error prone and
             rapidily becomes a significant maintainance burden of its own
             right. Auto Scale needed something that was quick to deploy, and
-            lightweight to run like a mock, but realistic and usable in an
-            integration scenario like a __real__ system.
+            lightweight to run like a unit test mock, but realistic and usable
+            in an integration scenario like a __real__ system.
           </aside>
         </section>
         <section>
@@ -887,11 +890,11 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
         <section>
-          <h1> What about<br>error injection? </h1>
+          <h1> What about<br>negative paths? </h1>
           <aside class="notes">
-            Glyph: But Lekha, what about all the error injection stuff I
-            mentioned before?  Does Mimic do that?  How did this set-up test
-            Auto Scale's error conditions?
+            Glyph: But Lekha, what about all the negative-path testing stuff I
+            was talking about before?  Does Mimic simulate errors?  How did
+            this dev VM test Auto Scale's error conditions?
           </aside>
         </section>
 
