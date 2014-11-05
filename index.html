@@ -105,13 +105,15 @@
         <section>
           <h1>Who?</h1>
           <aside class="notes">
+
             Lekha: I originally created Mimic to help with testing Rackspace
-            Auto Scale, but as I was creating it I realized I wanted to make
-            something re-usable that many projects across Rackspace and
-            OpenStack could use.
-            <br>
-            Glyph: I came on to the project later on and I've been helping to
-            flesh out its architecture, making it more generic and modular.
+            Auto Scale because I hate waiting for test to run. Also, as I was
+            creating it I realized I wanted to make something re-usable for
+            projects across Rackspace and OpenStack. And Glyph volunteered to
+            help <p> Glyph: I saw Mimic had a lot of promise but needed some
+            help, so I came on to the project and I've been helping improve
+            its architecture, making it more generic and modular.
+
           </aside>
         </section>
 
@@ -139,9 +141,9 @@
         <section data-background="rewind.jpg">
           <h1>Why?</h1>
           <aside class="notes">
-            Lekha: While Mimic is hopefully general purpose, it was originally
+            Lekha: While today Mimic is for general purpose testing, it was originally
             created for testing a specific application: Rackspace Auto Scale.
-            So let's talk about that.
+            So let's talk about what autoscale is and why we needed Mimic.
           </aside>
         </section>
 
@@ -219,7 +221,7 @@
           <h2 style="color:orange" class="fragment shrink"> Custom API </h2>
           <aside class="notes">
           <aside class="notes">
-            Lekha: Although Rackspace Cloud Load Balancers is a custom API.
+            Lekha: And Rackspace Cloud Load Balancers is a custom API.
           </aside>
         </section>
 
@@ -229,11 +231,11 @@
           <aside class="notes">
             Lekha: As Auto Scale was interacting with so many other systems,
             testing Auto Scale did not mean <b>just</b> testing features of
-            Auto Scale. But also that, if any of these systems it depended on
+            Auto Scale. <em>But also that</em>, if any of these systems it depended on
             did not behave as expected, Auto Scale did not crumble and crash,
             but was consistent and able to handle these upstream failures
             gracefully.
-            <br>
+            <p>
             So, there were two kinds tests for Auto Scale:
 
           </aside>
@@ -373,7 +375,7 @@
             Lekha: And, (CLICK) the tests were running for <b>so</b> long and were sometimes flaky.
             Nobody dared to run these tests locally! Not even me, when I was
             adding more tests! (CLICK)
-            <br>
+            <p>
             Also, our peers from the compute and load balancers teams, whose
             resources we were using up for our "Auto-scale" testing, were
             <em>not</em> happy! So much, so that, we were <em>pretty</em> glad, we were in a
@@ -678,7 +680,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             <br>
             Mimic does not validate credentials - all authentications will
             succeed. As with the real Identity endpoint, Mimic's identity
-            endpoint has a service catalog which includes URLs for all the
+            endpoint has a service catalog which includes endpoints for all the
             services implemented within Mimic. <br>
             A well behaved OpenStack client will use the service catalog to
             look up URLs for its service endpoints. Such a client will only
@@ -713,7 +715,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
         <section>
           <h1>in-memory</h1>
           <aside class="notes">
-            Lekha: It was built using in-memory data structures.
+            Lekha: It uses in-memory data structures.
           </aside>
         </section>
 
@@ -783,7 +785,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
 <span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</pre>
           <aside class="notes">
             Lekha: We have set a random username, password
-            and tenant name, as Mimic only <em>pretends</em> to authenticate
+            and tenant name, as Mimic only <b>pretends</b> to authenticate
 
           </aside>
         </section>
@@ -795,8 +797,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
 <span class="highlighted"><span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</span></pre>
           <aside class="notes">
             Lekha: And the Auth url is set to be that of Mimic.
-            <br>
-            <br>
+            <p>
             Now, let's continue where we left off with our first demo. So we
             already have an instance of mimic running.
           
@@ -866,7 +867,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
 
             Lekha: In the system integration tests, if one of the servers in
             the test remained in "building" for fifteen minutes longer than
-            usual, then the tests ran fifteen minutes slower.
+            usual, then the tests would run fifteen minutes slower.
 
           </aside>
         </section>
@@ -925,7 +926,9 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             wasn't entirely true - sometimes Mimic pretends to *not* create a
             server.  It uses the metadata provided during the creation of the
             server, inspects the metadata, and sets the state of the server
-            respectively.Lets go back to the demo and see how this can be done.
+            respectively.
+            <p>
+            Lets go back to the demo and see how this can be done.
 
           </aside>
         </section>
@@ -966,7 +969,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           <h2>Mimic 0.0 was...</h2>
           <h1>Too Limited</h1>
           <aside class="notes">
-            Lekha: However, the first implementation of mimic had some flaws,
+            Lekha: (PAUSE)However, the first implementation of mimic had some flaws,
             it was fairly Rackspace specific and only implemented the endpoints
             of the services that Autoscale depends upon . And they were all
             implemented as part of Mimic's core. It ran each service on a
@@ -974,9 +977,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             just N port numbers, but N *consecutive* port numbers. It allowed
             for testing error scenarios, but only using the metadata. This was
             not useful for all cases, for example, for a control panel that
-            does not not allow the user to enter any metadata.  <!-- (TODO: ask someone if Horizon matches this
-            description?) -->
-
+            does not not allow the user to enter any metadata.  
           </aside>
         </section>
         <section>
@@ -1255,7 +1256,7 @@ other_data = session.data_for_api(other_api_mock,
             Lekha: When we were running the Auto Scale tests against Compute,
             we began to see some one-off errors. Like, when provisioning a
             server, the test expected a server to go into a building state for
-            some time before it is active, __but__ it would remain in building
+            some time before it is active, <b>but</b> it would remain in building
             state for over an hour or even would sometimes go into an error
             state, after.
           </aside>
@@ -1265,7 +1266,7 @@ other_data = session.data_for_api(other_api_mock,
           <h2>Within Mimic</h2>
           <aside class="notes">
             Lekha: Auto Scale had to handle such scenarios gracefully and the
-            code was changed to do so. And Mimic provided for a way to tests
+            code was changed to do so. And Mimic provided a way to tests
             this consistently.
           </aside>
         </section>
@@ -1275,7 +1276,7 @@ other_data = session.data_for_api(other_api_mock,
           <aside class="notes">
             Lekha: However, like I said, we dont know what we dont know. We
             were not anticipating on finding any other such errors. But, there were more!
-            And this was slow process for us to uncover such errors, as we
+            And... this was slow process for us to uncover such errors, as we
             tested against the real services. 
           </aside>
         </section>
@@ -1286,8 +1287,7 @@ other_data = session.data_for_api(other_api_mock,
           <aside class="notes">
 
             Lekha: And, we continued to add such errors to Mimic. 
-            <br>
-            <br>
+            <p>
             Now, Wont it be great if not every client that depended on
             a service had to go through this same cycle. Not everyone
             had to find all the possible error conditions in the service <b>by
@@ -1322,8 +1322,8 @@ other_data = session.data_for_api(other_api_mock,
           <code style="font-size: 50px">/mimic/v1.0/presets</code></pre>
           <aside class="notes">
 
-            Lekha: Mimic has an endpoint `presets` that lists all
-            the errors conditions that can be simulated using Mimic.
+            Lekha: Mimic has an endpoint `presets` that today lists all
+            the metadata related errors conditions that can be simulated using Mimic.
           
           </aside>
         </section>
