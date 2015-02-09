@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Mimic Presentation</title>
+    <title>Mimic Workshop</title>
 
     <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
     <meta name="author" content="Hakim El Hattab">
@@ -47,642 +47,65 @@
       <div class="slides">
         <section data-background="photo.png">
           <h1>Mimic</h1>
-          <h2>An API Compatible Mock Service For OpenStack</h2>
-          <div style="word-wrap: normal"><span class="contactlabel">Slides: </span><code><a href="https://glyph.im/mimic-paris">https://glyph.im/mimic-paris</a></code></div>
+          <h2>A verified fake for Rackspace services</h2>
+          <center>
+            <table>
+              <tr>
+                <td class="contactlabel">Slides:</td> <td class="contactinfo"><a href="https://github.io/mimic-workshop">https://github.io/mimic-workshop</a></td>
+              </tr>
+              <tr>
+                <td class="contactlabel">Source:</td> <td class="contactinfo"><a href="https://github.com/rackerlabs/mimic">https://github.com/rackerlabs/mimic</a></td>
+              </tr>
+              <tr>
+                <td class="contactlabel">Chat:</td> <td class="contactinfo"><a href="irc://chat.freenode.net/##mimic">##mimic on Freenode</a></td>
+              </tr>
+            </table>
+          </center>
         </section>
 
         <section>
-          <h1>Lekha</h1>
-          <h3 class="deemphasized"> software developer in test</h3>
-          <h3 class="deemphasized"> (at) Rackspace </h3>
-          <!--img src="lekha.jpg" width=290 length=200-->
-<center>
-  <table>
-    <tr> <td class="contactlabel">github:</td> <td class="contactinfo">lekhajee</td> </tr>
-    <tr> <td class="contactlabel">freenode irc:</td> <td class="contactinfo">lekha</td> </tr>
-    <tr> <td class="contactlabel">twitter:</td> <td class="contactinfo">@lekha_j1</td> </tr>
-  </table>
-
-</center>
-
-<aside class="notes">
-            Lekha: Hi, I am Lekha Jeevan, a software developer in test at Rackspace
+          <h1 style="color: pink">Introductions</h1>
+          <p>Lekha Jeevan</p>
+          <p>Glyph Lefkotiwz</p>
+          <p>Ying Li</p>
+          <p>Thomas Walton</p>
+          <aside class="notes">
+            Self Introductions (less than a minute?)
           </aside>
         </section>
 
         <section>
-          <h1>Glyph</h1>
-          <h3 class="deemphasized"> software developer </h3>
-          <h3 class="deemphasized"> (at) Rackspace </h3>
-<center>
-  <table>
-    <tr> <td class="contactlabel">github:</td> <td class="contactinfo">glyph</td> </tr>
-    <tr> <td class="contactlabel">freenode irc:</td> <td class="contactinfo">glyph</td> </tr>
-    <tr> <td class="contactlabel">twitter:</td> <td class="contactinfo">@glyph</td> </tr>
-  </table>
+          <h1 style="color: pink">Install :</h1>
+          <p>Python (2.7 preferred)</p>
+          <p>pip (MAC) (LINUX)</p>
+          <p>virtualenv</p>
+          <p> REST Client :
+            <a href="https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo"> Chrome plugin </a>
+            or CURL
+          </p>
+          <aside class="notes">
 
-</center>
-
-<aside class="notes">
-            Glyph: and I'm Glyph, also a software developer at Rackspace
           </aside>
         </section>
 
         <section>
           <h1>What?</h1>
           <aside class="notes">
-            Lekha: Today Glyph and I are here to talk about Mimic. An
-            open source framework that allows for testing of OpenStack and
-            Rackspace APIs.
-            <br>
-            Mimic has been making testing across products in Rackspace a cake
-            walk. And we think it could do the same for the OpenStack- backed
-            applications someday. Today, We are not there yet. But your
-            contributions will help us get there soon.
+            Mimic is a verified fake for Rackspace Apis. The essence of
+            mimic is to pretend. The first step to using the Rackspace APIs
+            is through authentication. Mimic lets you authenticate.
           </aside>
         </section>
 
-        <section>
-          <h1>Who?</h1>
-          <aside class="notes">
-
-            Lekha: I originally created Mimic to help with testing Rackspace
-            Auto Scale because I hate waiting for test to run. Also, as I was
-            creating it I realized I wanted to make something re-usable for
-            projects across Rackspace and OpenStack. And Glyph volunteered to
-            help <p> Glyph: I saw Mimic had a lot of promise but needed some
-            help, so I came on to the project and I've been helping improve
-            its architecture, making it more generic and modular.
-
-          </aside>
-        </section>
-
-        <section data-background="rs.jpg">
-          <h1>Sneak Peek</h1>
-          <aside class="notes">
-           Lekha: Before we even begin to dive into the details, let us take a
-           quick sneak peek to see how <b>easy</b> it is to get started with Mimic.
-
-          </aside>
-        </section>
-
-        <section data-state="first-demo">
-          <video src="bootstrap.mp4" id="first-demo-video"></video>
-          <aside class="notes">
-            Lekha: It is <em>only</em> a 3 step process!  In a virtual env, we 
-            pip install mimic, run mimic and hit the endpoint!
-            <br>
-            And Mimic returns the Authentication endpoint, to be able to Authenticate, 
-            and get a service catalog containing the (OpenStack) services that Mimic
-            implements.
-          </aside>
-        </section>
-
-        <section data-background="rewind.jpg">
-          <h1>Why?</h1>
-          <aside class="notes">
-            Lekha: While today Mimic is for general purpose testing, it was originally
-            created for testing a specific application: Rackspace Auto Scale.
-            So let's talk about what autoscale is and why we needed Mimic.
-          </aside>
-        </section>
-
-        <section>
-          <h1>Rackspace Auto Scale</h1>
-          <p style="color: orange">An open source project</p>
-          <a href="https://github.com/rackerlabs/otter">Source: https://github.com/rackerlabs/otter</a>
-          <aside class="notes">
-            Lekha: Rackspace Auto Scale is an open source project. A solution
-            that Rackspace utilizes to automate the process of getting the right
-            amount of compute capacity for an application, by creating (scaling up)
-            and deleting(scaling down) servers and associating them with 
-            load balancers.
-
-          </aside>
-        </section>
-
-          <section>
-            <h1>Dependencies</h1>
-            <h2>(of Auto Scale)</h2>
-            <aside class="notes">
-              Lekha: In order to perform these tasks, Auto Scale speaks to three
-              back-end Rackspace APIs.
-            </aside>
-          </section>
-
-          <section>
-            <h1>Rackspace<br>Identity</h1>
-            <aside class="notes">
-              Lekha: Identity for authentication and impersonation.
-
-            </aside>
-          </section>
-
-          <section>
-            <h1>Rackspace<br>Cloud Servers</h1>
-            <aside class="notes">
-              Lekha: Cloud Servers for provisioning and deleting servers.
-
-            </aside>
-          </section>
-
-          <section>
-            <h1>Rackspace<br>Cloud Load Balancers</h1>
-            <aside class="notes">
-              Lekha: Rackspace Cloud Load Balancers for adding and removing servers to
-              load balancers as they are created or deleted.
-            </aside>
-          </section>
-
-        <section>
-          <h2>Rackspace Identity</h2>
-          <h3> is API compatible with </h3>
-          <h2 style="color:orange" class="fragment grow"> Openstack Identity v2 </h2>
-          <aside class="notes">
-            Lekha: Rackspace Identity is API-compatible with (CLICK) OpenStack
-            Identity v2.
-
-          </aside>
-        </section>
-
-        <section>
-          <h2>Rackspace Cloud Servers</h2>
-          <h3> is powered by </h3>
-          <h2 style="color:orange" class="fragment grow"> Openstack Compute </h2>
-          <aside class="notes">
-            Lekha: Rackspace Cloud Servers is powered by (CLICK) OpenStack Compute.
-
-          </aside>
-        </section>
-
-        <section>
-          <h2>Rackspace Cloud Load Balancers</h2>
-          <h3> is a </h3>
-          <h2 style="color:orange" class="fragment shrink"> Custom API </h2>
-          <aside class="notes">
-          <aside class="notes">
-            Lekha: And Rackspace Cloud Load Balancers is a custom API.
-          </aside>
-        </section>
-
-        <section>
-          <h1>Testing</h1>
-          <h2 class="deemphasized">(for Auto Scale)</h2>
-          <aside class="notes">
-            Lekha: As Auto Scale was interacting with so many other systems,
-            testing Auto Scale did not mean <b>just</b> testing features of
-            Auto Scale. <em>But also that</em>, if any of these systems it depended on
-            did not behave as expected, Auto Scale did not crumble and crash,
-            but was consistent and able to handle these upstream failures
-            gracefully.
-            <p>
-            So, there were two kinds tests for Auto Scale:
-
-          </aside>
-        </section>
-
-        <section>
-          <h1>Functional</h1>
-          <h2>API contracts</h2>
-          <aside class="notes">
-            Lekha: One, was the Functional tests to validate the API
-            contracts. These tests verified the responses of the Auto Scale
-            API calls given valid, or malformed requests.
-
-          </aside>
-        </section>
-
-        <section>
-          <h1>System Integration</h1>
-          <br>
-          <br>
-
-          <center>
-            <table>
-              <tr>
-                <td>
-                </td>
-                <td>
-                  <h2><code>↱</code></h2>
-                </td>
-                <td>
-                  <h2>Identity</h2>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <h2>Auto Scale</h2>
-                </td>
-                <td>
-                  <h2><code>→</code></h2>
-                </td>
-                <td>
-                  <h2>Compute</h2>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                </td>
-                <td style="vertical-align: top;">
-                  <h2><code>↳</code></h2>
-                </td>
-                <td>
-                  <h2>Load Balancers</h2>
-                </td>
-              </tr>
-            </table>
-          </center>
-
-          <aside class="notes">
-            Lekha: And the other was the System integration tests. Theese,
-            were more complex. These tests verified integration between Auto
-            Scale and Identity, Compute, and Load balancers.
-
-          </aside>
-        </section>
-
-        <section>
-          <h1>System Integration</h1>
-          <h2 style="color:rgb(0,255,0)" class="fragment fade-out">Success</h2>
-          <h2 style="color:rgb(255,0,0)" class="fragment current-visible">Failure</h2>
-
-          <aside class="notes">
-            Lekha: For example: When a scaling group was created, one such
-            test will verify that the servers on that group were provisioned
-            successfully. That is, that the servers went into an 'active'
-            state and were then added as a nodes to the load balancer on the
-            scaling group.(DOUBLE CLICK)<br>
-            Or, if a server went into an error state, (yes! that can
-            happen!), Auto Scale was able to re-provision that server
-            successfully, and then add that active server to the load balancer
-            on the scaling group.
-
-          </aside>
-        </section>
-
-        <section>
-          <h1>Testing Problems</h1>
-          <h2 class="fragment">Test run time <span style="color: orange"> &ge;</span> server build time</h2>
-          <aside class="notes">
-            Lekha: All these tests were set up to run against the real
-            services. And... here are some observations I had whilst writing
-            the tests: (CLICK)<br>
-            Servers could take over a minute, or ten minutes, or
-            longer to provision. And the tests would run that-much-longer.
-          </aside>
-        </section>
-
-        <section class="replace">
-          <h1> <span style="color:orange"> BUILD → <span style="display:inline-block;"><span style="color:rgb(0,255,0)" class="fragment current-visible">ACTIVE </span> <span style="color:rgb(255,0,0)" class="fragment current-visible">ERROR </span><span style="visibility:hidden">ACTIVE</span></span></h1>
-          <aside class="notes">
-            Lekha: Sometimes, the tests would fail! due to raandom upstream failures.
-            Like a test would expect a building server to go into an 'active' state,
-            but it would (CLICK) go into an ERROR state
-          </aside>
-        </section>
-
-        <section>
-          <h1> unknown errors</h1>
-          <aside class="notes">
-            Lekha: And tests for such negative scenarios, like actually testing how
-            Auto Scale would behave if the server did go into 'error' state,
-            could not be tested. This is something that could <b>not</b> be
-            reproduced consistently.
-          </aside>
-        </section>
-
-
-        <section>
-          <h1>However...</h1>
-          <h2 class="fragment">Improving test coverage</h2>
-          <h2 class="fragment">Tests → gate</h2>
-          <aside class="notes">
-            Lekha: However, (CLICK)the overall test coverage was improving. And I
-            continued to add tests, oblivious of the time it was taking run
-            the entire test suite!
-            <br>
-            Later, (CLICK) we had started using these tests as a <em>gate</em>, in the
-            Autoscale merge pipeline.
-          </aside>
-        </section>
-
-
-        <section>
-          <h1> And... </h1>
-          <h2 class="fragment"> Slow, flaky tests</h2>
-          <h2 class="fragment"> Unhappy peers</h2>
-          <aside class="notes">
-            Lekha: And, (CLICK) the tests were running for <b>so</b> long and were sometimes flaky.
-            Nobody dared to run these tests locally! Not even me, when I was
-            adding more tests! (CLICK)
-            <p>
-            Also, our peers from the compute and load balancers teams, whose
-            resources we were using up for our "Auto-scale" testing, were
-            <em>not</em> happy! So much, so that, we were <em>pretty</em> glad, we were in a
-            remote office!
-
-          </aside>
-        </section>
-
-        <section>
-          <h1>We've Had Enough!</h1>
-          <h2 class="deemphasized">(on Auto Scale)</h2>
-          <aside class="notes">
-            Lekha: But! We had had enough! This had to change! we needed
-            something! to save us from these slow flaky tests!
-
-          </aside>
-        </section>
-
-        <section>
-          <h2>There And Back Again<br><br></h2>
-          <center>
-            <table class="taba">
-              <tbody class="fragment current-visible">
-                <tr><td><h1>Specific</h1></td> <td><h1>→</h1></td> <td><h1>General</h1></td></tr>
-                <tr class="deemphasized"><td>Auto Scale</td> <td></td> <td>Mimic</td></tr>
-              </tbody>
-              <tbody class="fragment current-visible">
-                <tr><td><h1>General</h1></td> <td><h1>→</h1></td>
-                  <td><h1>Specific</h1></td>
-                <tr class="deemphasized"><td>Mocking Failure</td> <td></td> <td>Mimic Mimicking OpenStack</td></tr>
-              </tbody>
-            </table>
-          </center>
-          <aside class="notes">
-            Glyph: Now that we've had enough, how are we going to solve this
-            problem?  (CLICK) Since we've been proceeding from the specific
-            case of Auto Scale to the general utility of Mimic, (click) let's
-            go back to the general problem of testing for failure, and proceed
-            to the specific benefits that Mimic provides.
-          </aside>
-        </section>
-
-        <section>
-          <h1>General →</h1>
-          <h2 class="fragment visible">Negative Path Testing</h2>
-
-          <aside class="notes">
-            Glyph: Whenever you have code that handles failures, (CLICK) you
-            need to have tests to ensure that that code works properly.
-          </aside>
-        </section>
-        <section>
-          <h1>Real Services</h1>
-          <h1 style="font-size: 9em; color: red;">FAIL</h1>
-          <aside class="notes">
-            Glyph: And if you have code that talks to external services, those
-            services are going to fail, and you're going to need to write code
-            to handle that.
-          </aside>
-        </section>
-
-        <section>
-          <h1>But <span style="color: rgb(0, 255, 0)">Not</span> When You</h1>
-          <h1 style="font-size: 6em; color: rgb(0, 255, 0);">WANT THEM TO</h1>
-          <aside class="notes">
-            Glyph: But if your only integration tests are against real versions
-            of those external services, then only your unit tests are going to
-            give you any idea of whether you have handled those failure cases
-            correctly.
-          </aside>
-        </section>
-
-        <section>
-          <h1>Succeeding</h1>
-          <h2>At Success</h2>
-          <aside class="notes">
-            Glyph: Your positive-path code - the code that submits a request
-            and gets the response that it expects - is going to get lots of
-            testing in the real world.  Services usually work, and when they
-            don't, the whole business of service providers is to fix it so they
-            do.  So most likely, the positive-path code is going to get
-            exercised all the time and you will have plenty of opportunities to
-            flush out bugs.
-          </aside>
-        </section>
-        <section>
-          <h1>Means Failing</h1>
-          <h2>At Failure</h2>
-          <aside class="notes">
-            Glyph: If you test against real services, your negative-path code
-            will only get invoked in production when there's a real error.  If
-            everything is going as planned, this should be infrequent, which is
-            great for your real service but terrible for your test coverage.
-          </aside>
-        </section>
-        <section>
-          <h1>Mimic Succeeds</h1>
-          <h2>At Failure!</h2>
-          <aside class="notes">
-            Glyph: It's really important to get negative-path code right.  If
-            all the <em>external</em> services you rely on are working fine,
-            then it's probably okay if <em>your</em> code has a couple of bugs.
-            You might be able to manually work around them.
-          </aside>
-        </section>
-        <section>
-          <h1 style="font-size: 800%">😈 ☁</h1>
-          <h3>(Production)</h3>
-          <aside class="notes">
-            Glyph: But if things are starting to fail with some regularity in
-            your cloud - that is to say - if you are using a cloud - that is
-            exactly the time you want to make sure <em>your</em> system is
-            behaving correctly: accurately reporting the errors, measuring the
-            statistics on those errors, and allowing you to stay on top of
-            incident management for your service and your cloud.
-          </aside>
-        </section>
-        <section>
-          <h1 style="font-size: 800%">😇 ☁</h1>
-          <h3>(Staging)</h3>
-          <aside class="notes">
-            Glyph: Even worse, when you test against a real service, you are
-            probably testing against a staging instance.  And, if your staging
-            instance is typical, it probably doesn't have as much hardware, or
-            as many concurrent users, as your production environment.  Every
-            additional piece of harware or concurrent user is another
-            opportunity for failure, so that means your staging environment is
-            even less likely to fail.
-          </aside>
-        </section>
-        <section>
-          <pre style="border: 1px solid white; font-size: 70px;"><code class="language-python">import unittest</code></pre>
-          <aside class="notes">
-            Glyph: I remember the bad old days of the 1990s when most projects
-            didn't have any unit tests.  Things are better than that now.
-            OpenStack itself has great test coverage.  We have unit tests for
-            individual unit tests and integration tests for testing real
-            components together.
-          </aside>
-        </section>
-        <section>
-          <h2 style="text-transform: none;"><code>test_stuff ... <span style="color: rgb(0, 255, 0);">[OK]</span></code></h2>
-          <aside class="notes">
-            Glyph: We all know that when you have code like this:
-          </aside>
-        </section>
-        <section>
-          <pre style="font-size: 40px"><code class="language-python" style="padding: 1em;">try:
-    result = service_request()
-except:
-    return error
-else:
-    return ok(result)</code></pre>
-          <aside class="notes">
-            Glyph: ... that we need to write tests for this part:
-          </aside>
-        </section>
-        <section>
-<pre style="font-size: 40px"><span class="codelike" style="padding: 1em;"><span class="keyword">try</span>:
-    result = service_request()
-<div class="highlighted"><span class="keyword">except</span>:
-    <span class="keyword">return</span> error
-</div><span class="keyword">else</span>:
-    <span class="keyword">return</span> ok(result)</span></pre>
-          <aside class="notes">
-            Glyph: ... and one popular way to get test coverage for those error
-            lines is by writing a custom mock for it in your unit tests.
-          </aside>
-        </section>
-        <section>
-          <img src="Alice_par_John_Tenniel_34_Cropped.png" class="aliceimg">
-          <aside class="notes">
-            Glyph: So if we can't trust real systems for error conditions, why
-            isn't it sufficient to simply trust your unit tests to cover error
-            conditions, and have your integration tests for making sure that
-            things work in a more realistic scenario?
-            <p>
-              For those of you who don't recognize it, this is the Mock Turtle
-              from Alice in Wonderland.  As you can see, he's not quite the
-              same as a real turtle, just like your test mocks aren't quite the
-              same as a real system.
-            </p>
-          </aside>
-        </section>
-        <section>
-          <img src="Alice_par_John_Tenniel_34_Cropped_Tears.png" class="aliceimg">
-          <aside class="notes">
-            Glyph: There's a reason that the mock turtle is crying.  He knows
-            that he can't quite do the things a real turtle can do, just like
-            your test mocks can't quite replace those real systems.
-            <p>
-              Let's take a specific example from OpenStack Compute.
-            </p>
-          </aside>
-        </section>
-        <section>
-          <pre style="font-size: 24pt;"><code class="language-python">if not os.chdir(ca_folder(project_id)):
-    raise exception.ProjectNotFound(
-        project_id=project_id)</code></pre>
-          <aside class="notes">
-            Glyph: In June of this year, OpenStack
-              Compute <a href="https://github.com/openstack/nova/commit/1a6d32b9690b4bff709dc83bcf4c2d3a65fd7c3e">introduced
-              a bug</a> making it impossible to revoke a certificate.  The
-              lines of code at fault were these two additions here.
-
-            This is not a criticism of Nova itself;
-            <a href="https://github.com/openstack/nova/commit/96b39341d5a6ea91d825d979e2381b9949b26e27">the
-              bug has already been fixed</a>.  My point is that they fell into
-              a very common trap.
-          </aside>
-        </section>
-        <section>
-          <pre style="font-size: 24pt;"><span class="codelike language-python"><span class="highlighted"><span class="keyword">if</span> <span class="keyword">not</span> os.chdir</span>(ca_folder(project_id)):
-    <span class="keyword">raise</span> exception.ProjectNotFound(
-        project_id=project_id)</span></pre>
-          <aside class="notes">
-            Glyph: The bug here is that <code>chdir</code> does not actually
-            return a value.
-          </aside>
-        </section>
-        <section>
-          <pre style="font-size: 17pt"><code class="language-python">@mock.patch.object(os, 'chdir', return_value=True)
-def test_revoke_cert_process_execution_error(self):
-    "..."
-
-@mock.patch.object(os, 'chdir', return_value=False)
-def test_revoke_cert_project_not_found_chdir_fails(self):
-    "..."</code></pre>
-          <aside class="notes">
-            Glyph: Because the unit tests introduced with that change construct
-            their own mocks for <code>chdir</code>, Nova's unit tests properly
-            cover all the code, but the code is not integrated with a system
-            that is verified in any way against what the real system (in this
-            case, Python's chdir) does.
-          </aside>
-        </section>
-        <section>
-          <img src="folders.png" />
-          <aside class="notes">
-            Glyph: In this <em>specific</em> case, Nova might have simply
-            tested against a real directory structure in the file system,
-            because relative to the value of testing against a real
-            implementation, "New Folder" is not a terribly expensive operation.
-          </aside>
-        </section>
-        <section>
-          <img src="openstack_havana_conceptual_arch.png" />
-          <aside class="notes">
-            Glyph: However, standing up an OpenStack cloud is significantly
-            more work than running <code>mkdir</code>.  If you are developing
-            an application against OpenStack, deploying a real cloud to test
-            against can be expensive, error-prone, and slow, as Auto Scale's
-            experience shows.
-          </aside>
-        </section>
-        <section>
-          <h1 class="fragment">The Best Of</h1>
-          <h1>Both Worlds?</h1>
-          <aside class="notes">
-            Creating a one-off mock for every test is quick, but error prone.
-            Good mocks rapidily become a significant maintainance burden in
-            their own right.  Auto Scale needed something that could produce
-            all possible behaviors like a unit test mock, but ensure those
-            behaviors accurately reflected a production environment. (CLICK) It
-            should be something maintained as a separate project, not part of a
-            test suite, that can have its own tests and code review to ensure
-            its behavior is accurate.
-          </aside>
-        </section>
-        <section>
-          <h1>→Specific</h1>
-          <h2 class="fragment visible">Mimic</h2>
-          <aside class="notes">
-            Glyph: Since we've been proceeding from the general to the
-            specific, (CLICK) right here, where we need a realistic mock of a
-            back-end openstack service, is where the specific value of Mimic
-            comes in.
-          </aside>
-        </section>
-        <section>
-          <h1>Mimic</h1>
-          <h2>Version 0.0</h2>
-          <aside class="notes">
-            Lekha: The first version of Mimic was built as a stand-in service
-            for Identity, Compute and Rackspace Load balancers, the services
-            that Auto Scale depends on.
-          </aside>
-        </section>
-        <section>
-          <h1>Pretending</h1>
-          <h2 style="visibility: hidden">...</h2>
-          <aside class="notes">
-            Lekha: The essence of Mimic is pretending. The first thing that you
-            must do to interact with it is to...
-          </aside>
-        </section>
         <section>
           <h1>Pretending</h1>
           <h2>to authenticate</h2>
           <aside class="notes">
-            Lekha: ...pretend to authenticate.
-            <br>
-            Mimic does not validate credentials - all authentications will
+            However, Mimic does not validate credentials - all authentications will
             succeed. As with the real Identity endpoint, Mimic's identity
             endpoint has a service catalog which includes endpoints for all the
             services implemented within Mimic. <br>
-            A well behaved OpenStack client will use the service catalog to
+            On authentication a client will use the service catalog to
             look up URLs for its service endpoints. Such a client will only
             need two pieces of configuration to begin communicating with the
             cloud, i.e. credentials and the identity endpoint. A client
@@ -756,9 +179,69 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
           </aside>
         </section>
 
+
         <section>
-          <h1>Demo!</h1>
-          <h2 style="color: orange"> Nova command-line client <h2>
+
+          <h3 style="color: pink; text-align: left;"> Frontend</h3>
+          <p style="text-align: left;">
+            <a href="https://github.com/racker/sage">Cloud Intelligence</a> via
+            <a href="https://github.com/angular/protractor"> Protractor</a>
+          </p>
+          <p style="text-align: left;">
+            <a href="http://docs.seleniumhq.org/projects/webdriver/">(Selenium web driver)</a>
+          </p>
+
+          <p><br></p>
+          <p><br></p>
+          <div class ="fragment visible" data-fragment-index="0">
+          <h3 style="color: pink; text-align: right;"> Backend</h3>
+
+          <p style="text-align: right;">
+            <a href="https://github.com/rackerlabs/otter">Autoscale </a> via
+            <a href="https://github.com/stackforge/opencafe">Opencafe </a>
+          </p>
+          </div>
+        </section>
+
+        <section>
+          <h2 style='color:pink'> APIs supported today </h2>
+            <h3 class="fragment roll-in"> Identity </h3>
+            <h3 class="fragment roll-in"> Compute </h3>
+            <h3 class="fragment roll-in"> Load balancers </h3>
+            <h3 class="fragment roll-in"> Cloud Monitoring </h3>
+            <h3 class="fragment roll-in"> Cloud Queues </h3>
+            <h3 class="fragment roll-in"> Swift </h3>
+            <h3 class="fragment roll-in"> RCV3 </h3>
+          <aside class="notes">
+            Mimic implements a subset of api calls for following services.
+          </aside>
+        </section>
+
+        <section>
+          <h1 style="color: pink"> Demo</h1>
+          <h2>Install and run Mimic</h2>
+          <aside class="notes">
+           Lekha: Before we even begin to dive into the details, let us take a
+           quick sneak peek to see how <b>easy</b> it is to get started with Mimic.
+
+          </aside>
+        </section>
+
+        <section data-state="first-demo">
+          <video src="bootstrap.mp4" id="first-demo-video"></video>
+          <aside class="notes">
+            Lekha: It is <em>only</em> a 3 step process!  In a virtual env, we
+            pip install mimic, run mimic and hit the endpoint!
+            <br>
+            And Mimic returns the Authentication endpoint, to be able to Authenticate,
+            and get a service catalog containing the (OpenStack) services that Mimic
+            implements.
+          </aside>
+        </section>
+
+        <section>
+          <h1 style="color: pink"> Demo</h1>
+          <h2> Nova command-line client <h2>
           <aside class="notes">
             Lekha: Lets see how we can run the python nova command-line client against Mimic
           </aside>
@@ -773,8 +256,8 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
 <span class="keyword">export</span> OS_AUTH_URL=http://localhost:8900/identity/v2.0/tokens</pre>
           <aside class="notes">
             Lekha: Here is the config file that holds
-            the  environment variables required for the OpenStack 
-            command-line clients. 
+            the  environment variables required for the OpenStack
+            command-line clients.
           </aside>
         </section>
         <section>
@@ -800,7 +283,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             <p>
             Now, let's continue where we left off with our first demo. So we
             already have an instance of mimic running.
-          
+
           </aside>
         </section>
 
@@ -817,113 +300,56 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
             active servers that Mimic knows of. Lets delete the second
             server... and now Mimic knows of the deleted server and has only
             the one server remaining.
-
-
           </aside>
         </section>
 
-        <section>
-          <h1>Using Mimic</h1>
-          <h2>(on Auto Scale)</h2>
-          <aside class="notes">
-
-            Lekha: We did the same thing with Auto Scale. We pointed the tests
-            and the Autoscale API to run against an instance of Mimic.
-
-          </aside>
-        </section>
-
-
-        <section>
-          <h1>The Results!</h1>
-          <h2>(Functional tests using Mimic)</h2>
-          <aside class="notes">
-
-            Lekha: This reduced the test time exponentially! 
-            Before Mimic the functional tests would take...
-
-          </aside>
-        </section>
-
-        <section>
-          <h3>Functional Tests:</h3>
-          <h1 class="fragment grow" style="color:orange">15 minutes</h1>
-          <h3>against a real system</h3>
-          <h2>vs.</h2>
-          <h1 class="fragment grow" style="color:orange">30 seconds</h1>
-          <h3>against Mimic</h3>
-          <aside class="notes">
-
-            Lekha: (CLICK) 15 minutes to complete, and now they run in (CLICK)less than 30
-            seconds!
-
-          </aside>
-        </section>
-
-        <section>
-          <h1>The Results!</h1>
-          <h2>(Integration tests using Mimic)</h2>
-          <aside class="notes">
-
-            Lekha: In the system integration tests, if one of the servers in
-            the test remained in "building" for fifteen minutes longer than
-            usual, then the tests would run fifteen minutes slower.
-
-          </aside>
-        </section>
-
-        <section>
-          <h3>Integration Tests:</h3>
-          <h1 class="fragment grow" style="color:orange">3 hours or more</h1>
-          <h3>against a real system</h3>
-          <h2>vs.</h2>
-          <h1 class="fragment grow" style="color:orange">3 minutes</h1>
-          <h3>against Mimic</h3>
-          <aside class="notes">
-
-            Lekha: These tests took (CLICK)<b>over 3 hours to complete</b> and using
-            Mimic this went down to be (CLICK) less than 3 *minutes*
-            <em>consistently</em>, to complete!
-
-          </aside>
-        </section>
 
         <section data-transition="linear"
                  data-transition-speed="slow">
           <h1 style="-webkit-transform: rotateY(180deg); font-size: 800px;">✈</h1>
           <aside class="notes">
 
-            Lekha: All our dev VMs are now configured to run against
-            Mimic. <br> One of our devs from the Rackspace Cloud Intelligence
-            team, calls this "Developing on Airplane Mode!", as we can work
+            You will see how fast testing server creation is. Now imagine your dev VMs
+            configured to run tests against Mimic. <br>
+            One of our devs from the Rackspace Cloud Intelligence
+            team, calls this "Developing on Airplane Mode!", as mimic enables us to work
             offline without having to worry about uptimes of the upstream
             systems and get immediate feedback on the code being written.
 
           </aside>
         </section>
-        <section>
-          <h1> What about<br>negative paths? </h1>
+
+        <section class="replace">
+          <h1> <span style="color:orange"> BUILD → <span style="display:inline-block;"><span style="color:rgb(0,255,0)" class="fragment current-visible">ACTIVE </span> <span style="color:rgb(255,0,0)" class="fragment current-visible">ERROR </span><span style="visibility:hidden">ACTIVE</span></span></h1>
           <aside class="notes">
-            Glyph: But Lekha, what about all the negative-path testing stuff I
-            was talking about before?  Does Mimic simulate errors?  How did
-            this dev VM test Auto Scale's error conditions?
+            However, there is one other issue we run into, Tests failures due to raandom upstream failures.
+            Like a test would expect a building server to go into an 'active' state,
+            but it would (CLICK) go into an ERROR state
           </aside>
         </section>
 
         <section>
-          <h1> Mimic does<br>simulate errors </h1>
+          <h1> unknown errors</h1>
           <aside class="notes">
-            Lekha: Well Glyph, I am as pleased as I am suprised that you ask
-            that.  Mimic does simulate errors.
+            Lekha: And tests for such negative scenarios, like actually testing how
+            Auto Scale would behave if the server did go into 'error' state,
+            could not be tested. This is something that could <b>not</b> be
+            reproduced consistently.
+          </aside>
+        </section>
 
+        <section>
+          <h1> Mimic also <br>simulates errors </h1>
+          <aside class="notes">
+            Mimic helps reproduce such scenarios so your application is programmed
+            to react to such unexpected intermittent failures
           </aside>
         </section>
 
         <section>
           <h1>Error injection using <code>metadata</code></h1>
           <aside class="notes">
-            Lekha: Earlier, when I said Mimic pretends to create a server, that
-            wasn't entirely true - sometimes Mimic pretends to *not* create a
+            Sometimes Mimic pretends to *not* create a
             server.  It uses the metadata provided during the creation of the
             server, inspects the metadata, and sets the state of the server
             respectively.
@@ -947,80 +373,118 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
 
           </aside>
         </section>
-
-        <section>
-          <h1>Retry On Errors</h1>
+        <section data-background="clock.jpg">
+          <h2 style="text-shadow: 1px 1px 10px black;"><code>/mimic/v1.1/tick</code></h2>
           <aside class="notes">
-
-            Lekha: For the purposes of Auto Scale it was important that we
-            have right number of servers on a scaling group, even if a number
-            of attempts to create one failed. We chose to use
-            <code>metadata</code> for error injection so that requests with
-            injected errors could also be run against real services. For Auto
-            Scale, the expected end result is the same number of servers
-            created, irrespective of the number of failures. But this behavior
-            may also be useful to many other applications because retrying is
-            a common pattern for handling errors.
-
+            Glyph: Instead of simply waiting 10 seconds, you can hit this
+            second out-of-band endpoint, the "tick" endpoint ...
+          </aside>
+        </section>
+        <section class="apimock">
+          <pre><code class="language-javascript"
+>{
+    "amount": 1.0
+}
+</code></pre>
+          <aside class="notes">
+            Glyph: with a payload like this.  It will tell you that time has
+            passed, like so:
+          </aside>
+        </section>
+        <section>
+          <pre style="font-size: 34px"><code class="language-javascript"
+>{
+    "advanced": 1.0,
+    "now": "1970-01-01T00:00:01.000000Z"
+}</code></pre>
+          <aside class="notes">
+            Glyph: Now, you may notice there's something a little funny about
+            that timestamp - it's suspiciously close to midnight, january
+            first, 1970.  Mimic begins each subsequent restart thinking it's
+            1970, at the unix epoch; if you want to advance the clock, just
+            plug in the number of seconds since the epoch as the "amount" and
+            your mimic will appear to catch up to real time.
+          </aside>
+        </section>
+        <section>
+          <pre style="font-size: 32px"><code class="language-javascript"
+>{
+  "server": {
+    "status": "BUILD",
+    "updated": "1970-01-01T00:00:00.000000Z",
+    "OS-EXT-STS:task_state": null,
+    "user_id": "170454",
+    "addresses": {},
+    "...": "..."
+  }
+}</code></pre>
+          <aside class="notes">
+            Glyph: If you've previously created a server with "server_building"
+            metadata that tells it to build for some number of seconds, and you
+            hit the 'tick' endpoint telling it to advance time the
+            server_building number of seconds...
+          </aside>
+        </section>
+        <section>
+          <pre style="font-size: 32px"><code class="language-javascript"
+>{
+  "server": {
+    "status": "ACTIVE",
+    "updated": "1970-01-01T00:00:01.000000Z",
+    "OS-EXT-STS:task_state": null,
+    "user_id": "170454",
+    "addresses": {},
+    "...": "..."
+  }
+}</code></pre>
+          <aside class="notes">
+            Glyph: that server (and any others) will now show up as "active",
+            as it should.  This means you can set up very long timeouts, and
+            have servers behave "realistically", but in a way where you can
+            test several hours of timeouts a time.
           </aside>
         </section>
 
         <section>
-          <h2>Mimic 0.0 was...</h2>
-          <h1>Too Limited</h1>
+          <h1><code>--realtime</code></h1>
           <aside class="notes">
-            Lekha: (PAUSE)However, the first implementation of mimic had some flaws,
-            it was fairly Rackspace specific and only implemented the endpoints
-            of the services that Autoscale depends upon . And they were all
-            implemented as part of Mimic's core. It ran each service on a
-            different port, meaning that for N endpoints you would need not
-            just N port numbers, but N *consecutive* port numbers. It allowed
-            for testing error scenarios, but only using the metadata. This was
-            not useful for all cases, for example, for a control panel that
-            does not not allow the user to enter any metadata.  
+            Glyph: You can ask Mimic to actually pay attention to the real
+            clock with the <code>--realtime</code> command-line option; that
+            disables this time-advancing endpoint, but it will allow any test
+            suites that rely on real time passing to keep running.
           </aside>
         </section>
+
         <section>
-          <h2>Mimic 0.0 was...</h2>
-          <h1>Single Region</h1>
+          <h2 style="color:pink;">Running Mimic's tests</h2>
+          <pre style="font-size: 40px"><code class="language-python">
+        pip install tox
+
+        tox -e lint -e py27
+          </code></pre>
           <aside class="notes">
-            Lekha: Mimic also did not implement multiple regions.  It used
-            global variables for storing all state, which meant that it was
-            hard to add additional endpoints with different state in the same
-            running mimic instance.
+            Glyph: You can ask Mimic to actually pay attention to the real
+            clock with the <code>--realtime</code> command-line option; that
+            disables this time-advancing endpoint, but it will allow any test
+            suites that rely on real time passing to keep running.
           </aside>
         </section>
+
         <section>
-          <h2>Beyond Auto Scale:</h2>
-          <h1>Refactoring Mimic</h1>
+          <h2><a href="http://klein.readthedocs.org/en/latest/"> Klein</a></h2>
+          <h2><a href="https://twistedmatrix.com/documents/current/api/twisted.web.iweb.IRequest.html"> Request</a></h2>
           <aside class="notes">
-            Glyph: Mimic had an ambitious vision: to be a one-stop mock for all
-            OpenStack and Rackspace services that needed fast integration
-            testing.  However, its architecture at the time severely limited
-            the ability of other teams to use it or contribute to it.  As Lekha
-            mentioned, it was specific not only to Rackspace but to Auto Scale.
+            Klein is a micro-framework for developing production-ready web services with Python.
           </aside>
         </section>
+
         <section>
-          <h1>YAGNI</h1>
+          <h2 style="color:pink"> Klein Demo </h2>
           <aside class="notes">
-            Glyph: On balance, Mimic was also extremely simple.  It followed
-            the You Aren't Gonna Need It principle of extreme programming very
-            well, and implemented just the bare minimum to satisfy its
-            requirements, so there wasn't a whole lot of terrible code to throw
-            out or much unnecessary complexity to eliminate.
+            Video to demo @route @run etc
           </aside>
         </section>
-        <section>
-          <h1>E(ITO)YAGNI</h1>
-          <aside class="notes">
-            Glyph: There is, however, a corrolary to YAGNI, which is
-            E(ITO)YAGNI: Eventually, It Turns Out, You *Are* Going To Need It.
-            As Mimic grew, other services within Rackspace wanted to make use
-            of its functionality, and a couple of JSON response dictionaries in
-            global variables were not going to cut it any more.
-          </aside>
-        </section>
+
         <section data-background="plug.jpg">
           <h1 style="text-shadow: 1px 1px 30px blue;">Plugins!</h1>
           <aside class="notes">
@@ -1105,7 +569,7 @@ def test_revoke_cert_project_not_found_chdir_fails(self):
     )
 ]
 </span></pre>
-          <aside class="notes">
+<aside class="notes">
             <p>
               Glyph: This takes the form of an iterable of a class called
               (CLICK) <code>Entry</code>, each of which is (CLICK) a tenant ID,
@@ -1241,219 +705,6 @@ other_data = session.data_for_api(other_api_mock,
           </aside>
           </aside>
         </section>
-        <section>
-          <h1>Error Conditions Repository</h1>
-          <aside class="notes">
-            Lekha: Anyone testing a product, will run into unexpected
-            errors. Thats why we test!  But we dont know what we dont know, and
-            cant be prepared for this ahead of time right!
-          </aside>
-        </section>
-        <section>
-          <h1>Discovering Errors</h1>
-          <h2>Against Real Services</h2>
-          <aside class="notes">
-            Lekha: When we were running the Auto Scale tests against Compute,
-            we began to see some one-off errors. Like, when provisioning a
-            server, the test expected a server to go into a building state for
-            some time before it is active, <b>but</b> it would remain in building
-            state for over an hour or even would sometimes go into an error
-            state, after.
-          </aside>
-        </section>
-        <section>
-          <h1>Record Those Errors</h1>
-          <h2>Within Mimic</h2>
-          <aside class="notes">
-            Lekha: Auto Scale had to handle such scenarios gracefully and the
-            code was changed to do so. And Mimic provided a way to tests
-            this consistently.
-          </aside>
-        </section>
-        <section>
-          <h1>Discover More Errors</h1>
-          <h2>Against Real Services</h2>
-          <aside class="notes">
-            Lekha: However, like I said, we dont know what we dont know. We
-            were not anticipating on finding any other such errors. But, there were more!
-            And... this was slow process for us to uncover such errors, as we
-            tested against the real services. 
-          </aside>
-        </section>
-
-        <section>
-          <h1>Record Those Errors</h1>
-          <h2>For The Next Project</h2>
-          <aside class="notes">
-
-            Lekha: And, we continued to add such errors to Mimic. 
-            <p>
-            Now, Wont it be great if not every client that depended on
-            a service had to go through this same cycle. Not everyone
-            had to find all the possible error conditions in the service <b>by
-            experience</b>. And have to deal with them at the pace that they
-            occur.
-          
-          </aside>
-        </section>
-
-        <section>
-          <h1>Share A Repository</h1>
-          <h2>For Future Projects</h2>
-          <aside class="notes">
-            Lekha: What if we had a repository of all such known errors, that
-            everyone contributes to. So the next person using the plugin can
-            use the existing ones, and ensure there application behaves
-            consistently irrespective of the errors. And be able add any new
-            ones to it.
-          </aside>
-        </section>
-        <section>
-          <h1>Mimic Is A Repository</h1>
-          <aside class="notes">
-            Lekha: Mimic is just that, a repository of all known responses
-            including the error responses.
-          </aside>
-        </section>
-
-        <section>
-          <h1>Mimic Endpoint</h1>
-          <br>
-          <code style="font-size: 50px">/mimic/v1.0/presets</code></pre>
-          <aside class="notes">
-
-            Lekha: Mimic has an endpoint `presets` that today lists all
-            the metadata related errors conditions that can be simulated using Mimic.
-          
-          </aside>
-        </section>
-
-        <section>
-          <h1>Control</h1>
-          <aside class="notes">
-            Glyph: In addition to storing a repository of errors, Mimic allows
-            for finer control of behavior beyond simple success and error.  You
-            can determine the behavior of a mimicked service in some detail.
-          </aside>
-        </section>
-
-        <section>
-          <h1>Now &amp; Later</h1>
-          <aside class="notes">
-            Glyph: We're not just here today to talk about exactly what Mimic
-            offers right now, but where we'd like it to go.  And in that spirit
-            I will discuss one feature that Mimic has for controlling behavior
-            today, and one which we would like to have in the future.
-          </aside>
-        </section>
-
-        <section>
-          <h1>Now</h1>
-          <aside class="notes">
-            Glyph: Appropriately enough, since I'm talking about things now and
-            things in the future, the behavior-control feature I'd like to talk
-            about that that Mimic has right now is the ability to control time.
-          </aside>
-        </section>
-        <section>
-          <h1><code>now()</code></h1>
-          <aside class="notes">
-            Glyph: That is to say: when you do something against Mimic that
-            will take some time, such as building a server, time does not
-            actually pass ... for the purposes of that operation.
-          </aside>
-        </section>
-        <section data-background="clock.jpg">
-          <h2 style="text-shadow: 1px 1px 10px black;"><code>/mimic/v1.1/tick</code></h2>
-          <aside class="notes">
-            Glyph: Instead of simply waiting 10 seconds, you can hit this
-            second out-of-band endpoint, the "tick" endpoint ...
-          </aside>
-        </section>
-        <section class="apimock">
-          <pre><code class="language-javascript"
->{
-    "amount": 1.0
-}
-</code></pre>
-          <aside class="notes">
-            Glyph: with a payload like this.  It will tell you that time has
-            passed, like so:
-          </aside>
-        </section>
-        <section>
-          <pre style="font-size: 34px"><code class="language-javascript"
->{
-    "advanced": 1.0,
-    "now": "1970-01-01T00:00:01.000000Z"
-}</code></pre>
-          <aside class="notes">
-            Glyph: Now, you may notice there's something a little funny about
-            that timestamp - it's suspiciously close to midnight, january
-            first, 1970.  Mimic begins each subsequent restart thinking it's
-            1970, at the unix epoch; if you want to advance the clock, just
-            plug in the number of seconds since the epoch as the "amount" and
-            your mimic will appear to catch up to real time.
-          </aside>
-        </section>
-        <section>
-          <pre style="font-size: 32px"><code class="language-javascript"
->{
-  "server": {
-    "status": "BUILD",
-    "updated": "1970-01-01T00:00:00.000000Z",
-    "OS-EXT-STS:task_state": null,
-    "user_id": "170454",
-    "addresses": {},
-    "...": "..."
-  }
-}</code></pre>
-          <aside class="notes">
-            Glyph: If you've previously created a server with "server_building"
-            metadata that tells it to build for some number of seconds, and you
-            hit the 'tick' endpoint telling it to advance time the
-            server_building number of seconds...
-          </aside>
-        </section>
-        <section>
-          <pre style="font-size: 32px"><code class="language-javascript"
->{
-  "server": {
-    "status": "ACTIVE",
-    "updated": "1970-01-01T00:00:01.000000Z",
-    "OS-EXT-STS:task_state": null,
-    "user_id": "170454",
-    "addresses": {},
-    "...": "..."
-  }
-}</code></pre>
-          <aside class="notes">
-            Glyph: that server (and any others) will now show up as "active",
-            as it should.  This means you can set up very long timeouts, and
-            have servers behave "realistically", but in a way where you can
-            test several hours of timeouts a time.
-          </aside>
-        </section>
-
-        <section>
-          <h1><code>--realtime</code></h1>
-          <aside class="notes">
-            Glyph: You can ask Mimic to actually pay attention to the real
-            clock with the <code>--realtime</code> command-line option; that
-            disables this time-advancing endpoint, but it will allow any test
-            suites that rely on real time passing to keep running.
-          </aside>
-        </section>
-
-        <section>
-          <h1>Later</h1>
-          <aside class="notes">
-            Glyph: Another feature that isn't implemented yet, that we hope to
-            design later, is the ability to inject errors ahead of time, using
-            a separate control-plane interface which is not part of a mock's
-            endpoint.
-          </aside>
-        </section>
 
         <section>
           <h1> Error Injection </h1>
@@ -1568,32 +819,6 @@ other_data = session.data_for_api(other_api_mock,
         </section>
 
         <section>
-          <h1>Mimic for OpenStack</h1>
-          <aside class="notes">
-            Lekha: Mimic, can be the tool, where you do not have to stand up
-            the entire dev stack to understand how an OpenStack API behaves.
-            <p>
-              Mimic can be the tool which enables an OpenStack developer to get
-              quick feedback on the code he/she is writing and not have to go
-              through the gate multiple times to understand that - "maybe I
-              should have handled that one error, that the upstream system
-              decides to throw my way every now and then"
-          </aside>
-        </section>
-
-        <section>
-          <h1>It's Easy!</h1>
-          <aside class="notes">
-            Glyph: One of the things that I like to point out is that Mimic is
-            not real software.  It's tiny, self-contained, doesn't need to
-            interact with a database, or any external services.  Since it
-            mimics exclusively existing APIs, there are very few design
-            decisions.  As a result, contributing to Mimic is a lot easier than
-            contributing to OpenStack proper.
-          </aside>
-        </section>
-
-        <section>
           <h1>We need your help!</h1>
           <center>
             <table>
@@ -1615,14 +840,14 @@ other_data = session.data_for_api(other_api_mock,
             OpenStack APIs.  <br>
 
             As we mentioned earlier, Mimic is Open source and here is the
-            github link to the repository. 
+            github link to the repository.
 
             All the features or issues we are working on, or planning to work
             on, in the near future are under the issues tab on github.
 
             You can <em>start</em> by using Mimic and giving us your feedback. Or better
             yet, forking it and contributing to it, by adding plugins for
-            services that do not exist today! 
+            services that do not exist today!
 
             Thank you!
 
