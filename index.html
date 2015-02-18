@@ -47,7 +47,7 @@
       <div class="slides">
         <section data-background="photo.png">
           <h1>Mimic</h1>
-          <h2>A verified fake for Rackspace services</h2>
+          <h2>A verified fake of the Rackspace API</h2>
           <center>
             <table>
               <tr>
@@ -77,8 +77,8 @@
         <section>
           <h1 style="color: pink">Install :</h1>
           <p>Python (2.7 preferred)</p>
-          <p>pip (MAC) (LINUX)</p>
-          <p>virtualenv</p>
+          <p><a href="https://pip.pypa.io/en/latest/installing.html"> pip </a></p>
+          <p><a href="https://virtualenv.pypa.io/en/latest/userguide.html">virtualenv</a></p>
           <p> REST Client :
             <a href="https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo"> Chrome plugin </a>
             or CURL
@@ -198,7 +198,7 @@
 
           <p style="text-align: right;">
             <a href="https://github.com/rackerlabs/otter">Autoscale </a> via
-            <a href="https://github.com/stackforge/opencafe">Opencafe </a>
+            <a href="https://github.com/rackerlabs/otter/tree/master/autoscale_cloudcafe">cloudcafe </a>
           </p>
           </div>
         </section>
@@ -332,14 +332,14 @@
           <h1> unknown errors</h1>
           <aside class="notes">
             Lekha: And tests for such negative scenarios, like actually testing how
-            Auto Scale would behave if the server did go into 'error' state,
-            could not be tested. This is something that could <b>not</b> be
+            your application would behave if the server did go into 'error' state,
+            cannot be tested. This is something that could <b>not</b> be
             reproduced consistently.
           </aside>
         </section>
 
         <section>
-          <h1> Mimic also <br>simulates errors </h1>
+          <h1> Mimic <br>simulates errors </h1>
           <aside class="notes">
             Mimic helps reproduce such scenarios so your application is programmed
             to react to such unexpected intermittent failures
@@ -488,9 +488,56 @@
         <section data-background="plug.jpg">
           <h1 style="text-shadow: 1px 1px 30px blue;">Plugins!</h1>
           <aside class="notes">
-            Glyph: So we created a plugin architecture.
+            Plugin architecture.
           </aside>
         </section>
+
+        <section>
+          <h2>FORK <a href="https://github.com/rackerlabs/mimic">Mimic </a></h2>
+        </section>
+
+        <section>
+          <h2>FORK <a href="https://github.com/rackerlabs/mimic">Mimic </a></h2>
+        </section>
+
+        <section>
+          <pre style="font-size: 25pt;"><code class="language-python"
+># mimic/plugins/your_plugin.py
+
+from mimic.rest.your_api import YourAPIMock
+the_mock_plugin = YourAPIMock()
+</code></pre>
+          <aside class="notes">
+            To register your plugin with Mimic, you just need to drop an
+            instance of it into any module of the <code>mimic.plugins</code>
+            package.
+          </aside>
+        </section>
+        <section>
+
+
+<section>
+          <pre style="font-size: 19.5pt;"><code class="language-python"
+># mimic/test/test_resource.py
+# CoreBuildingTests.test_from_plugin_includes_all_plugins
+
+plugin_apis = set((nova_plugin.nova,
+                   loadbalancer_plugin.loadbalancer,
+                   swift_plugin.swift,
+                   queue_plugin.queue,
+                   maas_plugin.maas,
+                   rackconnect_v3_plugin.rackconnect,
+                   your_plugin.the_mock_plugin))
+</code></pre>
+          <aside class="notes">
+            To register your plugin with Mimic, you just need to drop an
+            instance of it into any module of the <code>mimic.plugins</code>
+            package.
+          </aside>
+        </section>
+        <section>
+
+
         <section>
           <h1>Identity</h1>
           <h2>Is the Entry Point</h2>
@@ -520,6 +567,7 @@
             the tenant and the endpoint within your API.
           </aside>
         </section>
+
         <section>
           <h1>Plugin Interface:<br>“API Mock”</h1>
 
@@ -770,87 +818,6 @@ other_data = session.data_for_api(other_api_mock,
             they've never experienced those conditions.  So we need you to
             contribute the errors and behaviors that <em>you</em> have
             experienced.
-          </aside>
-        </section>
-
-        <section>
-          <h1>Even Later...</h1>
-          <aside class="notes">
-            Glyph: Mimic is based on a networking framework ...
-          </aside>
-        </section>
-
-        <section>
-          <img src="gruehead.png" class="grue">
-          <aside class="notes">
-            Glyph: ... some of you know which one I'm talking about ...
-          </aside>
-        </section>
-
-        <section>
-          <h1>Even Later...</h1>
-          <h2>Future Possibilities,<br>Crazy Features!</h2>
-          <aside class="notes">
-            Glyph: ... which has such features as built-in DNS and SSH servers.
-          </aside>
-        </section>
-
-        <section>
-          <h2>Even Later...</h2>
-          <h1>Real <span class="contactlabel">SSH</span> Server</h1>
-          <h2 class="deemphasized">For Fake Servers</h2>
-          <aside class="notes">
-            Glyph: It would be really cool if when a virtual server was booted,
-            the advertised SSH port really did give you access to an SSH
-            server, albeit one that can be cheaply created from a local shell
-            as a restricted user or a container deployment, not a real virtual
-            machine.
-          </aside>
-        </section>
-
-        <section>
-          <h2>Even Later...</h2>
-          <h1>Real <span class="contactinfo">DNS</span> Server</h1>
-          <h2 class="deemphasized">For Fake Zones</h2>
-          <aside class="notes">
-            Glyph: Similarly, if we were to have a Desginate mock, it would be
-            really cool to have real DNS entries.
-          </aside>
-        </section>
-
-        <section>
-          <h1>We need your help!</h1>
-          <center>
-            <table>
-              <tr>
-                <td class="contactlabel">Source:</td> <td class="contactinfo"><a href="https://github.com/rackerlabs/mimic">https://github.com/rackerlabs/mimic</a></td>
-              </tr>
-              <tr>
-                <td class="contactlabel">Issues:</td> <td class="contactinfo"><a href="https://github.com/rackerlabs/mimic">https://github.com/rackerlabs/mimic/issues</a></td>
-              </tr>
-              <tr>
-                <td class="contactlabel">Chat:</td> <td class="contactinfo"><a href="irc://chat.freenode.net/##mimic">##mimic on Freenode</a></td>
-              </tr>
-            </table>
-          </center>
-          <aside class="notes">
-
-            Lekha: So, please come join us build Mimic. Together we can make
-            this a repository for all known reponses (including errors!) for the
-            OpenStack APIs.  <br>
-
-            As we mentioned earlier, Mimic is Open source and here is the
-            github link to the repository.
-
-            All the features or issues we are working on, or planning to work
-            on, in the near future are under the issues tab on github.
-
-            You can <em>start</em> by using Mimic and giving us your feedback. Or better
-            yet, forking it and contributing to it, by adding plugins for
-            services that do not exist today!
-
-            Thank you!
-
           </aside>
         </section>
 
