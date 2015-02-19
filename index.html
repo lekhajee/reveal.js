@@ -33,10 +33,6 @@
       document.getElementsByTagName( 'head' )[0].appendChild( link );
       }
     </script>
-
-    <!--[if lt IE 9]>
-	<script src="lib/js/html5shiv.js"></script>
-	<![endif]-->
   </head>
 
   <body>
@@ -227,8 +223,19 @@
           </aside>
         </section>
 
+        <section>
+          <h1>Start Your Virtualenvs!</h1>
+          <aside class="notes">
+            Every command after this slide assumes that you have the "Mimic"
+            virtualenv activated.  If we say to run "pip" or "python", it's
+            assumed to be the "pip" or "python" in *that* virtualenv, not the
+            one from your system.
+          </aside>
+        </section>
+
         <section data-state="first-demo">
           <video src="bootstrap.mp4" id="first-demo-video"></video>
+          <h3 class="fragment">Now You Try!</h3>
           <aside class="notes">
             Lekha: It is <em>only</em> a 3 step process!  In a virtual env, we
             pip install mimic, run mimic and hit the endpoint!
@@ -236,6 +243,8 @@
             And Mimic returns the Authentication endpoint, to be able to Authenticate,
             and get a service catalog containing the (OpenStack) services that Mimic
             implements.
+            <br>(Click) and wait 5 minutes for audience to get Mimic installed
+            and try it out.
           </aside>
         </section>
 
@@ -288,7 +297,8 @@
         </section>
 
         <section>
-          <video src="python-client-demo.mp4">
+          <video src="python-client-demo.mp4"></video>
+          <h3 class="fragment">Now You Try!</h3>
           <aside class="notes">
 
             Lekha: Let's pip install the python nova-client and ensure the
@@ -300,6 +310,8 @@
             active servers that Mimic knows of. Lets delete the second
             server... and now Mimic knows of the deleted server and has only
             the one server remaining.
+            <br>
+            (Click) and wait 5 minutes for audience to try.
           </aside>
         </section>
 
@@ -341,18 +353,17 @@
         <section>
           <h1> Mimic <br>simulates errors </h1>
           <aside class="notes">
-            Mimic helps reproduce such scenarios so your application is programmed
-            to react to such unexpected intermittent failures
+            Lekha: Mimic helps reproduce such scenarios so your application is
+            programmed to react to such unexpected intermittent failures
           </aside>
         </section>
 
         <section>
           <h1>Error injection using <code>metadata</code></h1>
           <aside class="notes">
-            Sometimes Mimic pretends to *not* create a
-            server.  It uses the metadata provided during the creation of the
-            server, inspects the metadata, and sets the state of the server
-            respectively.
+            Glyph: Sometimes Mimic pretends to *not* create a server.  It uses
+            the metadata provided during the creation of the server, inspects
+            the metadata, and sets the state of the server respectively.
             <p>
             Lets go back to the demo and see how this can be done.
 
@@ -363,7 +374,7 @@
           <video src="error-injection-demo.mp4"></video>
           <aside class="notes">
 
-            Lekha:  So, we had the one active server. Now, lets  create a
+            Glyph:  So, we had the one active server. Now, lets  create a
             server with the `metadata`: `"server_building": 30`. This will
             keep the server in build state for 30 seconds. Now we have 2
             servers. The active and building sever.  Also, We can create a server
@@ -376,14 +387,14 @@
         <section data-background="clock.jpg">
           <h2 style="text-shadow: 1px 1px 10px black;"><code>/mimic/v1.1/tick</code></h2>
           <aside class="notes">
-            Glyph: Instead of simply waiting 10 seconds, you can hit this
+            Glyph: Instead of simply waiting 30 seconds, you can hit this
             second out-of-band endpoint, the "tick" endpoint ...
           </aside>
         </section>
         <section class="apimock">
           <pre><code class="language-javascript"
 >{
-    "amount": 1.0
+    "amount": 30.0
 }
 </code></pre>
           <aside class="notes">
@@ -394,8 +405,8 @@
         <section>
           <pre style="font-size: 34px"><code class="language-javascript"
 >{
-    "advanced": 1.0,
-    "now": "1970-01-01T00:00:01.000000Z"
+    "advanced": 30.0,
+    "now": "1970-01-01T00:00:30.000000Z"
 }</code></pre>
           <aside class="notes">
             Glyph: Now, you may notice there's something a little funny about
@@ -456,69 +467,122 @@
         </section>
 
         <section>
+          <h2>FORK <a href="https://github.com/rackerlabs/mimic">Mimic </a></h2>
+          <code>https://github.com/rackerlabs/mimic</code>
+          <aside class="notes">
+            Lekha: Now that we know what Mimic can do, let's hack on it to make
+            it do more.
+          </aside>
+        </section>
+
+        <section>
           <h2 style="color:pink;">Running Mimic's tests</h2>
-          <pre style="font-size: 40px"><code class="language-python">
-        pip install tox
+          <pre style="font-size: 35px"><code class="language-python"
+>git clone https://github.com/[you]/mimic
 
-        tox -e lint -e py27
-          </code></pre>
+cd mimic
+
+pip install tox
+
+tox -e lint -e py27
+</code></pre>
           <aside class="notes">
-            Glyph: You can ask Mimic to actually pay attention to the real
-            clock with the <code>--realtime</code> command-line option; that
-            disables this time-advancing endpoint, but it will allow any test
-            suites that rely on real time passing to keep running.
+            Now, lets clone the fork you made. And go into the directory.  In
+            your virtualenv, install tox and use it to run mimic's test
+            suite.<br>  wait 5 minutes.
           </aside>
         </section>
 
         <section>
-          <h2><a href="http://klein.readthedocs.org/en/latest/"> Klein</a></h2>
-          <h2><a href="https://twistedmatrix.com/documents/current/api/twisted.web.iweb.IRequest.html"> Request</a></h2>
+          <h1><a href="https://klein.readthedocs.org/en/latest/">Klein</a></h1>
+          <h3 class="fragment"><code>
+              <a href="https://twistedmatrix.com/documents/current/api/twisted.web.iweb.IRequest.html">twisted.web.iweb.IRequest</a>
+          </code>
+          </h3>
           <aside class="notes">
-            Klein is a micro-framework for developing production-ready web services with Python.
+            Mimic is in the business of responding to HTTP requests, and in
+            order to do that it uses a web framework.  The web framework in
+            question is Klein, which is a micro-framework for developing
+            production-ready web services with Python.  Klein is a thin wrapper
+            around <code>twisted.web</code>, so you'll have to use the Request
+            interface from twisted.web quite extensively to use it.
           </aside>
         </section>
 
         <section>
-          <h2 style="color:pink"> Klein Demo </h2>
+          <h2 style="color:pink">Klein Demo</h2>
+          <pre style="font-size: 40px"><code
+># my-server.py
+from klein import run, route
+
+@route('/')
+def home(request):
+    return b'Hello, world!'
+
+run("localhost", 8080)</code></pre>
+          ... and then ...
+          <p style="font-size: 50px"><code>python my-server.py</code></p>
+          <p style="font-size: 50px"><code>curl http://localhost:8080/</code></p>
           <aside class="notes">
-            Video to demo @route @run etc
+            Luckily, Klein is super easy to use!  This is a full, working
+            example of how to use Klein to return some static bytes.
+          </aside>
+        </section>
+
+<section>
+          <h2 style="color:pink">Klein Demo</h2>
+          <pre style="font-size: 40px"><code
+>import json
+from klein import run, route
+@route('/')
+def home(request):
+    request.setResponseCode(200)
+    body = {"hello": "world"}
+    return json.dumps(body)
+run("localhost", 8080)</code></pre>
+          ... and then ...
+          <p style="font-size: 50px"><code>python my-server.py</code></p>
+          <p style="font-size: 50px"><code>curl http://localhost:8080/</code></p>
+          <aside class="notes">
+            For a slightly more realistic example, since you're going to be
+            dealing with a lot of JSON if you're using Mimic, this is how you
+            would serialize a response with some JSON in it and set a response
+            code.  You can give this a try pretty much as it is shown on this
+            slide.
           </aside>
         </section>
 
         <section data-background="plug.jpg">
           <h1 style="text-shadow: 1px 1px 30px blue;">Plugins!</h1>
           <aside class="notes">
-            Plugin architecture.
+            When we come back from a 5 minute break, we'll get into the main
+            event, which is how to write a Mimic plugin that mocks a new
+            service of your choice.
           </aside>
-        </section>
-
-        <section>
-          <h2>FORK <a href="https://github.com/rackerlabs/mimic">Mimic </a></h2>
-        </section>
-
-        <section>
-          <h2>FORK <a href="https://github.com/rackerlabs/mimic">Mimic </a></h2>
         </section>
 
         <section>
           <pre style="font-size: 25pt;"><code class="language-python"
-># mimic/plugins/your_plugin.py
+># mimic/plugins/my_plugin.py
 
-from mimic.rest.your_api import YourAPIMock
-the_mock_plugin = YourAPIMock()
-</code></pre>
+from mimic.rest.my_api import MyAPIMock
+the_mock_plugin = MyAPIMock()</code></pre>
           <aside class="notes">
             To register your plugin with Mimic, you just need to drop an
             instance of it into any module of the <code>mimic.plugins</code>
-            package.
+            package.  In your fork of mimic, you can put a file like this one
+            into the <code>mimic/plugins</code> directory.  We haven't
+            implemented <code> MyAPIMock </code> yet, but we will in a
+            moment.<br>
+
+            Everybody please create a file like this now.  (Wait 1 minute.)
+            Raise your hand when you've got it.
           </aside>
         </section>
+
         <section>
-
-
-<section>
           <pre style="font-size: 19.5pt;"><code class="language-python"
-># mimic/test/test_resource.py
+># mimic/test/test_core.py
 # CoreBuildingTests.test_from_plugin_includes_all_plugins
 
 plugin_apis = set((nova_plugin.nova,
@@ -527,16 +591,45 @@ plugin_apis = set((nova_plugin.nova,
                    queue_plugin.queue,
                    maas_plugin.maas,
                    rackconnect_v3_plugin.rackconnect,
-                   your_plugin.the_mock_plugin))
+                   my_plugin.the_mock_plugin))
 </code></pre>
           <aside class="notes">
-            To register your plugin with Mimic, you just need to drop an
-            instance of it into any module of the <code>mimic.plugins</code>
-            package.
+            Modify the <code> test_from_plugin_includes_all_plugins </code>
+            test to include your mock plugin, like this.
           </aside>
         </section>
-        <section>
 
+        <section>
+          <h1>Run The Tests</h1>
+          <pre style="font-size: 80px; text-align: center"><code>tox -e py27</code></pre>
+        </section>
+
+        <section>
+          <h1>(Watch Them Fail)</h1>
+          <pre style="font-size: 16.8px"><code>Traceback (most recent call last):
+  File ".../site-packages/twisted/plugin.py", line 167, in getCache
+    provider = pluginModule.load()
+  File ".../site-packages/twisted/python/modules.py", line 383, in load
+    return self.pathEntry.pythonPath.moduleLoader(self.name)
+  File ".../site-packages/twisted/python/reflect.py", line 303, in namedAny
+    topLevelPackage = _importAndCheckStack(trialname)
+  File ".../site-packages/twisted/python/reflect.py", line 250, in _importAndCheckStack
+    reraise(excValue, excTraceback)
+  File ".../Mimic/mimic/plugins/my_plugin.py", line 3, in &lt;module&gt;
+    from mimic.rest.my_api import MyAPIMock
+exceptions.ImportError: No module named my_api</code></pre>
+        </section>
+
+        <section>
+          <h1>Make Them Pass</h1>
+          <aside class="notes">
+            In order to make the tests pass, you'll need to understand a little
+            bit about what Mimic expects from its plugins, so we'll explain how
+            they relate to Mimic.  Afterwards, you should be able to create a
+            functioning plugin that passes some tests and also shows up in the
+            service catalog when you authenticate to Mimic.
+          </aside>
+        </section>
 
         <section>
           <h1>Identity</h1>
@@ -576,7 +669,7 @@ plugin_apis = set((nova_plugin.nova,
           </aside>
         </section>
         <section class="apimock">
-          <pre><code class="language-python">class YourAPIMock():</code></pre>
+          <pre><code class="language-python">class MyAPIMock():</code></pre>
           <pre class="fragment"><code class="language-python">  def catalog_entries(...)</code></pre>
           <pre class="fragment"><code class="language-python">  def resource_for_region(...)</code></pre>
           <br />
@@ -633,7 +726,7 @@ plugin_apis = set((nova_plugin.nova,
     self, <span class="fragment highlight-current-green">region</span>, <span class="fragment highlight-current-green">uri_prefix</span>,
     <span class="fragment highlight-current-green">session_store</span>
 )</span>:</span>
-    <span class="fragment highlight-current-green"><span class="keyword">return</span> (YourRegion(...)
+    <span class="fragment highlight-current-green"><span class="keyword">return</span> (MyRegion(...)
             .app.resource())</span>
 </code></pre>
           <aside class="notes">
@@ -651,7 +744,7 @@ plugin_apis = set((nova_plugin.nova,
         </section>
         <section>
           <pre style="font-size: 22pt;"><code class="language-python"
->class YourRegion():
+>class MyRegion():
 
     app = MimicApp()
 
@@ -677,26 +770,45 @@ plugin_apis = set((nova_plugin.nova,
           <h1>Tell Mimic</h1>
           <h1>To Load It</h1>
           <aside class="notes">
-            Glyph: Now that we have most of a plugin written, let's get Mimic
-            to load it up.
+            Glyph: Now that we have most of a plugin written, we can run those
+            tests again.
           </aside>
         </section>
         <section>
           <pre style="font-size: 30pt;"><code class="language-python"
-># mimic/plugins/your_plugin.py
+># mimic/plugins/my_plugin.py
 
-from your_api import YourAPIMock
-the_mock_plugin = YourAPIMock()
+from my_api import MyAPIMock
+the_mock_plugin = MyAPIMock()
 </code></pre>
           <aside class="notes">
-            Glyph: To register your plugin with Mimic, you just need to drop an
-            instance of it into any module of the <code>mimic.plugins</code>
-            package.
+            We already told Mimic to load the new plugin with the file you
+            dropped in earlier.
           </aside>
         </section>
         <section>
-          <h1>Mimic Remembers</h1>
-          <h2 class="fragment">(until you restart it)</h2>
+          <p><code>mimic/rest/nova_api.py</code></p>
+          <p><code>mimic/rest/maas_api.py</code></p>
+          <p><code>mimic/rest/swift_api.py</code></p>
+          <p><code>mimic/rest/rackconnect_v3_api.py</code></p>
+          <aside class="notes">
+            Rather than provide a fake example, the real examples that Mimic
+            contains should be a pretty good starting point for you.  You can
+            see IAPIMock implementations in all of these 4 files, and several
+            more in the mimic.rest package.<br>
+            We will be circling the room to answer questions and help out.<br>
+            (Allow EXACTLY 23 minutes for implementation.)
+          </aside>
+        </section>
+        <section>
+          <pre style="font-size: 80px; text-align: center"><code>tox -e py27</code></pre>
+          <aside class="notes">
+            When you're done implementing, that plugin-loading test should pass.
+          </aside>
+        </section>
+        <section>
+          <h1>Tenant Session</h1>
+          <h2 class="fragment">(remembered until restart)</h2>
           <aside class="notes">
             Glyph: This, of course, just shows you how to create ephemeral,
             static responses - but as Lekha said previously, Mimic doesn't just
@@ -708,11 +820,11 @@ the_mock_plugin = YourAPIMock()
           <pre style="font-size: 26px;"><code class="language-python"
 >session = session_store.session_for_tenant_id(tenant_id)
 
-class YourMockData():
+class MyMockData():
     "..."
 
-your_data = session.data_for_api(your_api_mock,
-                                 YourMockData)</code></pre>
+my_data = session.data_for_api(my_api_mock,
+                                MyMockData)</code></pre>
           <aside class="notes">
             Glyph: That "session_store" object passed to resource_for_region is
             the place you can keep any relevant state.  It gives you a
@@ -766,16 +878,16 @@ other_data = session.data_for_api(other_api_mock,
 
         <section>
           <h1> Error Injection </h1>
-          <h2>Currently: Metadata-Based</h2>
+          <h2>Metadata-Based</h2>
           <aside class="notes">
-            Glyph: As Lekha explained, Mimic can already inject some errors by
-            supplying metadata within a request itself.
+            Glyph: As Lekha explained, Mimic can inject some errors into the
+            Nova mock by supplying metadata within a request itself.
           </aside>
         </section>
 
         <section>
           <h1> Error Injection </h1>
-          <h2>Currently: In-Band</h2>
+          <h2>Metadata-Based: In-Band</h2>
           <aside class="notes">
             Glyph: However, this means that in order to cause an error to
             happen, you need to modify the request that you're making to mimic,
@@ -785,24 +897,27 @@ other_data = session.data_for_api(other_api_mock,
 
         <section>
           <h1> Error Injection </h1>
-          <h2>Future: Separate Catalog Entry</h2>
+          <h2>Control-Plane-Based</h2>
           <aside class="notes">
-            Glyph: What we'd like to do in the future is to put the
-            error-injection control plane into the service catalog, with a
-            special entry type so that your testing infrastructure can talk to
-            it.
+            Glyph: What we've started to do, and would like to do more of in
+            the future, is to put an error-injection control plane into the
+            service catalog for each mock, with a special entry type so that
+            your testing infrastructure can talk to it.  We have one for the
+            Nova mock, and we'd love it for you to contribute more for the
+            other mocks.
           </aside>
         </section>
 
         <section>
           <h1> Error Injection </h1>
-          <h2>Future: Out-Of-Band</h2>
+          <h2>Control-Plane-Based: Out-Of-Band</h2>
           <aside class="notes">
-            Glyph: This way, your testing tool would authenticate to mimic, and
-            tell Mimic to cause certain upcoming requests to succeed or fail
-            before the system that you're testing even communicates with
-            it. Your system would not need to relay any expected-failure data
-            itself, and so no metadata would need to be passed through.
+            Glyph: Using the behavior control plane, your testing tool can
+            authenticate to mimic, and tell Mimic to cause certain upcoming
+            requests to succeed or fail before the system that you're testing
+            even communicates with it. Your system would not need to relay any
+            expected-failure data itself, and so no metadata would need to be
+            passed through.
           </aside>
         </section>
 
@@ -812,12 +927,12 @@ other_data = session.data_for_api(other_api_mock,
           <aside class="notes">
             Glyph: What we'd really like to build with these out-of-band
             failures, though, is not just a single feature, but an API that
-            allows people developing applications against openstack to make
-            those applications as robust as possible by easily determining how
-            they will react at scale, under load, and under stress, even if
-            they've never experienced those conditions.  So we need you to
-            contribute the errors and behaviors that <em>you</em> have
-            experienced.
+            allows people developing applications against Rackspace APIs, both
+            internally and externally, to make those applications as robust as
+            possible by easily determining how they will react at scale, under
+            load, and under stress, even if they've never experienced those
+            conditions.  So we need you to contribute the errors and behaviors
+            that <em>you</em> have experienced.
           </aside>
         </section>
 
