@@ -184,6 +184,9 @@
             <a href="https://github.com/angular/protractor"> Protractor</a>
           </p>
           <p style="text-align: left;">
+            <a href="https://github.com/racker/reach">Reach</a> via
+            <a href="https://github.com/jnicklas/capybara"</a> capybara</p>
+          <p style="text-align: left;">
             <a href="http://docs.seleniumhq.org/projects/webdriver/">(Selenium web driver)</a>
           </p>
 
@@ -194,9 +197,18 @@
 
           <p style="text-align: right;">
             <a href="https://github.com/rackerlabs/otter">Autoscale </a> via
-            <a href="https://github.com/rackerlabs/otter/tree/master/autoscale_cloudcafe">cloudcafe </a>
+            <a href="https://github.com/rackerlabs/otter/tree/master/autoscale_cloudcafe">cloudcafe</a>/
+            <a href="http://twistedmatrix.com/trac/wiki/TwistedTrial">trial</a></p>
+          <p style="text-align: right;">
+            <a href="https://github.com/racker/ele">Cloud Monitoring </a> via
+            <a href="https://github.com/cloudkick/whiskey"> whiskey </a>/
+            <a href="https://github.com/substack/tape">tape</a>
           </p>
           </div>
+          <aside class="notes">
+            Lekha: Some of the frontend applications that have started using mimic are Cloud Intelligence, a UI for Cloud Monitoring and Reach, the control panel for most of our products. Both these application use selenium web driver. One with Angular JS and the other with Ruby. These application have integrated with mimic by just changing the application settings file to point to Mimic's Identity as against the real Identity Service. (CLICK)
+            Some of the backend applications that are using mimic are Autoscale which uses Cloudcafe and Twisted's Trial test framework for its testing and Cloud Monitoring which uses Node JS test libraries, Whiskey and Tape. Even these application have integrated with mimic by just changing the application settings file to point to Mimic's Identity as against the real Identity Service.
+          </aside>
         </section>
 
         <section>
@@ -209,7 +221,14 @@
             <h3 class="fragment roll-in"> Swift </h3>
             <h3 class="fragment roll-in"> RCV3 </h3>
           <aside class="notes">
-            Mimic implements a subset of api calls for following services.
+            Lekha: Mimic was first created for the purposes of Autoscale testing and included a
+            subset of api calls required by AutoScale, which were Identity (CLICK)
+            Compute (CLICK) and
+            Load balancers (CLICK)
+            and since, we have been implementing plugins as need be.
+            Which includes Cloud Monitoring, Cloud Queues, Swift and RCV3.
+            Again, this does not include all the api calls supported by these products,
+            but subsets.
           </aside>
         </section>
 
@@ -217,16 +236,14 @@
           <h1 style="color: pink"> Demo</h1>
           <h2>Install and run Mimic</h2>
           <aside class="notes">
-           Lekha: Before we even begin to dive into the details, let us take a
-           quick sneak peek to see how <b>easy</b> it is to get started with Mimic.
-
+           Lekha: Now, lets start with a Demo on how to install and use mimic.
           </aside>
         </section>
 
         <section>
           <h1>Start Your Virtualenvs!</h1>
           <aside class="notes">
-            Every command after this slide assumes that you have the "Mimic"
+            Lekha: Every command after this slide assumes that you have the "Mimic"
             virtualenv activated.  If we say to run "pip" or "python", it's
             assumed to be the "pip" or "python" in *that* virtualenv, not the
             one from your system.
@@ -581,9 +598,9 @@ the_mock_plugin = MyAPIMock()</code></pre>
         </section>
 
         <section>
-          <pre style="font-size: 19.5pt;"><code class="language-python"
-># mimic/test/test_core.py
-# CoreBuildingTests.test_from_plugin_includes_all_plugins
+<pre style="font-size: 19pt;"><span class="codelike language-python">
+<span style="color: grey"># mimic/test/test_core.py</span>
+<span style="color: grey"># CoreBuildingTests.test_from_plugin_includes_all_plugins</span>
 
 plugin_apis = set((nova_plugin.nova,
                    loadbalancer_plugin.loadbalancer,
@@ -591,8 +608,8 @@ plugin_apis = set((nova_plugin.nova,
                    queue_plugin.queue,
                    maas_plugin.maas,
                    rackconnect_v3_plugin.rackconnect,
-                   my_plugin.the_mock_plugin))
-</code></pre>
+                   <span class="fragment highlight-green">my_plugin.the_mock_plugin</span>))
+</span></pre>
           <aside class="notes">
             Modify the <code> test_from_plugin_includes_all_plugins </code>
             test to include your mock plugin, like this.
