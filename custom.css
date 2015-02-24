@@ -1,0 +1,96 @@
+.reveal pre span.codelike {
+    display: block;
+    padding: 0.5em;
+    background: #3F3F3F;
+    color: #DCDCDC;
+    font-family: menlo;
+}
+
+.reveal .highlighted {
+    color: white;
+    font-weight: bold;
+    font-style: oblique;
+    background-color: black;
+    padding-left: 0.2em;
+    margin-left: -0.2em;
+}
+
+body .reveal code {
+    font-family: menlo;
+    text-transform: none;
+}
+
+body .reveal pre code {
+    padding: 0.5em;
+}
+
+.reveal .apimock pre {
+    font-size: 34pt;
+}
+
+.reveal section .deemphasized {
+    color: rgba(190, 190, 190, 1);
+    text-shadow: 2px 3px 4px rgba(0, 0, 0, 1);
+}
+
+.contactlabel {
+    color: orange;
+}
+
+.contactinfo {
+    color: cyan;
+}
+
+.mimic-core-url.visible {
+    color: orange;
+    background-color: rgba(253, 164, 40, 0.10);
+    border: 1px solid rgba(253, 164, 40, 0.50);
+}
+
+.mimic-plugin-url.visible {
+    color: cyan;
+    background-color: rgba(45, 255, 254, 0.10);
+    border: 1px solid rgba(45, 255, 254, 0.50);
+}
+
+.highlight-current-green.current-fragment {
+    background-color: black;
+    text-decoration: underline;
+}
+
+.reveal td:first-child {
+    text-align: right;
+    /* border: 1px solid white; */
+}
+
+.reveal td:last-child {
+    text-align: left;
+    /* border: 1px solid blue; */
+}
+
+.reveal .taba td:last-child,
+.reveal .taba td:first-child {
+    width: 100px;
+}
+
+.taba .deemphasized {
+    font-size: 1.2em;
+}
+
+.aliceimg {
+    height: 450px;
+}
+
+.reveal section.replace .fragment{
+    position:absolute;
+}
+.reveal section img.grue {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.reveal .slides section .fragment.mimic-core-url,
+.reveal .slides section .fragment.mimic-plugin-url
+{
+    opacity: 1;
+}
