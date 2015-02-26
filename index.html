@@ -338,7 +338,7 @@
           <h1 style="-webkit-transform: rotateY(180deg); font-size: 800px;">✈</h1>
           <aside class="notes">
 
-            You will see how fast testing server creation is. Now imagine your dev VMs
+            Lekha: You will see how fast testing server creation is. Now imagine your dev VMs
             configured to run tests against Mimic. <br>
             One of our devs from the Rackspace Cloud Intelligence
             team, calls this "Developing on Airplane Mode!", as mimic enables us to work
@@ -351,7 +351,7 @@
         <section class="replace">
           <h1> <span style="color:orange"> BUILD → <span style="display:inline-block;"><span style="color:rgb(0,255,0)" class="fragment current-visible">ACTIVE </span> <span style="color:rgb(255,0,0)" class="fragment current-visible">ERROR </span><span style="visibility:hidden">ACTIVE</span></span></h1>
           <aside class="notes">
-            However, there is one other issue we run into, Tests failures due to raandom upstream failures.
+            Lekha: However, there is one other issue we run into, Tests failures due to raandom upstream failures.
             Like a test would expect a building server to go into an 'active' state,
             but it would (CLICK) go into an ERROR state
           </aside>
@@ -504,7 +504,7 @@ pip install tox
 tox -e lint -e py27
 </code></pre>
           <aside class="notes">
-            Now, lets clone the fork you made. And go into the directory.  In
+            Lekha: Now, lets clone the fork you made. And go into the directory.  In
             your virtualenv, install tox and use it to run mimic's test
             suite.<br>  wait 5 minutes.
           </aside>
@@ -517,7 +517,7 @@ tox -e lint -e py27
           </code>
           </h3>
           <aside class="notes">
-            Mimic is in the business of responding to HTTP requests, and in
+            Lekha: Mimic is in the business of responding to HTTP requests, and in
             order to do that it uses a web framework.  The web framework in
             question is Klein, which is a micro-framework for developing
             production-ready web services with Python.  Klein is a thin wrapper
@@ -541,7 +541,7 @@ run("localhost", 8080)</code></pre>
           <p style="font-size: 50px"><code>python my-server.py</code></p>
           <p style="font-size: 50px"><code>curl http://localhost:8080/</code></p>
           <aside class="notes">
-            Luckily, Klein is super easy to use!  This is a full, working
+            Lekha: Luckily, Klein is super easy to use!  This is a full, working
             example of how to use Klein to return some static bytes.
           </aside>
         </section>
@@ -561,7 +561,7 @@ run("localhost", 8080)</code></pre>
           <p style="font-size: 50px"><code>python my-server.py</code></p>
           <p style="font-size: 50px"><code>curl http://localhost:8080/</code></p>
           <aside class="notes">
-            For a slightly more realistic example, since you're going to be
+            Lekha: For a slightly more realistic example, since you're going to be
             dealing with a lot of JSON if you're using Mimic, this is how you
             would serialize a response with some JSON in it and set a response
             code.  You can give this a try pretty much as it is shown on this
@@ -572,7 +572,7 @@ run("localhost", 8080)</code></pre>
         <section data-background="plug.jpg">
           <h1 style="text-shadow: 1px 1px 30px blue;">Plugins!</h1>
           <aside class="notes">
-            When we come back from a 5 minute break, we'll get into the main
+            Lekha: When we come back from a 5 minute break, we'll get into the main
             event, which is how to write a Mimic plugin that mocks a new
             service of your choice.
           </aside>
@@ -585,7 +585,7 @@ run("localhost", 8080)</code></pre>
 from mimic.rest.my_api import MyAPIMock
 the_mock_plugin = MyAPIMock()</code></pre>
           <aside class="notes">
-            To register your plugin with Mimic, you just need to drop an
+            Lekha: To register your plugin with Mimic, you just need to drop an
             instance of it into any module of the <code>mimic.plugins</code>
             package.  In your fork of mimic, you can put a file like this one
             into the <code>mimic/plugins</code> directory.  We haven't
@@ -611,6 +611,7 @@ plugin_apis = set((nova_plugin.nova,
                    <span class="fragment highlight-green">my_plugin.the_mock_plugin</span>))
 </span></pre>
           <aside class="notes">
+            Lekha: Mimic prides itself with a 100% test coverage and is big on TDD. So lets start with a test.
             Modify the <code> test_from_plugin_includes_all_plugins </code>
             test to include your mock plugin, like this.
           </aside>
@@ -619,6 +620,9 @@ plugin_apis = set((nova_plugin.nova,
         <section>
           <h1>Run The Tests</h1>
           <pre style="font-size: 80px; text-align: center"><code>tox -e py27</code></pre>
+          <aside class="notes">
+            Lekha: Now lets run tests.
+          </aside>
         </section>
 
         <section>
@@ -640,7 +644,7 @@ exceptions.ImportError: No module named my_api</code></pre>
         <section>
           <h1>Make Them Pass</h1>
           <aside class="notes">
-            In order to make the tests pass, you'll need to understand a little
+            Lekha: In order to make the tests pass, you'll need to understand a little
             bit about what Mimic expects from its plugins, so we'll explain how
             they relate to Mimic.  Afterwards, you should be able to create a
             functioning plugin that passes some tests and also shows up in the
@@ -799,7 +803,7 @@ from my_api import MyAPIMock
 the_mock_plugin = MyAPIMock()
 </code></pre>
           <aside class="notes">
-            We already told Mimic to load the new plugin with the file you
+            Glyph: We already told Mimic to load the new plugin with the file you
             dropped in earlier.
           </aside>
         </section>
@@ -809,7 +813,7 @@ the_mock_plugin = MyAPIMock()
           <p><code>mimic/rest/swift_api.py</code></p>
           <p><code>mimic/rest/rackconnect_v3_api.py</code></p>
           <aside class="notes">
-            Rather than provide a fake example, the real examples that Mimic
+            Glyph: Rather than provide a fake example, the real examples that Mimic
             contains should be a pretty good starting point for you.  You can
             see IAPIMock implementations in all of these 4 files, and several
             more in the mimic.rest package.<br>
@@ -820,7 +824,7 @@ the_mock_plugin = MyAPIMock()
         <section>
           <pre style="font-size: 80px; text-align: center"><code>tox -e py27</code></pre>
           <aside class="notes">
-            When you're done implementing, that plugin-loading test should pass.
+            Glyph: When you're done implementing, that plugin-loading test should pass.
           </aside>
         </section>
         <section>
